@@ -38,8 +38,9 @@ On **401**: invoke Lambda **`he-token-refresh`**, then retry once.
 |---|---|---|---|
 | Apt **#3** | **`3202475`** | `60fc0321-c8be-46f4-8edd-8f5cd2c6c7bd` | `24259977` |
 | Apt **#2** | **`3285044`** (created 2026-08-15) | `114663c5-0709-4eff-a868-fa9ebd6ed42d` | `20150380` |
+| Apt **#1B** | **`3285159`** (draft, `status=-5`, completion 50) | `c899481f-2e5b-402d-80c4-3167fd824d96` | `20904545` |
 
-#1B is **not** on HE. Airbnb occupancy/revenue is skill **`hospitable`**.
+Airbnb occupancy/revenue is skill **`hospitable`**. Do **not** publish 1B unless Jerome asks.
 
 ## Live CLI
 
@@ -69,6 +70,7 @@ python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 | Verified members only | **user** `5703979` | `verified_only` | **`true`** | Account-wide (both homes). UI wants `verified_status>=1`; API accepted while Ruby is `-1` (on verification). |
 | Publish | home | `status` | **`5`** both | `5` online, `-5` offline. `GET /v1/homes/me` shows it; `GET /v1/homes/{id}` often omits it. Needs completion ≥ 80. |
 | Min stay | home | `min_nights` | `3` both | |
+| Listing title | home `descriptions[]` | `title` | **#3** `Cozy West End Victorian \| EV Charging + Parking` (Airbnb). **#2** `1875 West End Victorian \| EV Charging + Parking` | PATCH full `descriptions[]` (`locale`,`title`,`good_feature`,`good_place`,`other`). Hospitable `public_name` = Airbnb title; `name` is the internal nickname. |
 
 ```bash
 python3 $S request PATCH /v1/homes/3202475 --body '{"contact_allowed":0,"prefers_reciprocal":false}'
@@ -87,7 +89,7 @@ Add new rows when a call succeeds. Source: live API + HE web `commons*.js`.
 | `GET` | `/v1/homes/me` | Our listings + `status`, `contact_allowed`, `prefers_reciprocal` |
 | `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature). Often **omits** `status`. |
 | `POST` | `/v1/homes` | Create. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
-| `PATCH` | `/v1/homes/{id}` | `min_nights`, `prefers_reciprocal`, `contact_allowed`, `detail`, `descriptions[]`, `feature` bit arrays, `{"status":5}` publish |
+| `PATCH` | `/v1/homes/{id}` | `min_nights`, `prefers_reciprocal`, `contact_allowed`, `detail`, **`descriptions[]`** (`locale`,`title`,`good_feature`,`good_place`,`other`), `feature` bit arrays, `{"status":5}` publish |
 | `GET` | `/v3/homes?user_id=` | GraphQL-style home list (`status` query uppercased) |
 | `POST` | `/v1/homes/{id}/flag` | Flags (HE Collection etc.) |
 | `GET` | `/v1/homes/{id}/ratings` | Listing reviews |
