@@ -87,7 +87,7 @@ Calendar **contact preference** (`contact_allowed` on the home — Calendar → 
 | **`0`** | **Members can only send me requests when my home is marked as being available** (`CONTACT_NOT_ALLOWED_ON_UNAVAILABLE`) |
 | **`1`** | Members can send me requests at any time in the year (`CONTACT_ALLOWED_ON_UNAVAILABLE`, API default after publish) |
 
-Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allowed": 0}` after publish. Apt **#2** `3285044` set to **`0`** on 2026-08-15. Apt **#3** is still **`1`** unless Jerome asks to change it.
+Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allowed": 0}` after publish. Both Pine homes set to **`0`** on 2026-08-15 (Apt **#3** `3202475`, Apt **#2** `3285044`).
 
 **According to members’ status** is a **user** flag (both homes), not per listing:
 
@@ -98,6 +98,7 @@ Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allo
 `PATCH /v1/users/{userId}` with `{"verified_only": true}`. UI also requires `verified_status >= 1` (verified) to toggle; the API still accepted it while Ruby’s account is `verified_status=-1` (on verification). Set **true** 2026-08-15 (user `5703979`).
 
 ```bash
+python3 $S request PATCH /v1/homes/3202475 --body '{"contact_allowed":0}'
 python3 $S request PATCH /v1/homes/3285044 --body '{"contact_allowed":0}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 ```
