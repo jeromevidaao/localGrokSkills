@@ -17,14 +17,34 @@ REMOTE = "origin"
 BRANCH = "main"
 
 
-def run(args: list[str], timeout: int = 60) -> subprocess.CompletedProcess[str]:
+def run(
+    args: list[str], timeout: int = 60, env: dict[str, str] | None = None
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         args,
         cwd=ROOT,
         text=True,
         capture_output=True,
         timeout=timeout,
+        env=env,
     )
+
+
+def gh_token() -> str:
+    r = run(["gh", "auth", "token"], timeout=10)
+    return (r.stdout or "").strip() if r.returncode == 0 else ""
+
+
+def git(args: list[str], timeout: int = 40) -> subprocess.CompletedProcess[str]:
+    """git, retrying once with a gh token if HTTPS auth flakes after visibility flips."""
+    r = run(["git", *args], timeout=timeout)
+    if r.returncode == 0:
+        return r
+    token = gh_token()
+    if not token:
+        return r
+    header = f"AUTHORIZATION: bearer {token}"
+    return run(["git", "-c", f"http.extraheader={header}", *args], timeout=timeout)
 
 
 def acquire_lock() -> int | None:
@@ -54,13 +74,16 @@ def cmd_pull() -> int:
         log("local changes present — skip pull (Stop hook will commit)")
         return 0
     try:
-        r = run(["git", "pull", "--ff-only", REMOTE, BRANCH], timeout=40)
+        r = git(["pull", "--ff-only", REMOTE, BRANCH], timeout=40)
     except subprocess.TimeoutExpired:
         log("pull timed out (offline?) — fail-open")
         return 0
     if r.returncode != 0:
         err = (r.stderr or r.stdout or "").strip().splitlines()
-        log(f"pull failed (offline or diverged): {err[-1] if err else 'unknown'}")
+        last = err[-1] if err else "unknown"
+        if "AUTHORIZATION: bearer" in last:
+            last = "auth failed"
+        log(f"pull failed (offline or diverged): {last}")
         return 0
     out = (r.stdout or "").strip()
     if "Already up to date" in out or "Already up-to-date" in out:
@@ -106,10 +129,13 @@ def cmd_commit_push() -> int:
     except Exception as exc:
         log(f"visibility public failed: {exc}")
 
-    p = run(["git", "push", REMOTE, BRANCH], timeout=60)
+    p = git(["push", REMOTE, BRANCH], timeout=60)
     if p.returncode != 0:
         err = (p.stderr or p.stdout or "").strip().splitlines()
-        log(f"push failed: {err[-1] if err else 'unknown'}")
+        last = err[-1] if err else "unknown"
+        if "AUTHORIZATION: bearer" in last:
+            last = "auth failed"
+        log(f"push failed: {last}")
         return 0
 
     time.sleep(4)
