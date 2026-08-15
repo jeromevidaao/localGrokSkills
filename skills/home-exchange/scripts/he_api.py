@@ -23,10 +23,11 @@ HE_BEARER_SSM = os.environ.get("HE_BEARER_SSM", "/homeexchange/bearer-token")
 HE_REFRESH_FN = os.environ.get("HE_TOKEN_REFRESH_FUNCTION", "he-token-refresh")
 HE_WEB_VERSION = os.environ.get("HE_WEB_VERSION", "20.29.1-rc.1")
 HE_HOME_ID = os.environ.get("HE_HOME_ID", "3202475")
-# Pine HE homes (Apt #3 original, Apt #2 created 2026-08-15)
+# Pine HE homes (Apt #3 original; Apt #2 and #1B created 2026-08-15)
 HE_HOMES = {
     "apt3": "3202475",
     "apt2": "3285044",
+    "apt1b": "3285159",
 }
 
 _token: str | None = None
