@@ -23,6 +23,11 @@ HE_BEARER_SSM = os.environ.get("HE_BEARER_SSM", "/homeexchange/bearer-token")
 HE_REFRESH_FN = os.environ.get("HE_TOKEN_REFRESH_FUNCTION", "he-token-refresh")
 HE_WEB_VERSION = os.environ.get("HE_WEB_VERSION", "20.29.1-rc.1")
 HE_HOME_ID = os.environ.get("HE_HOME_ID", "3202475")
+# Pine HE homes (Apt #3 original, Apt #2 created 2026-08-15)
+HE_HOMES = {
+    "apt3": "3202475",
+    "apt2": "3285044",
+}
 
 _token: str | None = None
 
@@ -281,6 +286,47 @@ def cmd_messages(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
+def cmd_homes(_: argparse.Namespace, as_json: bool) -> int:
+    _, data = he_request("GET", "/v1/homes/me")
+    if as_json:
+        emit(data, True)
+        return 0
+    rows = []
+    for h in data if isinstance(data, list) else []:
+        title = None
+        descs = h.get("descriptions") or []
+        if descs:
+            title = descs[0].get("title")
+        rows.append(
+            {
+                "id": h.get("id"),
+                "address": h.get("address"),
+                "title": title,
+                "capacity": h.get("capacity"),
+                "completion": h.get("completion_rate"),
+                "images": len(h.get("images") or []),
+            }
+        )
+    emit({"homes": rows}, False)
+    return 0
+
+
+def cmd_home(args: argparse.Namespace, as_json: bool) -> int:
+    hid = args.home_id or HE_HOME_ID
+    _, data = he_request("GET", f"/v1/homes/{urllib.parse.quote(str(hid), safe='')}")
+    emit(data, True if as_json else True)
+    return 0
+
+
+def cmd_request(args: argparse.Namespace, as_json: bool) -> int:
+    body = None
+    if args.body:
+        body = json.loads(args.body)
+    _, data = he_request(args.method.upper(), args.path, body)
+    emit(data, True)
+    return 0
+
+
 def cmd_calendar(args: argparse.Namespace, as_json: bool) -> int:
     home_id = args.home_id or HE_HOME_ID
     _, data = he_request("GET", f"/v1/homes/{urllib.parse.quote(str(home_id), safe='')}/calendar")
@@ -351,6 +397,16 @@ def build_parser() -> argparse.ArgumentParser:
     c = sub.add_parser("messages", help="GET /v3/messages?conversation_id=", parents=[common])
     c.add_argument("conversation_id")
 
+    sub.add_parser("homes", help="GET /v1/homes/me", parents=[common])
+
+    c = sub.add_parser("home", help="GET /v1/homes/{id}", parents=[common])
+    c.add_argument("home_id", nargs="?", default=None)
+
+    c = sub.add_parser("request", help="raw METHOD PATH (discovery)", parents=[common])
+    c.add_argument("method")
+    c.add_argument("path")
+    c.add_argument("--body", default=None, help="JSON object/array string")
+
     c = sub.add_parser("calendar", help="GET /v1/homes/{id}/calendar", parents=[common])
     c.add_argument("home_id", nargs="?", default=None)
 
@@ -379,6 +435,12 @@ def main() -> int:
     try:
         if args.cmd == "me":
             return cmd_me(args, as_json)
+        if args.cmd == "homes":
+            return cmd_homes(args, as_json)
+        if args.cmd == "home":
+            return cmd_home(args, as_json)
+        if args.cmd == "request":
+            return cmd_request(args, as_json)
         if args.cmd == "conversations":
             return cmd_conversations(args, as_json)
         if args.cmd == "conversation":

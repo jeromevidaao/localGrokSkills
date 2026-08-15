@@ -1,16 +1,16 @@
 ---
 name: home-exchange
 description: >
-  HomeExchange (HE) API for CleaningButton Pine Apt #3: inbox, calendar,
-  exchanges, pre-approve. Always load the bearer from AWS SSM
-  /homeexchange/bearer-token — never store tokens locally or in git.
+  HomeExchange (HE) API for CleaningButton Pine Apt #3 and Apt #2: inbox,
+  listings, calendar, photos, exchanges, pre-approve. Always load the bearer
+  from AWS SSM /homeexchange/bearer-token — never store tokens locally or in git.
   Use when the user asks about HomeExchange, HE guests, HE calendar,
   HE conversations, pre-approve, or runs /home-exchange.
 ---
 
 # HomeExchange API
 
-Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-api` HE chat and `auto-reply-sqs-harness` `HomeExchangeClient`.
+Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-api` HE chat, `auto-reply-sqs-harness` `HomeExchangeClient`, and `homeexchange-processor`.
 
 **Base:** `https://api.homeexchange.com`  
 **Auth:** `authorization: Bearer <jwt>` + `he_web_version`  
@@ -28,50 +28,59 @@ Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-ap
 | `/homeexchange/bearer-token` | Access JWT (~24h). **This is what API calls use.** |
 | `/homeexchange/credentials` | `{email,password}` for Lambda `he-token-refresh` only |
 | `/homeexchange/poll-secret` | `cleaningbutton-api` HE poll |
-| `/homeexchange/refresh-token` | optional Auth0 refresh (usually empty) |
+| `/hospitable/bearer-token` | Hospitable PAT (Apt #2 calendar sync) |
 
-On **401**: invoke Lambda **`he-token-refresh`** (reads credentials from SSM, writes a new bearer), then retry once.
+On **401**: invoke Lambda **`he-token-refresh`**, then retry once.
+
+## Pine mapping
+
+| Unit | HE home | Hospitable | Airbnb |
+|---|---|---|---|
+| Apt **#3** | **`3202475`** | `60fc0321-c8be-46f4-8edd-8f5cd2c6c7bd` | `24259977` |
+| Apt **#2** | **`3285044`** (created 2026-08-15) | `114663c5-0709-4eff-a868-fa9ebd6ed42d` | `20150380` |
+
+#1B is **not** on HE. Airbnb occupancy/revenue is skill **`hospitable`**.
 
 ## Live CLI
 
 ```bash
 S=~/.grok/skills/home-exchange/scripts/he_api.py
 python3 $S me
+python3 $S homes
+python3 $S home 3285044
+python3 $S calendar 3285044
 python3 $S conversations --limit 20
-python3 $S messages CONVERSATION_ID
-python3 $S calendar            # home 3202475
-python3 $S exchanges CONVERSATION_ID
-python3 $S send CONVERSATION_ID --text "…"
-python3 $S approve CONVERSATION_ID --yes
+python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 ```
 
-`--json` dumps the API payload. Writes (`send`, `approve`) only when the user asked.
+`--json` dumps the API payload. Writes (`send`, `approve`, PATCH/POST) only when the user asked.
 
-## Pine mapping
-
-| | |
-|---|---|
-| HE home | **`3202475`** |
-| Hospitable Apt **#3** | `60fc0321-c8be-46f4-8edd-8f5cd2c6c7bd` |
-| Airbnb listing | `24259977` |
-
-HE guest stays are Apt **#3** only. Airbnb occupancy/revenue is skill **`hospitable`**, not this API.
-
-## Endpoints we actually call
+## Endpoints (discovered)
 
 | Method | Path | Use |
 |---|---|---|
-| `GET` | `/v1/users/me` | Self id / email |
+| `GET` | `/v1/users/me` | Self + `homes[]` |
+| `GET` | `/v1/homes/me` | Our listings only |
+| `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature) |
+| `POST` | `/v1/homes` | **Create** listing. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
+| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail` (beds/size), `descriptions[]` `{locale,title,good_feature,good_place,other}`, `feature` as **arrays of bit values per category** |
+| `POST` | `/v1/images/home/{id}` | Multipart `file=` JPEG/PNG (max 10MB) |
+| `DELETE` | `/v1/images/{imageId}` | Remove photo |
+| `PATCH` | `/v1/images/order` | Reorder |
 | `GET` | `/v3/conversations/me?limit=` | Inbox |
 | `GET` | `/v3/conversations/me/{id}` | One thread |
 | `GET` | `/v3/messages?conversation_id=` | Thread body |
-| `POST` | `/v1/messages` | `{ content, conversation }` — **conversation id** (int if numeric) |
+| `POST` | `/v1/messages` | `{ content, conversation }` — conversation id |
 | `GET` | `/v1/homes/{homeId}/calendar` | `[start_on, end_on)` ranges |
-| `POST` | `/v1/homes/{homeId}/calendar` | `{ type, start_on, end_on }` — owned by `homeexchange-processor` |
+| `POST` | `/v1/homes/{homeId}/calendar` | `{ type, start_on, end_on }` |
 | `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
-| `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** (exchange-id URL is a 400 PHP Undefined offset) |
+| `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
 
-Calendar range types: `NON_RECIPROCAL` (open for GuestPoints), `RESERVED` (blocked/booked). Nights not listed are closed (owner long-block). June–August + listed holidays are forced `UNAVAILABLE` by cal-sync.
+`size` on `detail` is **m²**; `localized_size` + `size_unit: "sqft"` is the display size (Apt 3 = 74 m² / 800 sqft).
+
+Calendar types: `NON_RECIPROCAL` (open for GuestPoints), `RESERVED` (blocked/booked), `UNAVAILABLE`. Nights not listed are closed. **June–August** + Thanksgiving/Christmas/NYE are forced `UNAVAILABLE` by `homeexchange-processor` on **both** homes.
+
+Feature PATCH: send bit IDs as arrays (`multimedia: [1, 8, 1024]` = TV + wifi + smart TV). Sending the OR’d integer (`1033`) does **not** expand bits. Categories `remote` / `kids` / `surrounding` / `animal` 400 on this form.
 
 Required headers (script sets these):
 
@@ -83,25 +92,30 @@ origin: https://www.homeexchange.com
 referer: https://www.homeexchange.com/conversations
 ```
 
-## Pre-approve (do not invent a different path)
+## Calendar sync (AWS)
 
-1. Dates open on **both** Hospitable and `GET /v1/homes/3202475/calendar`.
-2. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array. Skip if already `approved_at` / `finalized_at`.
-3. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)` (checkout day stays free).
+`jeromevidaao/home-exchange-cal-sync` Lambda `homeexchange-processor`:
+
+- Daily `sync_availability`: Apt **#3** from Airbnb iCal; Apt **#2** from Hospitable `GET /v2/properties/{uuid}/calendar` (SSM `/hospitable/bearer-token`). Then June–Aug + holidays `UNAVAILABLE`.
+- Reservation webhooks on `home-exchange-reservations` SQS: block HE calendar for **#2 or #3** (`HE_HOMES`). Other properties are dropped.
+
+## Pre-approve
+
+1. Dates open on **both** Hospitable and `GET /v1/homes/{heHomeId}/calendar` for that unit.
+2. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array.
+3. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
 4. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
-
-Retries in production: 4×, 5s / 15s / 30s. Permanent 4xx (except 408/429) do not retry.
 
 ## Implementation map
 
 | Layer | Location |
 |---|---|
 | This CLI | `~/.grok/skills/home-exchange/scripts/he_api.py` |
-| API HE chat + poll | `~/cleaningbutton-api/index.js` (`heRequest`, `hePollNewMessages`) |
+| API HE chat + poll | `~/cleaningbutton-api/index.js` |
 | Auto-reply / approve | `~/auto-reply-sqs-harness/src/clients/HomeExchangeClient.js` |
-| Calendar sync | `~/home-exchange-cal-sync` (`homeexchange-processor`) |
-| Token refresh | Lambda `he-token-refresh` + Chrome ext backup |
+| Calendar sync | `~/home-exchange-cal-sync` (`HE_HOMES`) |
+| Token refresh | Lambda `he-token-refresh` |
 
 ## Slash
 
-`/home-exchange` → run `he_api.py` for the user’s ask (default `me` + `conversations` if unspecified). Never echo the bearer.
+`/home-exchange` → run `he_api.py` for the user’s ask (default `homes` if unspecified). Never echo the bearer.
