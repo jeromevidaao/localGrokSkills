@@ -52,58 +52,98 @@ python3 $S calendar 3285044
 python3 $S conversations --limit 20
 python3 $S publish 3285044
 python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
+python3 $S request PATCH /v1/homes/3285044 --body '{"prefers_reciprocal":false}'
+python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 ```
 
 `--json` dumps the API payload. Writes (`send`, `approve`, PATCH/POST) only when the user asked.
 
-## Endpoints (discovered)
+**Standing:** when you discover a working HE path or field, **append it here** (this table + listing prefs). Do not leave it only in chat.
 
-| Method | Path | Use |
-|---|---|---|
-| `GET` | `/v1/users/me` | Self + `homes[]`. `verified_only` = verified-members-only requests |
-| `PATCH` | `/v1/users/{id}` | User prefs. `{"verified_only": true}` = only verified members can send requests (account-wide) |
-| `GET` | `/v1/homes/me` | Our listings only |
-| `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature) |
-| `POST` | `/v1/homes` | **Create** listing. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
-| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail`, `descriptions[]`, `feature` bit arrays, **`contact_allowed`**. **`{"status": 5}` publishes** (needs completion ≥ 80). Status **5** = online, **-5** = offline/unpublished. `GET /v1/homes/me` shows status; `GET /v1/homes/{id}` often omits it. |
-| `POST` | `/v1/images/home/{id}` | Multipart `file=` JPEG/PNG (max 10MB) |
-| `DELETE` | `/v1/images/{imageId}` | Remove photo |
-| `PATCH` | `/v1/images/order` | Reorder |
-| `GET` | `/v3/conversations/me?limit=` | Inbox |
-| `GET` | `/v3/conversations/me/{id}` | One thread |
-| `GET` | `/v3/messages?conversation_id=` | Thread body |
-| `POST` | `/v1/messages` | `{ content, conversation }` — conversation id |
-| `GET` | `/v1/homes/{homeId}/calendar` | `[start_on, end_on)` ranges |
-| `POST` | `/v1/homes/{homeId}/calendar` | `{ type, start_on, end_on }` |
-| `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
-| `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
+## Listing prefs (Pine — both homes unless noted)
 
-`size` on `detail` is **m²**; `localized_size` + `size_unit: "sqft"` is the display size (Apt 3 = 74 m² / 800 sqft).
-
-Calendar **contact preference** (`contact_allowed` on the home — Calendar → contact preferences):
-
-| Value | HE UI |
-|---|---|
-| **`0`** | **Members can only send me requests when my home is marked as being available** (`CONTACT_NOT_ALLOWED_ON_UNAVAILABLE`) |
-| **`1`** | Members can send me requests at any time in the year (`CONTACT_ALLOWED_ON_UNAVAILABLE`, API default after publish) |
-
-Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allowed": 0}` after publish. Both Pine homes set to **`0`** on 2026-08-15 (Apt **#3** `3202475`, Apt **#2** `3285044`).
-
-**According to members’ status** is a **user** flag (both homes), not per listing:
-
-| Field | Value | HE UI |
-|---|---|---|
-| `verified_only` | **`true`** | Only receive exchange requests from members whose accounts have been verified |
-
-`PATCH /v1/users/{userId}` with `{"verified_only": true}`. UI also requires `verified_status >= 1` (verified) to toggle; the API still accepted it while Ruby’s account is `verified_status=-1` (on verification). Set **true** 2026-08-15 (user `5703979`).
+| Setting | Where | Field | Pine value (2026-08-15) | Notes |
+|---|---|---|---|---|
+| Only request when dates marked available | home | `contact_allowed` | **`0`** both | `0` = only available dates; `1` = any time in the year (HE default after **publish** — re-apply `0`) |
+| Reciprocal exchange | home | `prefers_reciprocal` | **`false`** both | UI: “For a reciprocal exchange, I want my home at 0 GuestPoints.” `true` = reciprocal-at-0-GP. Open nights are already `NON_RECIPROCAL` (GuestPoints only); processor never writes `RECIPROCAL`. |
+| Verified members only | **user** `5703979` | `verified_only` | **`true`** | Account-wide (both homes). UI wants `verified_status>=1`; API accepted while Ruby is `-1` (on verification). |
+| Publish | home | `status` | **`5`** both | `5` online, `-5` offline. `GET /v1/homes/me` shows it; `GET /v1/homes/{id}` often omits it. Needs completion ≥ 80. |
+| Min stay | home | `min_nights` | `3` both | |
 
 ```bash
-python3 $S request PATCH /v1/homes/3202475 --body '{"contact_allowed":0}'
-python3 $S request PATCH /v1/homes/3285044 --body '{"contact_allowed":0}'
+python3 $S request PATCH /v1/homes/3202475 --body '{"contact_allowed":0,"prefers_reciprocal":false}'
+python3 $S request PATCH /v1/homes/3285044 --body '{"contact_allowed":0,"prefers_reciprocal":false}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 ```
 
-Calendar types: `NON_RECIPROCAL` (open for GuestPoints), `RESERVED` (blocked/booked), `UNAVAILABLE`. Nights not listed are closed. **June–August** + Thanksgiving/Christmas/NYE are forced `UNAVAILABLE` by `homeexchange-processor` on **both** homes.
+## Endpoints (discovered)
+
+Add new rows when a call succeeds. Source: live API + HE web `commons*.js`.
+
+### Homes / listing
+
+| Method | Path | Use |
+|---|---|---|
+| `GET` | `/v1/homes/me` | Our listings + `status`, `contact_allowed`, `prefers_reciprocal` |
+| `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature). Often **omits** `status`. |
+| `POST` | `/v1/homes` | Create. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
+| `PATCH` | `/v1/homes/{id}` | `min_nights`, `prefers_reciprocal`, `contact_allowed`, `detail`, `descriptions[]`, `feature` bit arrays, `{"status":5}` publish |
+| `GET` | `/v3/homes?user_id=` | GraphQL-style home list (`status` query uppercased) |
+| `POST` | `/v1/homes/{id}/flag` | Flags (HE Collection etc.) |
+| `GET` | `/v1/homes/{id}/ratings` | Listing reviews |
+| `GET` | `/api/home/similar/{id}` | Similar homes |
+| `GET` | `/v1/homes/disponibilities` | Legacy global disponibilities (numeric `type`). **Do not use** for Pine — use `/v1/homes/{id}/calendar`. |
+
+### Calendar
+
+| Method | Path | Use |
+|---|---|---|
+| `GET` | `/v1/homes/{id}/calendar` | `{updated_at, data:[{start_on,end_on,type,details}]}` half-open `[start,end)` |
+| `POST` | `/v1/homes/{id}/calendar` | `{type, start_on, end_on}` upsert a range |
+| `POST` | `/v1/homes/disponibilities` | Legacy `{start_on,end_on,type,home}` — prefer calendar POST |
+
+Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (home swap), `available` (both, search UI), `RESERVED` (blocked/Airbnb), `UNAVAILABLE` (owner closed), `BOOKED` (HE exchange; `details.conversation_id`). Nights **not listed** are closed. Processor: both homes, open gaps → `NON_RECIPROCAL`; June–Aug + Thanksgiving/Christmas/NYE → `UNAVAILABLE`.
+
+### Inbox / exchanges
+
+| Method | Path | Use |
+|---|---|---|
+| `GET` | `/v3/conversations/me?limit=` | Inbox (also `/v2/conversations/me`, `/v4/conversations`) |
+| `GET` | `/v3/conversations/me/{id}` | One thread |
+| `GET` | `/v1/conversations/stats/me` | Counts by status / preapproved |
+| `GET` | `/v1/conversations/search` | Search threads |
+| `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
+| `GET` | `/v3/messages?conversation_id=` | Thread body |
+| `POST` | `/v1/messages` | `{content, conversation}` |
+| `GET` | `/v3/messages/config` | Allowed email/link lists |
+| `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
+| `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
+| `GET` | `/v1/exchanges/user/me?filter=&limit=&offset=` | User exchanges (`filter=all` 400 — use a real filter) |
+| `GET` | `/v1/exchanges/restrictions` | `{has_post_expired_subscription_exchange}` |
+| `GET` | `/v1/exchanges/approved/ready` | Ready-to-finalize |
+| `POST` | `/v1/exchanges/{id}/modify/check` | Date/home/GP change preview |
+
+### Users / account
+
+| Method | Path | Use |
+|---|---|---|
+| `GET` | `/v1/users/me` | Self + `homes[]`, `verified_only`, `verified_status` (`-1` on verification, `0` not, `1` verified) |
+| `PATCH` | `/v1/users/{id}` | `{verified_only:true}` and other user fields |
+| `GET` | `/v1/users/{id}` | Public-ish profile |
+| `GET` | `/v1/notification/headband` | Banner (204 if none) |
+| `GET` | `/v1/users/me/alerts` | Saved searches |
+| `GET` | `/v1/settings/mail-subscribe/list` | Email prefs |
+
+### Photos
+
+| Method | Path | Use |
+|---|---|---|
+| `POST` | `/v1/images/home/{id}` | Multipart `file=` JPEG/PNG (max 10MB) |
+| `DELETE` | `/v1/images/{imageId}` | Remove photo |
+| `PATCH` | `/v1/images/order` | Reorder |
+| `POST` | `/v1/images/user` | Profile photo |
+
+`size` on `detail` is **m²**; `localized_size` + `size_unit: "sqft"` is the display size (Apt 3 = 74 m² / 800 sqft).
 
 Feature PATCH: send bit IDs as arrays (`multimedia: [1, 8, 1024]` = TV + wifi + smart TV). Sending the OR’d integer (`1033`) does **not** expand bits. Categories `remote` / `kids` / `surrounding` / `animal` 400 on this form.
 
