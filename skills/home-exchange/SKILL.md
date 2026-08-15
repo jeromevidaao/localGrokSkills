@@ -50,6 +50,7 @@ python3 $S homes
 python3 $S home 3285044
 python3 $S calendar 3285044
 python3 $S conversations --limit 20
+python3 $S publish 3285044
 python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 ```
 
@@ -63,7 +64,7 @@ python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 | `GET` | `/v1/homes/me` | Our listings only |
 | `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature) |
 | `POST` | `/v1/homes` | **Create** listing. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
-| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail` (beds/size), `descriptions[]` `{locale,title,good_feature,good_place,other}`, `feature` as **arrays of bit values per category** |
+| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail`, `descriptions[]`, `feature` bit arrays. **`{"status": 5}` publishes** (needs completion ≥ 80). Status **5** = online, **-5** = offline/unpublished. `GET /v1/homes/me` shows status; `GET /v1/homes/{id}` often omits it. |
 | `POST` | `/v1/images/home/{id}` | Multipart `file=` JPEG/PNG (max 10MB) |
 | `DELETE` | `/v1/images/{imageId}` | Remove photo |
 | `PATCH` | `/v1/images/order` | Reorder |

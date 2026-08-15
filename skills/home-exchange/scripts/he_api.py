@@ -358,6 +358,22 @@ def cmd_send(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
+def cmd_publish(args: argparse.Namespace, as_json: bool) -> int:
+    hid = args.home_id
+    _, data = he_request("PATCH", f"/v1/homes/{urllib.parse.quote(str(hid), safe='')}", {"status": 5})
+    emit(
+        {
+            "id": data.get("id") if isinstance(data, dict) else hid,
+            "status": data.get("status") if isinstance(data, dict) else None,
+            "completion": data.get("completion_rate") if isinstance(data, dict) else None,
+        }
+        if not as_json
+        else data,
+        as_json,
+    )
+    return 0
+
+
 def cmd_approve(args: argparse.Namespace, as_json: bool) -> int:
     if not args.yes:
         raise RuntimeError("approve is a write — pass --yes")
@@ -426,6 +442,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     c.add_argument("conversation_id")
     c.add_argument("--yes", action="store_true")
+
+    c = sub.add_parser("publish", help="PATCH /v1/homes/{id} status=5 (online)", parents=[common])
+    c.add_argument("home_id")
     return p
 
 
@@ -455,6 +474,8 @@ def main() -> int:
             return cmd_send(args, as_json)
         if args.cmd == "approve":
             return cmd_approve(args, as_json)
+        if args.cmd == "publish":
+            return cmd_publish(args, as_json)
         raise RuntimeError(f"unknown command {args.cmd}")
     except Exception as exc:
         print(redact(str(exc)), file=sys.stderr)
