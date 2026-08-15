@@ -60,7 +60,8 @@ python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 
 | Method | Path | Use |
 |---|---|---|
-| `GET` | `/v1/users/me` | Self + `homes[]` |
+| `GET` | `/v1/users/me` | Self + `homes[]`. `verified_only` = verified-members-only requests |
+| `PATCH` | `/v1/users/{id}` | User prefs. `{"verified_only": true}` = only verified members can send requests (account-wide) |
 | `GET` | `/v1/homes/me` | Our listings only |
 | `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature) |
 | `POST` | `/v1/homes` | **Create** listing. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
@@ -88,8 +89,17 @@ Calendar **contact preference** (`contact_allowed` on the home — Calendar → 
 
 Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allowed": 0}` after publish. Apt **#2** `3285044` set to **`0`** on 2026-08-15. Apt **#3** is still **`1`** unless Jerome asks to change it.
 
+**According to members’ status** is a **user** flag (both homes), not per listing:
+
+| Field | Value | HE UI |
+|---|---|---|
+| `verified_only` | **`true`** | Only receive exchange requests from members whose accounts have been verified |
+
+`PATCH /v1/users/{userId}` with `{"verified_only": true}`. UI also requires `verified_status >= 1` (verified) to toggle; the API still accepted it while Ruby’s account is `verified_status=-1` (on verification). Set **true** 2026-08-15 (user `5703979`).
+
 ```bash
 python3 $S request PATCH /v1/homes/3285044 --body '{"contact_allowed":0}'
+python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 ```
 
 Calendar types: `NON_RECIPROCAL` (open for GuestPoints), `RESERVED` (blocked/booked), `UNAVAILABLE`. Nights not listed are closed. **June–August** + Thanksgiving/Christmas/NYE are forced `UNAVAILABLE` by `homeexchange-processor` on **both** homes.
