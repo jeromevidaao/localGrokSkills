@@ -64,7 +64,7 @@ python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 | `GET` | `/v1/homes/me` | Our listings only |
 | `GET` | `/v1/homes/{id}` | One home (detail, descriptions, images, feature) |
 | `POST` | `/v1/homes` | **Create** listing. Required: `type` (2=apartment), `shared_part` (1), `address`, `location` `{street_number,street_name,formatted_address,zipcode,longitude,latitude}` |
-| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail`, `descriptions[]`, `feature` bit arrays. **`{"status": 5}` publishes** (needs completion ≥ 80). Status **5** = online, **-5** = offline/unpublished. `GET /v1/homes/me` shows status; `GET /v1/homes/{id}` often omits it. |
+| `PATCH` | `/v1/homes/{id}` | Update `min_nights`, `prefers_reciprocal`, `detail`, `descriptions[]`, `feature` bit arrays, **`contact_allowed`**. **`{"status": 5}` publishes** (needs completion ≥ 80). Status **5** = online, **-5** = offline/unpublished. `GET /v1/homes/me` shows status; `GET /v1/homes/{id}` often omits it. |
 | `POST` | `/v1/images/home/{id}` | Multipart `file=` JPEG/PNG (max 10MB) |
 | `DELETE` | `/v1/images/{imageId}` | Remove photo |
 | `PATCH` | `/v1/images/order` | Reorder |
@@ -78,6 +78,19 @@ python3 $S request PATCH /v1/homes/3285044 --body '{"min_nights":3}'
 | `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
 
 `size` on `detail` is **m²**; `localized_size` + `size_unit: "sqft"` is the display size (Apt 3 = 74 m² / 800 sqft).
+
+Calendar **contact preference** (`contact_allowed` on the home — Calendar → contact preferences):
+
+| Value | HE UI |
+|---|---|
+| **`0`** | **Members can only send me requests when my home is marked as being available** (`CONTACT_NOT_ALLOWED_ON_UNAVAILABLE`) |
+| **`1`** | Members can send me requests at any time in the year (`CONTACT_ALLOWED_ON_UNAVAILABLE`, API default after publish) |
+
+Publishing / unpublishing resets this to **`1`**. Re-apply `PATCH {"contact_allowed": 0}` after publish. Apt **#2** `3285044` set to **`0`** on 2026-08-15. Apt **#3** is still **`1`** unless Jerome asks to change it.
+
+```bash
+python3 $S request PATCH /v1/homes/3285044 --body '{"contact_allowed":0}'
+```
 
 Calendar types: `NON_RECIPROCAL` (open for GuestPoints), `RESERVED` (blocked/booked), `UNAVAILABLE`. Nights not listed are closed. **June–August** + Thanksgiving/Christmas/NYE are forced `UNAVAILABLE` by `homeexchange-processor` on **both** homes.
 
