@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/stop-always-push.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
