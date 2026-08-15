@@ -158,10 +158,10 @@ HE amenities are **not** Airbnb’s list. Source: HE web `commons*.js` `FEATURES
 ```bash
 # Apt #3 (dishwasher + freezer + bathtub + kids-toys + seaside)
 python3 $S request PATCH /v1/homes/3202475 --body '{"feature":{"practical":8100,"multimedia":1033,"various":5,"personal":2,"rule":6,"kids":17,"remote":3,"surrounding":4}}'
-# Apt #2 (bathtub, no dishwasher/freezer)
-python3 $S request PATCH /v1/homes/3285044 --body '{"feature":{"practical":7968,"multimedia":1033,"various":5,"personal":2,"rule":6,"kids":16,"remote":3}}'
-# Apt #1B (dishwasher, no bathtub/freezer) + re-apply contact_allowed after publish
-python3 $S request PATCH /v1/homes/3285159 --body '{"contact_allowed":0,"prefers_reciprocal":false,"feature":{"practical":6948,"multimedia":1033,"various":5,"personal":2,"rule":6,"kids":16,"remote":3}}'
+# Apt #2 (bathtub + dishwasher + freezer)
+python3 $S request PATCH /v1/homes/3285044 --body '{"feature":{"practical":8100,"multimedia":1033,"various":5,"personal":2,"rule":6,"kids":16,"remote":3}}'
+# Apt #1B (dishwasher + freezer, no bathtub) + re-apply contact_allowed after publish
+python3 $S request PATCH /v1/homes/3285159 --body '{"contact_allowed":0,"prefers_reciprocal":false,"feature":{"practical":7076,"multimedia":1033,"various":5,"personal":2,"rule":6,"kids":16,"remote":3}}'
 ```
 
 ### Catalog (category → bit → name)
@@ -197,8 +197,8 @@ Hospitable `GET /properties/{uuid}` `amenities[]` + `house_rules`. Only map what
 | `kitchen` + `refrigerator` | `practical` 512 fridge |
 | `oven` / `stove` | `practical` 256 oven |
 | `microwave` | `practical` 32 microwave |
-| `dishwasher` | `practical` 4 dishwasher (#1B, #3 only) |
-| `freezer` | `practical` 128 freezer (#3 only — listed on Airbnb) |
+| `dishwasher` | `practical` 4 dishwasher (all three — Apt #2 added on Hospitable/Airbnb 2026-08-15) |
+| `freezer` | `practical` 128 freezer (all three — #1B/#2 added on Hospitable/Airbnb 2026-08-15) |
 | `bathtub` | `practical` 1024 bathtub (#2, #3 only) |
 | `laptop_friendly_workspace` | `remote` 1 dedicated-work-space |
 | `crib` / `pack_n_play_travel_crib` | `kids` 16 baby-bed + `rule` 4 children-welcome |
@@ -214,8 +214,8 @@ Washer/dryer: **none** of the three Airbnb listings have them — do not set 8/1
 | Unit | practical | multimedia | various | kids | remote | rule | personal |
 |---|---|---|---|---|---|---|---|
 | #3 `3202475` | 8100 (dishwasher+microwave+freezer+oven+fridge+bathtub+heating+EV) | 1033 | 5 | 17 | 3 | 6 | 2 |
-| #2 `3285044` | 7968 (microwave+oven+fridge+bathtub+heating+EV) | 1033 | 5 | 16 | 3 | 6 | 2 |
-| #1B `3285159` | 6948 (dishwasher+microwave+oven+fridge+heating+EV) | 1033 | 5 | 16 | 3 | 6 | 2 |
+| #2 `3285044` | 8100 (dishwasher+microwave+freezer+oven+fridge+bathtub+heating+EV) | 1033 | 5 | 16 | 3 | 6 | 2 |
+| #1B `3285159` | 7076 (dishwasher+microwave+freezer+oven+fridge+heating+EV) | 1033 | 5 | 16 | 3 | 6 | 2 |
 
 Required headers (script sets these):
 

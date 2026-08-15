@@ -84,6 +84,16 @@ Full parameter tables, request bodies, and schemas:
 → **`references/endpoints.md`**  
 → **`references/openapi-v2.yaml`** (machine-readable source of truth)
 
+### Amenities (Airbnb listing content)
+
+Public API **cannot write** amenities (`GET /properties/{uuid}` is read-only; PATCH/PUT 405). Hospitable web listing editor uses the **internal** API:
+
+`PUT https://api.hospitable.com/v1/properties/{uuid}` `{ "name": "<current name>", "amenities": ["…","dishwasher","freezer"] }`
+
+Requires a **web session** (magic-link / password login), not the PAT. `name` is required on PUT or 422. Airbnb listings that are `fully_managed` get the amenity push. PAT still used to **read** `amenities[]` after the write.
+
+Pine (2026-08-15): Apt **#2** added `dishwasher` + `freezer`; Apt **#1B** added `freezer`. Apt **#3** already had both.
+
 ### Not in Public API OpenAPI (do not invent)
 
 These appear in community/Make.com integrations but are **not** in the official OpenAPI v2 used here:
