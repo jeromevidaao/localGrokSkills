@@ -19,9 +19,16 @@ from typing import Any
 
 REGION = os.environ.get("AWS_REGION", "us-east-1")
 HE_API_BASE = os.environ.get("HE_API_BASE", "https://api.homeexchange.com").rstrip("/")
+HE_BFF_BASE = os.environ.get("HE_BFF_BASE", "https://bff.homeexchange.com").rstrip("/")
 HE_BEARER_SSM = os.environ.get("HE_BEARER_SSM", "/homeexchange/bearer-token")
 HE_REFRESH_FN = os.environ.get("HE_TOKEN_REFRESH_FUNCTION", "he-token-refresh")
-HE_WEB_VERSION = os.environ.get("HE_WEB_VERSION", "20.29.1-rc.1")
+HE_WEB_VERSION = os.environ.get("HE_WEB_VERSION", "20.32.0-rc.1")
+# Jawg/whosonfirst ids the search UI uses for common dests
+HE_PLACES = {
+    "manhattan": ("whosonfirst:borough:421205771", "Manhattan, NY, USA"),
+    "nyc": ("whosonfirst:locality:85977539", "New York, NY, USA"),
+    "new-york": ("whosonfirst:locality:85977539", "New York, NY, USA"),
+}
 HE_HOME_ID = os.environ.get("HE_HOME_ID", "3202475")
 # Pine HE homes (Apt #3 original; Apt #2 and #1B created 2026-08-15)
 HE_HOMES = {
@@ -118,24 +125,30 @@ def he_request(
     body: dict[str, Any] | list[Any] | None = None,
     *,
     retry_401: bool = True,
+    base: str | None = None,
+    extra_headers: dict[str, str] | None = None,
+    referer: str = "https://www.homeexchange.com/conversations",
 ) -> tuple[int, Any]:
     token = load_bearer()
-    url = HE_API_BASE + path
+    url = (base or HE_API_BASE).rstrip("/") + path
     data = None if body is None else json.dumps(body).encode("utf-8")
+    headers = {
+        "Accept": "application/json",
+        "Accept-Language": "en",
+        "Content-Type": "application/json",
+        "authorization": f"Bearer {token}",
+        "he_web_version": HE_WEB_VERSION,
+        "origin": "https://www.homeexchange.com",
+        "referer": referer,
+        "User-Agent": "localGrokSkills-home-exchange/1.0",
+    }
+    if extra_headers:
+        headers.update(extra_headers)
     req = urllib.request.Request(
         url,
         data=data,
         method=method.upper(),
-        headers={
-            "Accept": "application/json",
-            "Accept-Language": "en",
-            "Content-Type": "application/json",
-            "authorization": f"Bearer {token}",
-            "he_web_version": HE_WEB_VERSION,
-            "origin": "https://www.homeexchange.com",
-            "referer": "https://www.homeexchange.com/conversations",
-            "User-Agent": "localGrokSkills-home-exchange/1.0",
-        },
+        headers=headers,
     )
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
@@ -146,7 +159,15 @@ def he_request(
         status = exc.code
         if status == 401 and retry_401:
             invoke_token_refresh()
-            return he_request(method, path, body, retry_401=False)
+            return he_request(
+                method,
+                path,
+                body,
+                retry_401=False,
+                base=base,
+                extra_headers=extra_headers,
+                referer=referer,
+            )
         raise RuntimeError(f"HE {method} {path} HTTP {status}: {redact(raw)[:400]}") from None
     except urllib.error.URLError as exc:
         raise RuntimeError(f"HE {method} {path} network: {exc.reason}") from None
@@ -359,6 +380,104 @@ def cmd_send(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
+def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
+    place_key = (args.place or "manhattan").strip().lower().replace(" ", "-")
+    if args.location_id:
+        loc_id = args.location_id
+        place_label = args.place or loc_id
+    elif place_key in HE_PLACES:
+        loc_id, place_label = HE_PLACES[place_key]
+    else:
+        raise RuntimeError(
+            f"unknown place {args.place!r} — use manhattan/nyc or --location-id whosonfirst:…"
+        )
+    start = args.start_on
+    end = args.end_on
+    adults = max(0, int(args.adults))
+    children = max(0, int(args.children))
+    babies = max(0, int(args.babies))
+    limit = max(1, min(int(args.limit), 40))
+    offset = max(0, int(args.offset))
+    query: dict[str, Any] = {
+        "location": {"polygon": {"location_id": loc_id, "provider": "jawg"}},
+    }
+    if start and end:
+        query["calendar"] = {"date_ranges": [{"from": start, "to": end}]}
+    if adults or children or babies:
+        query.setdefault("home", {})["size"] = {
+            "beds": {"adults": adults, "children": children, "babies": babies}
+        }
+    filters: list[str] = []
+    if args.response_rate:
+        filters.append("response-rate-above-threshold")
+    if filters:
+        query["filters"] = filters
+    if args.children_welcome:
+        query.setdefault("home", {}).setdefault("amenities", []).append("children-welcome")
+    body = {
+        "last_search": {"place": place_label, "place_id": loc_id},
+        "search_query": query,
+    }
+    _, data = he_request(
+        "POST",
+        f"/search/homes?offset={offset}&limit={limit}",
+        body,
+        base=HE_BFF_BASE,
+        extra_headers={
+            "X-SEARCH-API-VERSION": "v2",
+            "X-LEGACY-RESPONSE": "true",
+            "X-HE-PAGE-NAME": "/search-v2",
+        },
+        referer="https://www.homeexchange.com/search-v2",
+    )
+    if as_json:
+        emit(data, True)
+        return 0
+    homes = (data or {}).get("homes") or []
+    rows = []
+    for h in homes if isinstance(homes, list) else []:
+        user = h.get("user") or {}
+        loc = h.get("location") or {}
+        descs = h.get("descriptions") or []
+        title = None
+        if isinstance(descs, list) and descs:
+            en = next(
+                (d for d in descs if isinstance(d, dict) and d.get("locale") == "en"),
+                descs[0],
+            )
+            if isinstance(en, dict):
+                title = en.get("title")
+        rows.append(
+            {
+                "id": h.get("id"),
+                "title": (title or "")[:120],
+                "capacity": h.get("capacity"),
+                "gp_night": h.get("guestpoint_per_night"),
+                "min_nights": h.get("min_nights"),
+                "exchanges": h.get("exchange_count"),
+                "host": user.get("first_name"),
+                "resp": user.get("response_rate"),
+                "verified": bool(user.get("is_verified") or h.get("is_verified")),
+                "lat": loc.get("latitude") if isinstance(loc, dict) else None,
+                "lon": loc.get("longitude") if isinstance(loc, dict) else None,
+                "url": f"https://www.homeexchange.com/home/{h.get('id')}",
+            }
+        )
+    emit(
+        {
+            "place": place_label,
+            "location_id": loc_id,
+            "dates": f"{start} → {end}" if start and end else None,
+            "guests": {"adults": adults, "children": children, "babies": babies},
+            "total": (data or {}).get("total"),
+            "returned": len(rows),
+            "homes": rows,
+        },
+        False,
+    )
+    return 0
+
+
 def cmd_publish(args: argparse.Namespace, as_json: bool) -> int:
     hid = args.home_id
     _, data = he_request("PATCH", f"/v1/homes/{urllib.parse.quote(str(hid), safe='')}", {"status": 5})
@@ -424,6 +543,31 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("path")
     c.add_argument("--body", default=None, help="JSON object/array string")
 
+    c = sub.add_parser(
+        "search",
+        help="POST bff /search/homes (destination + dates + guests)",
+        parents=[common],
+    )
+    c.add_argument("--place", default="manhattan", help="manhattan | nyc | label")
+    c.add_argument("--location-id", dest="location_id", default=None)
+    c.add_argument("--from", dest="start_on", default=None, help="YYYY-MM-DD")
+    c.add_argument("--to", dest="end_on", default=None, help="YYYY-MM-DD checkout")
+    c.add_argument("--adults", type=int, default=2)
+    c.add_argument("--children", type=int, default=0)
+    c.add_argument("--babies", type=int, default=0)
+    c.add_argument("--limit", type=int, default=20)
+    c.add_argument("--offset", type=int, default=0)
+    c.add_argument(
+        "--response-rate",
+        action="store_true",
+        help="filter response-rate-above-threshold",
+    )
+    c.add_argument(
+        "--children-welcome",
+        action="store_true",
+        help="amenity children-welcome",
+    )
+
     c = sub.add_parser("calendar", help="GET /v1/homes/{id}/calendar", parents=[common])
     c.add_argument("home_id", nargs="?", default=None)
 
@@ -461,6 +605,8 @@ def main() -> int:
             return cmd_home(args, as_json)
         if args.cmd == "request":
             return cmd_request(args, as_json)
+        if args.cmd == "search":
+            return cmd_search(args, as_json)
         if args.cmd == "conversations":
             return cmd_conversations(args, as_json)
         if args.cmd == "conversation":

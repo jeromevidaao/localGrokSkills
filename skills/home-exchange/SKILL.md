@@ -2,18 +2,20 @@
 name: home-exchange
 description: >
   HomeExchange (HE) API for CleaningButton Pine Apt #3, Apt #2, and Apt #1B:
-  inbox, listings, calendar, photos, exchanges, pre-approve. Always load the
-  bearer from AWS SSM /homeexchange/bearer-token — never store tokens locally
-  or in git. Use when the user asks about HomeExchange, HE guests, HE calendar,
-  HE conversations, pre-approve, or runs /home-exchange.
+  inbox, listings, calendar, photos, exchanges, pre-approve, destination search.
+  Always load the bearer from AWS SSM /homeexchange/bearer-token — never store
+  tokens locally or in git. Use when the user asks about HomeExchange, HE guests,
+  HE calendar, HE conversations, pre-approve, searching HE homes, or runs
+  /home-exchange.
 ---
 
 # HomeExchange API
 
 Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-api` HE chat, `auto-reply-sqs-harness` `HomeExchangeClient`, and `homeexchange-processor`.
 
-**Base:** `https://api.homeexchange.com`  
-**Auth:** `authorization: Bearer <jwt>` + `he_web_version`  
+**Base:** `https://api.homeexchange.com` (listings, inbox, calendar)  
+**Search BFF:** `https://bff.homeexchange.com` (destination search)  
+**Auth:** `authorization: Bearer <jwt>` + `he_web_version` (`20.32.0-rc.1`)  
 **Token:** AWS SSM **`/homeexchange/bearer-token`** (SecureString), fetched at call time.
 
 ## Standing: credentials
@@ -55,6 +57,7 @@ python3 $S publish 3285159
 python3 $S request PATCH /v1/homes/3285159 --body '{"min_nights":2}'
 python3 $S request PATCH /v1/homes/3285044 --body '{"prefers_reciprocal":false}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
+python3 $S search --place manhattan --from 2026-12-25 --to 2027-01-03 --adults 2 --children 3 --response-rate
 ```
 
 `--json` dumps the API payload. Writes (`send`, `approve`, PATCH/POST) only when the user asked.
@@ -127,6 +130,30 @@ Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (
 | `GET` | `/v1/exchanges/approved/ready` | Ready-to-finalize |
 | `POST` | `/v1/exchanges/{id}/modify/check` | Date/home/GP change preview |
 
+### Search (BFF)
+
+Listing search is **not** on `api.homeexchange.com`. Use the BFF with search-v2 headers.
+
+| Method | Path | Use |
+|---|---|---|
+| `POST` | `https://bff.homeexchange.com/search/homes?offset=&limit=` | Destination search. Headers: `X-SEARCH-API-VERSION: v2`, `X-LEGACY-RESPONSE: true`, `X-HE-PAGE-NAME: /search-v2`. Body `{search_query:{…}}` (optional `last_search`) |
+
+`search_query` fields that work (2026-08-16):
+
+| Field | Example | Notes |
+|---|---|---|
+| `location.polygon` | `{location_id:"whosonfirst:borough:421205771", provider:"jawg"}` | **Manhattan** borough. NYC city = `whosonfirst:locality:85977539`. Polygon leaks Brooklyn / Jersey City / Queens — filter results to Manhattan coords (`lat` 40.70–40.88, `lon` −74.02 to −73.94; drop `admin1=New Jersey` and titles with Brooklyn). |
+| `location.bounds` | `{sw:{lat,lon}, ne:{lat,lon}}` | Alternate to polygon |
+| `calendar.date_ranges` | `[{from:"2026-12-25", to:"2027-01-03"}]` | Half-open-ish stay window (checkout = `to`) |
+| `home.size.beds` | `{adults:2, children:3, babies:0}` | Guest mix. `guests_nb` also works |
+| `filters` | `["response-rate-above-threshold"]` | Host response ≥ HE average (~80%). `children-welcome` as a **filter** is 422 |
+| `home.amenities` | `["children-welcome"]` | Works. `kids-friendly` is 422 |
+| `extended` | `true` | Ignores availability — do not use for dated trips |
+
+Response: `{homes, total, bounds, last_search_id}`. Card fields: `id`, `capacity`, `guestpoint_per_night`, `min_nights`, `exchange_count`, `is_verified`, `descriptions[].title`, `user.{id,first_name,response_rate,is_verified}`, `location.{latitude,longitude}`. Then `GET /v1/homes/{id}/calendar` to confirm nights (`AVAILABLE` = GP or both, `RECIPROCAL` = swap only, `NON_RECIPROCAL` = GuestPoints).
+
+Place IDs: Jawg autocomplete `https://api.jawg.io/places/v1/autocomplete` (public token in HE `commons*.js`). Do not commit the token.
+
 ### Users / account
 
 | Method | Path | Use |
@@ -135,7 +162,8 @@ Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (
 | `PATCH` | `/v1/users/{id}` | `{verified_only:true}` and other user fields |
 | `GET` | `/v1/users/{id}` | Public-ish profile |
 | `GET` | `/v1/notification/headband` | Banner (204 if none) |
-| `GET` | `/v1/users/me/alerts` | Saved searches |
+| `GET` | `/v1/users/me/alerts` | Saved-search alerts |
+| `GET` | `/v1/search/last?version=2` | Recent search history (`query.location`, `calendar.date_ranges`, `home.size.beds`) |
 | `GET` | `/v1/settings/mail-subscribe/list` | Email prefs |
 
 ### Photos
