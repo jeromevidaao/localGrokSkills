@@ -593,9 +593,12 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
                     }
                 )
                 continue
+        hid = h.get("id")
+        listing_url = f"https://www.homeexchange.com/home/{hid}"
         rows.append(
             {
-                "id": h.get("id"),
+                "id": hid,
+                "listing": f"[{hid}]({listing_url})",
                 "title": (title or "")[:120],
                 "capacity": h.get("capacity"),
                 "gp_night": h.get("guestpoint_per_night"),
@@ -612,7 +615,7 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
                 "lat": lat,
                 "lon": lon,
                 "calendar": overlap,
-                "url": f"https://www.homeexchange.com/home/{h.get('id')}",
+                "url": listing_url,
             }
         )
     rows.sort(key=lambda r: (r.get("resp") or 0, r.get("exchanges") or 0), reverse=True)
