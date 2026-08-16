@@ -443,17 +443,22 @@ def nominatim_bounds(place: str) -> tuple[dict[str, Any], str]:
 def in_manhattan(lat: float | None, lon: float | None, admins: dict[str, Any] | None, title: str) -> bool:
     if lat is None or lon is None:
         return False
-    if lon <= -74.02 or lon >= -73.94:
+    if lon <= -74.02:
         return False
     if lat < 40.70 or lat > 40.882:
+        return False
+    # Inwood / Washington Heights sit farther east than midtown FDR
+    east = -73.91 if lat >= 40.82 else -73.94
+    if lon >= east:
         return False
     if lon > -73.955 and lat < 40.76:
         return False
     if isinstance(admins, dict) and (admins.get("admin1") or "").lower() == "new jersey":
         return False
     low = (title or "").lower()
-    if any(x in low for x in ("brooklyn", "jersey city", "hoboken", "ridgewood", "queens", "lic ")):
+    if any(x in low for x in ("brooklyn", "jersey city", "hoboken", "ridgewood", "long island city")):
         return False
+    # do not match "lic " — it hits "public transit"
     return True
 
 
@@ -528,10 +533,14 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
         cal["exchange_types"] = exchange_types
     if cal:
         query["calendar"] = cal
+    size: dict[str, Any] = {}
     if adults or children or babies:
-        query.setdefault("home", {})["size"] = {
-            "beds": {"adults": adults, "children": children, "babies": babies}
-        }
+        size["beds"] = {"adults": adults, "children": children, "babies": babies}
+    bedrooms = getattr(args, "bedrooms", None)
+    if bedrooms is not None and int(bedrooms) > 0:
+        size["bedrooms"] = int(bedrooms)
+    if size:
+        query.setdefault("home", {})["size"] = size
     filters: list[str] = []
     if args.response_rate:
         filters.append("response-rate-above-threshold")
@@ -630,6 +639,7 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
         "dates": f"{start} → {end}" if start and end else None,
         "nights": nights,
         "guests": {"adults": adults, "children": children, "babies": babies},
+        "bedrooms_min": int(bedrooms) if bedrooms else None,
         "total": (data or {}).get("total"),
         "returned": len(rows),
         "skipped": len(skipped),
@@ -720,6 +730,12 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--adults", type=int, default=2)
     c.add_argument("--children", type=int, default=0)
     c.add_argument("--babies", type=int, default=0)
+    c.add_argument(
+        "--bedrooms",
+        type=int,
+        default=None,
+        help="min bedrooms (home.size.bedrooms; 3 for this family stay)",
+    )
     c.add_argument("--limit", type=int, default=20)
     c.add_argument("--offset", type=int, default=0)
     c.add_argument(
