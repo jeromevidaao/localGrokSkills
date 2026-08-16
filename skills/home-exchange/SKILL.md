@@ -52,7 +52,7 @@ python3 $S home 3285159
 python3 $S calendar 3285159
 python3 $S conversations --limit 20
 python3 $S publish 3285159
-python3 $S request PATCH /v1/homes/3285159 --body '{"min_nights":1}'
+python3 $S request PATCH /v1/homes/3285159 --body '{"min_nights":2}'
 python3 $S request PATCH /v1/homes/3285044 --body '{"prefers_reciprocal":false}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 ```
@@ -69,7 +69,7 @@ python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 | Reciprocal exchange | home | `prefers_reciprocal` | **`false`** all three | UI: “For a reciprocal exchange, I want my home at 0 GuestPoints.” `true` = reciprocal-at-0-GP. Open nights are already `NON_RECIPROCAL` (GuestPoints only); processor never writes `RECIPROCAL`. |
 | Verified members only | **user** `5703979` | `verified_only` | **`true`** | Account-wide (all homes). UI wants `verified_status>=1`; API accepted while Ruby is `-1` (on verification). |
 | Publish | home | `status` | **`5`** all three | `5` online, `-5` offline. `GET /v1/homes/me` shows it; `GET /v1/homes/{id}` often omits it. Needs completion ≥ 80. |
-| Min stay | home | `min_nights` | **`1`** all three | UI: “Minimum of nights recommended.” |
+| Min stay | home | `min_nights` | **`2`** all three | UI: “Minimum of nights recommended.” (was 1; set 2026-08-15) |
 | Listing title | home `descriptions[]` | `title` | **#3** `Cozy West End Victorian \| EV Charging + Parking` (Airbnb). **#2** `1875 West End Victorian \| EV Charging + Parking`. **#1B** `Downtown Studio, Parking with EV charger` | PATCH full `descriptions[]` (`locale`,`title`,`good_feature`,`good_place`,`other`). Hospitable `public_name` = Airbnb title; `name` is the internal nickname. |
 | Amenities | home `feature` | integer bitmasks | Matched to Hospitable/Airbnb 2026-08-15 (see catalog below) | **PATCH integers** (OR of bit IDs). Arrays are ignored (value stays old) or 400 on `kids`/`remote`/`surrounding`/`animal`. Frontend `featureArrayToFlag` XOR-reduces arrays → ints before send. |
 
