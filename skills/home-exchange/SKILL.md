@@ -75,7 +75,7 @@ python3 $S search --place paris --from 2026-09-10 --to 2026-09-17 --adults 2
 | Host quality | `filters: ["response-rate-above-threshold"]` (~≥80%) unless he says skip |
 | Kids | Amenity `children-welcome` only if he asks or results are plentiful (stacking it on scarce dates can zero the set). Filter tag 422. |
 | CLI | `he_api.py search` defaults to points + response-rate + calendar verify |
-| Result rows | **Always show the HE listing id** as a clickable markdown link `[1673876](https://www.homeexchange.com/home/1673876)` (id visible + one click). Never omit the id or give a title-only list. |
+| Result rows | **Always show the HE listing id** as a clickable markdown link `[1673876](https://www.homeexchange.com/homes/view/1673876)`. **Never** `/home/{id}` — that is a **404**. `/homes/view/{id}` 200s (lands on `/holiday-home/{id}`). Test a new URL pattern with GET before presenting. Never title-only. |
 
 Do **not** first-contact hosts unless he picks a listing.
 
@@ -85,7 +85,7 @@ Do **not** first-contact hosts unless he picks a listing.
 2. `python3 $S search --place <city> --from YYYY-MM-DD --to YYYY-MM-DD --adults N --children N`  
    Known polygons: `manhattan`, `nyc`. Any other city → Nominatim bounds (no Jawg token on disk). Or `--location-id whosonfirst:…`.
 3. CLI already: GuestPoints (`available`+`guest-wanted`), good response rate, drops `min_nights` > stay, **Manhattan clip** (polygon leaks Brooklyn / Jersey City / Queens), **calendar verify** (keep `AVAILABLE` / `NON_RECIPROCAL`, drop `RECIPROCAL`-only). `--children-welcome` if he wants that amenity.
-4. Rank by `resp` then `exchange_count`. Present a short table whose **first column is Listing** = markdown `[id](https://www.homeexchange.com/home/{id})` so the numeric id is visible and clickable. Then host, area, capacity, reply %, GP/night + stay total, calendar type. Never title-only.
+4. Rank by `resp` then `exchange_count`. Present a short table whose **first column is Listing** = markdown `[id](https://www.homeexchange.com/homes/view/{id})` (numeric id visible + clickable). Then host, area, capacity, reply %, GP/night + stay total, calendar type. **Never** `https://www.homeexchange.com/home/{id}` (404). If a new path is guessed, GET it first and confirm 200 + listing title before showing or `open`.
 5. Skip 1BR for 5 people, titles that demand reciprocal / beach / ski only, `min_nights` longer than the stay.
 6. If he asks for reciprocal, rerun `--exchange reciprocal`. Never send messages in this step.
 

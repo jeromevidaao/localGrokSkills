@@ -30,6 +30,10 @@ HE_PLACES = {
     "new-york": ("whosonfirst:locality:85977539", "New York, NY, USA"),
     "newyork": ("whosonfirst:locality:85977539", "New York, NY, USA"),
 }
+# Public listing page. /home/{id} is a 404. /homes/view/{id} 200s and
+# lands on /holiday-home/{id}. Always use this in results and when opening.
+HE_LISTING_PATH = "https://www.homeexchange.com/homes/view/{id}"
+
 # Standing (2026-08-16): pay with GuestPoints, not a home swap.
 # UI: "available" = GP or reciprocal on those nights; "guest-wanted" = GP-only
 # nights. Both accept points. "reciprocal" is swap-only — omit unless asked.
@@ -594,7 +598,7 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
                 )
                 continue
         hid = h.get("id")
-        listing_url = f"https://www.homeexchange.com/home/{hid}"
+        listing_url = HE_LISTING_PATH.format(id=hid)
         rows.append(
             {
                 "id": hid,
