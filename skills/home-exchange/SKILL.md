@@ -92,6 +92,21 @@ Do **not** first-contact hosts unless he picks a listing.
 
 `--no-response-rate` / `--no-verify` / `--exchange both` only when asked.
 
+### Current dest search (2026-08-16)
+
+Manhattan · **2026-12-25 → 2027-01-03** (9 nights) · 2 adults + 3 children · GuestPoints · **≥ 3 BR**.
+
+| Listing | Host | Beds | Area | Reply | Notes |
+|---|---|---|---|---|---|
+| [3192196](https://www.homeexchange.com/homes/view/3192196) | Tracey | 3BR/2BA · ~1700 sqft · 2 floors | Inwood / Washington Heights | 68% | Best family fit. `NON_RECIPROCAL` those nights. ~360 GP/night. |
+| [2466431](https://www.homeexchange.com/homes/view/2466431) | Olivier | 3BR/3BA · 3 kings | Upper East Side | 20% | Weak reply. ~327 GP/night. |
+| [2779098](https://www.homeexchange.com/homes/view/2779098) | Ed | 3BR/2BA · ~160 m² | Chelsea | 17% | Kids’ bed. Weak reply. ~378 GP/night. |
+| [992945](https://www.homeexchange.com/homes/view/992945) | Elise & Michael | 3BR/2BA | **LIC / Queens** (not island) | 75% | Strongest host; one subway stop from Midtown. ~341 GP/night. |
+
+Do **not** re-offer [1673876](https://www.homeexchange.com/homes/view/1673876) Katherine (1 BR / 650 sqft) or [3099298](https://www.homeexchange.com/homes/view/3099298) Julian (1 BR). Dropped: Sandy [916443](https://www.homeexchange.com/homes/view/916443) min 14, Kim [2547120](https://www.homeexchange.com/homes/view/2547120) min 20, Olga [1253413](https://www.homeexchange.com/homes/view/1253413) no GPs.
+
+Manhattan clip: keep Inwood (`lat≥40.82` east to −73.91). Never substring-match `lic ` (hits “pub**lic** transit”). BFF `detail.bedroom_nb` / `bathroom_nb` — API `bedrooms_nb` is often null.
+
 ## Listing prefs (Pine — all three homes unless noted)
 
 | Setting | Where | Field | Pine value (2026-08-15) | Notes |
