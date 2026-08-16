@@ -28,7 +28,15 @@ HE_PLACES = {
     "manhattan": ("whosonfirst:borough:421205771", "Manhattan, NY, USA"),
     "nyc": ("whosonfirst:locality:85977539", "New York, NY, USA"),
     "new-york": ("whosonfirst:locality:85977539", "New York, NY, USA"),
+    "newyork": ("whosonfirst:locality:85977539", "New York, NY, USA"),
 }
+# Standing (2026-08-16): pay with GuestPoints, not a home swap.
+# UI: "available" = GP or reciprocal on those nights; "guest-wanted" = GP-only
+# nights. Both accept points. "reciprocal" is swap-only — omit unless asked.
+# Do not send only ["guest-wanted"]: that drops AVAILABLE (dual) homes.
+HE_EXCHANGE_POINTS = ["available", "guest-wanted"]
+HE_EXCHANGE_RECIPROCAL = ["reciprocal"]
+HE_GP_CAL_TYPES = frozenset({"AVAILABLE", "available", "NON_RECIPROCAL"})
 HE_HOME_ID = os.environ.get("HE_HOME_ID", "3202475")
 # Pine HE homes (Apt #3 original; Apt #2 and #1B created 2026-08-15)
 HE_HOMES = {
@@ -380,44 +388,100 @@ def cmd_send(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
-def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
-    place_key = (args.place or "manhattan").strip().lower().replace(" ", "-")
-    if args.location_id:
-        loc_id = args.location_id
-        place_label = args.place or loc_id
-    elif place_key in HE_PLACES:
-        loc_id, place_label = HE_PLACES[place_key]
-    else:
-        raise RuntimeError(
-            f"unknown place {args.place!r} — use manhattan/nyc or --location-id whosonfirst:…"
+def _place_key(name: str) -> str:
+    return (name or "").strip().lower().replace(" ", "-").replace("_", "-")
+
+
+def resolve_place(place: str, location_id: str | None) -> tuple[dict[str, Any], str, str | None]:
+    """Return (location query, label, location_id or None)."""
+    if location_id:
+        return (
+            {"polygon": {"location_id": location_id, "provider": "jawg"}},
+            place or location_id,
+            location_id,
         )
-    start = args.start_on
-    end = args.end_on
-    adults = max(0, int(args.adults))
-    children = max(0, int(args.children))
-    babies = max(0, int(args.babies))
-    limit = max(1, min(int(args.limit), 40))
-    offset = max(0, int(args.offset))
-    query: dict[str, Any] = {
-        "location": {"polygon": {"location_id": loc_id, "provider": "jawg"}},
-    }
-    if start and end:
-        query["calendar"] = {"date_ranges": [{"from": start, "to": end}]}
-    if adults or children or babies:
-        query.setdefault("home", {})["size"] = {
-            "beds": {"adults": adults, "children": children, "babies": babies}
-        }
-    filters: list[str] = []
-    if args.response_rate:
-        filters.append("response-rate-above-threshold")
-    if filters:
-        query["filters"] = filters
-    if args.children_welcome:
-        query.setdefault("home", {}).setdefault("amenities", []).append("children-welcome")
-    body = {
-        "last_search": {"place": place_label, "place_id": loc_id},
-        "search_query": query,
-    }
+    key = _place_key(place)
+    if key in HE_PLACES:
+        loc_id, label = HE_PLACES[key]
+        return (
+            {"polygon": {"location_id": loc_id, "provider": "jawg"}},
+            label,
+            loc_id,
+        )
+    bounds, label = nominatim_bounds(place)
+    return ({"bounds": bounds}, label, None)
+
+
+def nominatim_bounds(place: str) -> tuple[dict[str, Any], str]:
+    q = urllib.parse.urlencode({"q": place, "format": "json", "limit": 1})
+    req = urllib.request.Request(
+        f"https://nominatim.openstreetmap.org/search?{q}",
+        headers={
+            "User-Agent": "localGrokSkills-home-exchange/1.0 (CleaningButton dest search)",
+            "Accept": "application/json",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        hits = json.loads(resp.read().decode("utf-8", errors="replace"))
+    if not hits:
+        raise RuntimeError(
+            f"unknown place {place!r} — add to HE_PLACES or pass --location-id"
+        )
+    hit = hits[0]
+    south, north, west, east = (float(x) for x in hit["boundingbox"])
+    label = hit.get("display_name") or place
+    return (
+        {"sw": {"lat": south, "lon": west}, "ne": {"lat": north, "lon": east}},
+        label,
+    )
+
+
+def in_manhattan(lat: float | None, lon: float | None, admins: dict[str, Any] | None, title: str) -> bool:
+    if lat is None or lon is None:
+        return False
+    if lon <= -74.02 or lon >= -73.94:
+        return False
+    if lat < 40.70 or lat > 40.882:
+        return False
+    if lon > -73.955 and lat < 40.76:
+        return False
+    if isinstance(admins, dict) and (admins.get("admin1") or "").lower() == "new jersey":
+        return False
+    low = (title or "").lower()
+    if any(x in low for x in ("brooklyn", "jersey city", "hoboken", "ridgewood", "queens", "lic ")):
+        return False
+    return True
+
+
+def stay_nights(start: str, end: str) -> int | None:
+    try:
+        y1, m1, d1 = (int(x) for x in start.split("-"))
+        y2, m2, d2 = (int(x) for x in end.split("-"))
+        from datetime import date
+
+        return (date(y2, m2, d2) - date(y1, m1, d1)).days
+    except (TypeError, ValueError):
+        return None
+
+
+def calendar_gp_overlap(home_id: Any, start: str, end: str) -> list[dict[str, Any]]:
+    _, cal = he_request("GET", f"/v1/homes/{urllib.parse.quote(str(home_id), safe='')}/calendar")
+    ranges = cal.get("data") if isinstance(cal, dict) else cal
+    hits: list[dict[str, Any]] = []
+    if not isinstance(ranges, list):
+        return hits
+    for p in ranges:
+        s = str((p or {}).get("start_on") or "")[:10]
+        e = str((p or {}).get("end_on") or "")[:10]
+        if s and e and s < end and e > start:
+            hits.append({"start": s, "end": e, "type": (p or {}).get("type")})
+    return hits
+
+
+def bff_search(query: dict[str, Any], offset: int, limit: int, place_label: str, loc_id: str | None) -> Any:
+    body: dict[str, Any] = {"search_query": query}
+    if loc_id:
+        body["last_search"] = {"place": place_label, "place_id": loc_id}
     _, data = he_request(
         "POST",
         f"/search/homes?offset={offset}&limit={limit}",
@@ -430,14 +494,60 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
         },
         referer="https://www.homeexchange.com/search-v2",
     )
-    if as_json:
-        emit(data, True)
-        return 0
+    return data
+
+
+def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
+    location, place_label, loc_id = resolve_place(args.place or "manhattan", args.location_id)
+    start = args.start_on
+    end = args.end_on
+    adults = max(0, int(args.adults))
+    children = max(0, int(args.children))
+    babies = max(0, int(args.babies))
+    limit = max(1, min(int(args.limit), 40))
+    offset = max(0, int(args.offset))
+    exchange = (args.exchange or "points").strip().lower()
+    if exchange in {"points", "gp", "guestpoints", "guest-wanted", "non-reciprocal"}:
+        exchange_types: list[str] | None = list(HE_EXCHANGE_POINTS)
+    elif exchange in {"reciprocal", "swap"}:
+        exchange_types = list(HE_EXCHANGE_RECIPROCAL)
+    elif exchange in {"both", "any", "all"}:
+        exchange_types = None
+    else:
+        raise RuntimeError("exchange must be points | reciprocal | both")
+
+    query: dict[str, Any] = {"location": location}
+    cal: dict[str, Any] = {}
+    if start and end:
+        cal["date_ranges"] = [{"from": start, "to": end}]
+    if exchange_types:
+        cal["exchange_types"] = exchange_types
+    if cal:
+        query["calendar"] = cal
+    if adults or children or babies:
+        query.setdefault("home", {})["size"] = {
+            "beds": {"adults": adults, "children": children, "babies": babies}
+        }
+    filters: list[str] = []
+    if args.response_rate:
+        filters.append("response-rate-above-threshold")
+    if filters:
+        query["filters"] = filters
+    if args.children_welcome and not args.no_children_welcome:
+        query.setdefault("home", {}).setdefault("amenities", []).append("children-welcome")
+
+    data = bff_search(query, offset, limit, place_label, loc_id)
     homes = (data or {}).get("homes") or []
+    if not isinstance(homes, list):
+        homes = []
+    nights = stay_nights(start, end) if start and end else None
+    place_key = _place_key(args.place or "")
     rows = []
-    for h in homes if isinstance(homes, list) else []:
+    skipped: list[dict[str, Any]] = []
+    for h in homes:
         user = h.get("user") or {}
         loc = h.get("location") or {}
+        adm = h.get("translated_admins") if isinstance(h.get("translated_admins"), dict) else {}
         descs = h.get("descriptions") or []
         title = None
         if isinstance(descs, list) and descs:
@@ -447,34 +557,82 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
             )
             if isinstance(en, dict):
                 title = en.get("title")
+        lat = loc.get("latitude") if isinstance(loc, dict) else None
+        lon = loc.get("longitude") if isinstance(loc, dict) else None
+        if args.clip_manhattan or place_key == "manhattan":
+            if not in_manhattan(lat, lon, adm, title or ""):
+                skipped.append({"id": h.get("id"), "reason": "not_manhattan", "title": title})
+                continue
+        low_title = (title or "").lower()
+        if exchange_types is not None and HE_EXCHANGE_RECIPROCAL[0] not in exchange_types:
+            if any(
+                x in low_title
+                for x in ("no gp", "no gps", "reciprocal only", "reciprocal exchange only")
+            ):
+                skipped.append({"id": h.get("id"), "reason": "title_rejects_points", "title": title})
+                continue
+        min_n = h.get("min_nights")
+        if nights and isinstance(min_n, int) and min_n > nights:
+            skipped.append({"id": h.get("id"), "reason": f"min_nights {min_n}>{nights}", "title": title})
+            continue
+        overlap: list[dict[str, Any]] | None = None
+        if args.verify and start and end and h.get("id") is not None:
+            try:
+                overlap = calendar_gp_overlap(h.get("id"), start, end)
+            except Exception as exc:
+                skipped.append({"id": h.get("id"), "reason": f"calendar {exc}", "title": title})
+                continue
+            gp_ok = [p for p in overlap if p.get("type") in HE_GP_CAL_TYPES]
+            if not gp_ok:
+                skipped.append(
+                    {
+                        "id": h.get("id"),
+                        "reason": "reciprocal_only_or_closed",
+                        "calendar": overlap,
+                        "title": title,
+                    }
+                )
+                continue
         rows.append(
             {
                 "id": h.get("id"),
                 "title": (title or "")[:120],
                 "capacity": h.get("capacity"),
                 "gp_night": h.get("guestpoint_per_night"),
-                "min_nights": h.get("min_nights"),
+                "gp_stay": (
+                    (h.get("guestpoint_per_night") or 0) * nights
+                    if nights and h.get("guestpoint_per_night")
+                    else None
+                ),
+                "min_nights": min_n,
                 "exchanges": h.get("exchange_count"),
                 "host": user.get("first_name"),
                 "resp": user.get("response_rate"),
                 "verified": bool(user.get("is_verified") or h.get("is_verified")),
-                "lat": loc.get("latitude") if isinstance(loc, dict) else None,
-                "lon": loc.get("longitude") if isinstance(loc, dict) else None,
+                "lat": lat,
+                "lon": lon,
+                "calendar": overlap,
                 "url": f"https://www.homeexchange.com/home/{h.get('id')}",
             }
         )
-    emit(
-        {
-            "place": place_label,
-            "location_id": loc_id,
-            "dates": f"{start} → {end}" if start and end else None,
-            "guests": {"adults": adults, "children": children, "babies": babies},
-            "total": (data or {}).get("total"),
-            "returned": len(rows),
-            "homes": rows,
-        },
-        False,
-    )
+    rows.sort(key=lambda r: (r.get("resp") or 0, r.get("exchanges") or 0), reverse=True)
+    out = {
+        "place": place_label,
+        "location_id": loc_id,
+        "exchange": exchange,
+        "dates": f"{start} → {end}" if start and end else None,
+        "nights": nights,
+        "guests": {"adults": adults, "children": children, "babies": babies},
+        "total": (data or {}).get("total"),
+        "returned": len(rows),
+        "skipped": len(skipped),
+        "homes": rows,
+    }
+    if as_json:
+        out["skipped_homes"] = skipped
+        emit(out, True)
+        return 0
+    emit(out, False)
     return 0
 
 
@@ -545,10 +703,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     c = sub.add_parser(
         "search",
-        help="POST bff /search/homes (destination + dates + guests)",
+        help="POST bff /search/homes (GuestPoints by default)",
         parents=[common],
     )
-    c.add_argument("--place", default="manhattan", help="manhattan | nyc | label")
+    c.add_argument("--place", default="manhattan", help="manhattan | nyc | or any city name")
     c.add_argument("--location-id", dest="location_id", default=None)
     c.add_argument("--from", dest="start_on", default=None, help="YYYY-MM-DD")
     c.add_argument("--to", dest="end_on", default=None, help="YYYY-MM-DD checkout")
@@ -558,14 +716,49 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--limit", type=int, default=20)
     c.add_argument("--offset", type=int, default=0)
     c.add_argument(
-        "--response-rate",
-        action="store_true",
-        help="filter response-rate-above-threshold",
+        "--exchange",
+        default="points",
+        help="points (default, GuestPoints) | reciprocal | both",
     )
     c.add_argument(
-        "--children-welcome",
+        "--response-rate",
+        dest="response_rate",
         action="store_true",
-        help="amenity children-welcome",
+        default=True,
+        help="filter response-rate-above-threshold (default on)",
+    )
+    c.add_argument(
+        "--no-response-rate",
+        dest="response_rate",
+        action="store_false",
+    )
+    c.add_argument(
+        "--verify",
+        dest="verify",
+        action="store_true",
+        default=True,
+        help="drop reciprocal-only calendars (default on when dates set)",
+    )
+    c.add_argument("--no-verify", dest="verify", action="store_false")
+    c.add_argument(
+        "--children-welcome",
+        dest="children_welcome",
+        action="store_true",
+        default=False,
+        help="force children-welcome amenity (also auto when --children>0)",
+    )
+    c.add_argument(
+        "--no-children-welcome",
+        dest="no_children_welcome",
+        action="store_true",
+        default=False,
+    )
+    c.add_argument(
+        "--clip-manhattan",
+        dest="clip_manhattan",
+        action="store_true",
+        default=False,
+        help="drop Brooklyn/NJ/Queens leaks (auto when --place manhattan)",
     )
 
     c = sub.add_parser("calendar", help="GET /v1/homes/{id}/calendar", parents=[common])

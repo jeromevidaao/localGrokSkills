@@ -57,12 +57,38 @@ python3 $S publish 3285159
 python3 $S request PATCH /v1/homes/3285159 --body '{"min_nights":2}'
 python3 $S request PATCH /v1/homes/3285044 --body '{"prefers_reciprocal":false}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
-python3 $S search --place manhattan --from 2026-12-25 --to 2027-01-03 --adults 2 --children 3 --response-rate
+python3 $S search --place manhattan --from 2026-12-25 --to 2027-01-03 --adults 2 --children 3
+python3 $S search --place paris --from 2026-09-10 --to 2026-09-17 --adults 2
 ```
 
 `--json` dumps the API payload. Writes (`send`, `approve`, PATCH/POST) only when the user asked.
 
 **Standing:** when you discover a working HE path or field, **append it here** (this table + listing prefs). Do not leave it only in chat.
+
+## Standing: destination search (Jerome 2026-08-16)
+
+**GuestPoints only — never reciprocal unless he explicitly asks to swap.**
+
+| Default | Value |
+|---|---|
+| Exchange type | **`calendar.exchange_types: ["available","guest-wanted"]`**. `available` = nights open to GP *or* swap; `guest-wanted` = GP-only nights. **Both take points.** Do not send only `guest-wanted` (drops dual/`AVAILABLE` homes). Reciprocal-only = `["reciprocal"]` — omit unless he asks to swap. Other strings 422. |
+| Host quality | `filters: ["response-rate-above-threshold"]` (~≥80%) unless he says skip |
+| Kids | Amenity `children-welcome` only if he asks or results are plentiful (stacking it on scarce dates can zero the set). Filter tag 422. |
+| CLI | `he_api.py search` defaults to points + response-rate + calendar verify |
+
+Do **not** first-contact hosts unless he picks a listing.
+
+### Fast-track playbook (every dest search)
+
+1. Parse: place, dates (checkout = last day mentioned), guests. “5 people and 3 kids” = **2 adults + 3 children** unless he says 5 adults. Year = next occurrence of those dates.
+2. `python3 $S search --place <city> --from YYYY-MM-DD --to YYYY-MM-DD --adults N --children N`  
+   Known polygons: `manhattan`, `nyc`. Any other city → Nominatim bounds (no Jawg token on disk). Or `--location-id whosonfirst:…`.
+3. CLI already: GuestPoints (`available`+`guest-wanted`), good response rate, drops `min_nights` > stay, **Manhattan clip** (polygon leaks Brooklyn / Jersey City / Queens), **calendar verify** (keep `AVAILABLE` / `NON_RECIPROCAL`, drop `RECIPROCAL`-only). `--children-welcome` if he wants that amenity.
+4. Rank by `resp` then `exchange_count`. Present a short table: host, area, capacity, reply %, GP/night + stay total, calendar type, link `https://www.homeexchange.com/home/{id}`.
+5. Skip 1BR for 5 people, titles that demand reciprocal / beach / ski only, `min_nights` longer than the stay.
+6. If he asks for reciprocal, rerun `--exchange reciprocal`. Never send messages in this step.
+
+`--no-response-rate` / `--no-verify` / `--exchange both` only when asked.
 
 ## Listing prefs (Pine — all three homes unless noted)
 
@@ -144,15 +170,16 @@ Listing search is **not** on `api.homeexchange.com`. Use the BFF with search-v2 
 |---|---|---|
 | `location.polygon` | `{location_id:"whosonfirst:borough:421205771", provider:"jawg"}` | **Manhattan** borough. NYC city = `whosonfirst:locality:85977539`. Polygon leaks Brooklyn / Jersey City / Queens — filter results to Manhattan coords (`lat` 40.70–40.88, `lon` −74.02 to −73.94; drop `admin1=New Jersey` and titles with Brooklyn). |
 | `location.bounds` | `{sw:{lat,lon}, ne:{lat,lon}}` | Alternate to polygon |
-| `calendar.date_ranges` | `[{from:"2026-12-25", to:"2027-01-03"}]` | Half-open-ish stay window (checkout = `to`) |
+| `calendar.date_ranges` | `[{from:"2026-12-25", to:"2027-01-03"}]` | Stay window (checkout = `to`) |
+| `calendar.exchange_types` | `["available","guest-wanted"]` | **Default (points).** `available` = GP or swap those nights; `guest-wanted` = GP-only. Reciprocal-only = `["reciprocal"]`. Only `guest-wanted` drops dual homes. Other strings 422. |
 | `home.size.beds` | `{adults:2, children:3, babies:0}` | Guest mix. `guests_nb` also works |
-| `filters` | `["response-rate-above-threshold"]` | Host response ≥ HE average (~80%). `children-welcome` as a **filter** is 422 |
+| `filters` | `["response-rate-above-threshold"]` | Host response ≥ HE average (~80%). `children-welcome` / `guest-wanted` as **filters** are 422 |
 | `home.amenities` | `["children-welcome"]` | Works. `kids-friendly` is 422 |
 | `extended` | `true` | Ignores availability — do not use for dated trips |
 
-Response: `{homes, total, bounds, last_search_id}`. Card fields: `id`, `capacity`, `guestpoint_per_night`, `min_nights`, `exchange_count`, `is_verified`, `descriptions[].title`, `user.{id,first_name,response_rate,is_verified}`, `location.{latitude,longitude}`. Then `GET /v1/homes/{id}/calendar` to confirm nights (`AVAILABLE` = GP or both, `RECIPROCAL` = swap only, `NON_RECIPROCAL` = GuestPoints).
+Response: `{homes, total, bounds, last_search_id}`. Card fields: `id`, `capacity`, `guestpoint_per_night`, `min_nights`, `exchange_count`, `is_verified`, `descriptions[].title`, `user.{id,first_name,response_rate,is_verified}`, `location.{latitude,longitude}`, `translated_admins`. Then `GET /v1/homes/{id}/calendar` to confirm nights (`AVAILABLE` = GP or both, `RECIPROCAL` = swap only — **drop unless he asked**, `NON_RECIPROCAL` = GuestPoints).
 
-Place IDs: Jawg autocomplete `https://api.jawg.io/places/v1/autocomplete` (public token in HE `commons*.js`). Do not commit the token.
+Place IDs: Jawg autocomplete `https://api.jawg.io/places/v1/autocomplete` (public token in HE `commons*.js`). **Do not commit the token.** Unknown `--place` uses Nominatim bounds instead.
 
 ### Users / account
 
@@ -250,7 +277,7 @@ Required headers (script sets these):
 ```
 Accept: application/json
 authorization: Bearer <ssm>
-he_web_version: 20.29.1-rc.1
+he_web_version: 20.32.0-rc.1
 origin: https://www.homeexchange.com
 referer: https://www.homeexchange.com/conversations
 ```
@@ -281,4 +308,4 @@ referer: https://www.homeexchange.com/conversations
 
 ## Slash
 
-`/home-exchange` → run `he_api.py` for the user’s ask (default `homes` if unspecified). Never echo the bearer.
+`/home-exchange` → run `he_api.py` for the user’s ask. Destination / dates / “find a stay” → `search` (GuestPoints default). Otherwise `homes`. Never echo the bearer.
