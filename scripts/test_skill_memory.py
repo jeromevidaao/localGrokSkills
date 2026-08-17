@@ -23,14 +23,19 @@ def main() -> int:
     check(r2 is not None and r2["kind"] == "user", "resolve r2-memory")
     check(Path(r2["path"]).is_file(), "r2-memory path exists")
 
-    bundled = resolve("skill-design-principles")
-    check(bundled is not None and bundled["kind"] == "bundled", "resolve bundled skill")
-    check(bundled["path"].endswith("bundled/skills/skill-design-principles/SKILL.md"), bundled["path"])
-
     check(resolve("this-skill-does-not-exist-xyz") is None, "missing skill")
 
     missing = bundled_missing_skill_md()
-    check("remove-wall-of-text" in missing, f"empty bundled dir detected: {missing}")
+    if (Path.home() / ".grok" / "bundled" / "skills").is_dir():
+        check("remove-wall-of-text" in missing, f"empty bundled dir detected: {missing}")
+        bundled = resolve("skill-design-principles")
+        check(bundled is not None and bundled["kind"] == "bundled", "resolve bundled skill")
+        check(
+            bundled["path"].endswith("bundled/skills/skill-design-principles/SKILL.md"),
+            bundled["path"],
+        )
+    else:
+        check(resolve("skill-design-principles") is None, "no bundled skills on CI")
 
     check(needs_retrieval("hi") is False, "chitchat skip")
     check(needs_retrieval("is unit 2 occupied?") is True, "occupancy retrieves")

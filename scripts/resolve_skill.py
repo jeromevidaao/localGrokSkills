@@ -16,10 +16,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
-USER_SKILLS = Path.home() / "localGrokSkills" / "skills"
+# Prefer the repo that contains this script (CI checkout), then $HOME.
+_REPO_SKILLS = Path(__file__).resolve().parents[1] / "skills"
+USER_SKILLS = (
+    Path(os.environ["LOCAL_GROK_SKILLS"]).expanduser() / "skills"
+    if os.environ.get("LOCAL_GROK_SKILLS")
+    else _REPO_SKILLS
+    if _REPO_SKILLS.is_dir()
+    else Path.home() / "localGrokSkills" / "skills"
+)
 BUNDLED_SKILLS = Path.home() / ".grok" / "bundled" / "skills"
 
 
