@@ -345,6 +345,8 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 
 **Cancel + extra night (Katie 2026-08-17 Apt #2):** guest cancels the pre-approval, adds a night, resubmits. Check Hospitable for the extra night. Prior nights we already blocked (no Airbnb reservation) are leftover USER/VENDOR blocks — treat as open for this guest. If the extra night is free, say so and pre-approve the new stay + block the full range again. Never ask for an Airbnb alteration. “Just submitted, thank you!” after a cancelled pre-approval is a re-approve turn, not shared “You’re welcome.”
 
+**Cleaning fee — thank once, keep it on the reservation:** Pull the **full** HE thread (`GET /v3/messages?conversation_id=&limit=100`) on every auto-reply. Guest yes (Caroline “the cleaning fee is fine” / Katie “We’re completely fine with the cleaning fee!”) is stored as `reservation.cleaningFeeAccepted` on the SQS payload and `heReservation.cleaningFeeAccepted` in the harness (also on the DDB pre-approval block). Do **not** thank them for the fee again if a prior host message already said “thanks for confirming … cleaning fee” (the extra-night re-approve must not repeat it).
+
 ## Implementation map
 
 | Layer | Location |
