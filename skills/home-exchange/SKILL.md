@@ -44,6 +44,8 @@ On **401**: invoke Lambda **`he-token-refresh`**, then retry once.
 
 Airbnb occupancy/revenue is skill **`hospitable`**.
 
+**Auto-reply wiring (Katie 2026-08-17):** `heBuildAutoReplySqsPayload` and harness `resolveHeUnit` must map the HE home id to **that** unit’s Hospitable UUID + Airbnb listing. Never hardcode Apt #3 when `listing.platform_id` is `3285044` or `3285159`.
+
 ## Live CLI
 
 ```bash
