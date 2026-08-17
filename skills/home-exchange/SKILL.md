@@ -329,6 +329,8 @@ referer: https://www.homeexchange.com/conversations
 3. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
 4. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
 
+**Cancel + extra night (Katie 2026-08-17 Apt #2):** guest cancels the pre-approval, adds a night, resubmits. Check Hospitable for the extra night. Prior nights we already blocked (no Airbnb reservation) are leftover USER/VENDOR blocks — treat as open for this guest. If the extra night is free, say so and pre-approve the new stay + block the full range again. Never ask for an Airbnb alteration. “Just submitted, thank you!” after a cancelled pre-approval is a re-approve turn, not shared “You’re welcome.”
+
 ## Implementation map
 
 | Layer | Location |
