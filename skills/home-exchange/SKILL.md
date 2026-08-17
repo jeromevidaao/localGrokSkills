@@ -163,6 +163,19 @@ Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (
 | `GET` | `/v3/conversations/me?limit=` | Inbox (also `/v2/conversations/me`, `/v4/conversations`) |
 | `GET` | `/v3/conversations/me/{id}` | One thread |
 | `GET` | `/v1/conversations/stats/me` | Counts by status / preapproved |
+
+Conversation `GET /v3/conversations/me/{id}` (used by Android/web HE chat header):
+
+| Field | Use |
+|---|---|
+| `interlocutor.images[].cdn_link` | Guest profile photo (`images.homeexchange.com`) |
+| `exchanges[]` / `all_exchanges[]` | Each requested stay (can be our home **and** their home) |
+| `exchange.start_on` / `end_on` | Check-in / check-out (`YYYY-MM-DD`, half-open) |
+| `exchange.home.id` + `home.descriptions[].title` + `home.images[].cdn_link` | Listing they are booking (map `3202475`/`3285044`/`3285159` → Apt #3/#2/#1B) |
+| `exchange.status` | **0** requested · **1** pre-approved (`approved_at`) · **3** finalized (`finalized_at`) · **5** cancelled (`canceleted_at`) |
+| `exchange.guest_nb` / `night_nb` | Party size / nights |
+
+`cleaningbutton-api` `act=homeexchange_messages` returns `guestImageUrl`, `checkIn`, `checkOut`, `unitLabel`, `reservationStatus`, `exchanges[]`.
 | `GET` | `/v1/conversations/search` | Search threads |
 | `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
 | `GET` | `/v3/messages?conversation_id=` | Thread body |
