@@ -8,6 +8,7 @@ Standing (2026-08-15). Third-party API secrets are **not** stored on disk, in sk
 
 | Integration | SSM |
 |---|---|
+| Grok API (harness eval + Lambda) | `/grok/api-key` |
 | HomeExchange API | `/homeexchange/bearer-token` |
 | HomeExchange login (refresh Lambda only) | `/homeexchange/credentials` |
 | Hospitable PAT | `/hospitable/bearer-token` |

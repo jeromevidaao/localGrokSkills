@@ -33,10 +33,16 @@ Jerome does not pay for GitHub. Public minutes run CI; repos stay private at res
 - User explicitly said local-only / do not push
 - Force-push, history rewrite, branch delete, shared-state destroy → **do ask**
 
+## Harness extra gate
+
+When the work is in `auto-reply-sqs-harness`: run skill **`guest-messaging-harness`** / `npm run prepush` **before** the public → push step. Local phrase-check + tests + live eval must be green. Do not discover required-phrase failures on CI.
+
 ## Related
 
 - `~/.grok/rules/00-always-commit-push.md`
 - `~/.grok/rules/01-local-grok-skills.md`
+- `~/.grok/rules/03-guest-messaging-prepush.md`
+- Skill `guest-messaging-harness`
 - Stop hook `~/.grok/hooks/always-commit-push.json`
 - User skills repo `~/localGrokSkills` (`jeromevidaao/localGrokSkills`) — SessionStart pulls, Stop auto-commits
 - R2Memory decisions.md pinned section
