@@ -1,10 +1,11 @@
 ---
 name: r2-memory
 description: >
-  R2Memory — durable CleaningButton agent memory on S3 + Titan embeddings.
-  Pull + bootstrap at session start; mandatory memory gate on preference language;
-  auto-archive after N turns; dual-write standing prefs. Replaces older ai-context.
-  ALSO: standing mandate always commit+push after work — never ask push permission.
+  R2Memory — Titan embeddings on S3 for CleaningButton decisions, prefs, and past Q&A.
+  Query BEFORE answering occupancy, HomeExchange, parking/harness, AC, pricing,
+  billing, skills, or any we-decided/always question. Do not load every skill body —
+  retrieve first, then load only the matching skill. Use when: memory, embeddings,
+  remember, standing prefs, skill catalog, or /r2-memory.
 ---
 
 # R2Memory (full Titan potential)
@@ -33,12 +34,31 @@ Enforced by `~/.grok/rules/00-always-commit-push.md` + Stop hook `always-commit-
 | `chat_shared_ops` | Phone/web R2 chat |
 | `chat_grok_build` | Grok Build turn archive (default local buffer) |
 | `chat_agent_ops` | **Unified durable prefs / mandates** (dual-write) |
+| `chat_catalog` | Pinned **skill + topic cards** (short; never full SKILL.md) |
 
-Retrieve always searches **all three**.
+Retrieve always searches **all four**.
+
+Do **not** load every skill body. TUI already lists name + description. Gate prints `topics=` and `skills=` — read only those `SKILL.md` files. Resolve paths with `python3 ~/localGrokSkills/scripts/resolve_skill.py <name>` (bundled skills are under `~/.grok/bundled/skills/`, not `~/.grok/skills/`).
+
+### When to retrieve (do not skip)
+
+Gate on **every** real user question. Skip only chitchat (`hi` / `ok` / `thanks`).
+
+```bash
+python3 ~/.grok/skills/r2-memory/scripts/r2_memory_gate.py --topics
+```
+
+That table is the source of truth (`topic_catalog.py`). Topics include occupancy, HomeExchange, parking/harness, AC, pricing, billing, live R2, ship/CI, and standing prefs.
+
+After adding or editing a user skill, refresh the Titan catalog:
+
+```bash
+python3 ~/.grok/skills/r2-memory/scripts/r2_index_catalog.py
+```
 
 ### Embed mode
 
-`R2_MEMORY_EMBED_MODE=exchange` (default) — only Q&A **exchange** cards get Titan vectors (~3× cheaper).  
+`R2_MEMORY_EMBED_MODE=exchange` (default) — only Q&A **exchange** cards get Titan vectors and index slots (~3× more history).  
 Set `all` to embed user+assistant+exchange.
 
 ---
@@ -60,9 +80,8 @@ Does: **pull** + standing-pref Titan retrieve + `decisions.md` head.
 python3 ~/.grok/skills/r2-memory/scripts/r2_memory_gate.py "<user message>"
 ```
 
-If gate says `MUST_RETRIEVE`, **use those hits** (plus decisions.md).  
-Heuristics include: remember / we decided / always / going forward / add to skills /
-save this / don't ask / mandate / first time I said / …
+If gate says `MUST_RETRIEVE`, **use those hits** (plus decisions.md) and load only the printed `skills=`.  
+Topics: occupancy / HE / parking-harness / AC / pricing / billing / live R2 / ship / standing prefs. See `--topics`.
 
 ### C. After every meaningful turn
 
@@ -72,7 +91,7 @@ python3 ~/.grok/skills/r2-memory/scripts/r2_memory_turn.py append \
 ```
 
 - Skips **chitchat** (ok/thanks/hi)
-- Buffers → auto Titan flush every **`R2_MEMORY_FLUSH_EVERY`** (default **3**)
+- Buffers → auto Titan flush every **`R2_MEMORY_FLUSH_EVERY`** (default **1** — searchable this turn)
 - Standing prefs → **dual-write** `decisions.md` + `chat_agent_ops` embed
 
 Also: `python3 ~/R2Lambda/scripts/r2memory-sync.py note "…"` for changelog when shipping.
@@ -92,12 +111,15 @@ If you catch yourself drafting a push question, **delete it and push instead**.
 ```bash
 S=~/.grok/skills/r2-memory/scripts
 
-python3 $S/r2_memory_bootstrap.py          # (8) session start
-python3 $S/r2_memory_gate.py "msg"         # (1) mandatory gate
+python3 $S/r2_memory_bootstrap.py          # (8) session start + catalog refresh if stale
+python3 $S/r2_memory_gate.py "msg"         # (1) mandatory gate (prints topics + skills)
+python3 $S/r2_memory_gate.py --topics      # when-to-retrieve table
 python3 $S/r2_retrieve.py "query"          # manual search
+python3 $S/r2_index_catalog.py             # re-embed skill/topic cards
 python3 $S/r2_memory_turn.py append --user "…" --assistant "…"
 python3 $S/r2_memory_turn.py status
 python3 $S/r2_memory_turn.py flush --force
+python3 ~/localGrokSkills/scripts/resolve_skill.py <name>
 
 python3 ~/R2Lambda/scripts/r2memory-sync.py pull|push|note "…"
 ```
@@ -126,6 +148,9 @@ Disable: `R2_MEMORY_METRICS=0`.
 | 6 | Unified agent index | `chat_agent_ops` in all retrieves |
 | 7 | Skip chitchat | `is_meaningful_turn` on append |
 | 8 | Session bootstrap | `r2_memory_bootstrap.py` |
+| 9 | Topic map | `topic_catalog.py` — when to retrieve + which skill |
+| 10 | Skill catalog index | `chat_catalog` + `r2_index_catalog.py` |
+| 11 | Index density | exchange-only index slots; flush every turn |
 
 ## Slash
 

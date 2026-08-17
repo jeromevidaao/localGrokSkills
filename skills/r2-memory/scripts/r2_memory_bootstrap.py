@@ -38,6 +38,8 @@ def main() -> int:
     print("# R2Memory bootstrap")
     print(f"conversations: {', '.join(out.get('conversations') or [])}")
     print(f"embedMode={out.get('embedMode')}  pending={out.get('pendingTurns')}/{out.get('flushEvery')}")
+    cat = out.get("catalog") or {}
+    print(f"catalog: wrote={cat.get('wrote')} reason={cat.get('reason')} cards={cat.get('cards')}")
     if out.get("pull"):
         print(f"pull: {out['pull'][:200]}")
     print(f"standing retrieve: method={out.get('retrieveMethod')} hits={out.get('retrieveHits')}")

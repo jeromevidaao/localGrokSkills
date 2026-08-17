@@ -16,6 +16,9 @@ If you change anything under `skills/`, `grok-hooks/`, `grok-rules/`, or `script
 
 Harness (`auto-reply-sqs-harness`) has its own pre-push gate: skill **`guest-messaging-harness`**. Run it before pushing that repo.
 
+Resolve skills with `scripts/resolve_skill.py` (bundled ≠ `~/.grok/skills`).  
+R2Memory: gate every real question (`r2_memory_gate.py`); topic table `--topics`. Do not load every SKILL.md.
+
 ## New laptop
 
 `gh repo clone jeromevidaao/localGrokSkills ~/localGrokSkills && ~/localGrokSkills/install.sh`

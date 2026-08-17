@@ -38,7 +38,7 @@ cat > "$GROK_HOME/hooks/local-grok-skills.json" <<EOF
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ${ROOT}/scripts/sync.py pull",
+            "command": "python3 ${ROOT}/scripts/sync.py pull && python3 ${ROOT}/scripts/health_skills.py",
             "timeout": 45
           }
         ]

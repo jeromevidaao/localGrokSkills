@@ -29,28 +29,42 @@ from r2_titan_lib import memory_gate, needs_retrieval  # noqa: E402
 
 def main() -> int:
     p = argparse.ArgumentParser(description="Mandatory R2Memory Titan gate")
-    p.add_argument("message", nargs="+", help="User message")
+    p.add_argument("message", nargs="*", help="User message")
     p.add_argument("--force", action="store_true", help="Always retrieve")
     p.add_argument("-k", "--top-k", type=int, default=6)
     p.add_argument("--json", action="store_true")
+    p.add_argument("--topics", action="store_true", help="Print when-to-retrieve topic table and exit")
     args = p.parse_args()
+
+    if args.topics:
+        from topic_catalog import format_topics_table
+
+        print(format_topics_table())
+        return 0
+
     msg = " ".join(args.message).strip()
     if not msg:
         print("empty message", file=sys.stderr)
         return 2
 
     out = memory_gate(msg, force=args.force, top_k=args.top_k)
+    topics = ",".join(out.get("topics") or []) or "-"
+    skills = ",".join(out.get("skills") or []) or "-"
     if args.json:
         slim = dict(out)
         slim["hits"] = [{k: v for k, v in (h or {}).items() if k != "embedding"} for h in (out.get("hits") or [])]
         print(json.dumps(slim, indent=2, ensure_ascii=False))
     else:
         if not out.get("must_retrieve"):
-            print(f"# gate: skip (needs_retrieval={needs_retrieval(msg)})", file=sys.stderr)
+            print(
+                f"# gate: skip (needs_retrieval={needs_retrieval(msg)}) topics={topics} skills={skills}",
+                file=sys.stderr,
+            )
             print("(no retrieve required)")
             return 0
         print(
-            f"# gate: MUST_RETRIEVE method={out.get('method')} hits={len(out.get('hits') or [])} ms={out.get('ms')}",
+            f"# gate: MUST_RETRIEVE topics={topics} skills={skills} "
+            f"method={out.get('method')} hits={len(out.get('hits') or [])} ms={out.get('ms')}",
             file=sys.stderr,
         )
         print(out.get("text") or "(no hits — still check decisions.md)")

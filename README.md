@@ -34,6 +34,8 @@ Next Grok session:
 python3 ~/localGrokSkills/scripts/sync.py pull
 python3 ~/localGrokSkills/scripts/sync.py commit-push
 python3 ~/localGrokSkills/scripts/check_skills.py
+python3 ~/localGrokSkills/scripts/test_skill_memory.py
+python3 ~/localGrokSkills/scripts/resolve_skill.py --list
 ```
 
 ## Edit a skill

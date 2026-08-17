@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CI: every skill has SKILL.md + description; Python compiles; no obvious secrets."""
+"""CI: every user skill has a loadable SKILL.md; Python compiles; no secrets."""
 from __future__ import annotations
 
 import py_compile
@@ -17,10 +17,26 @@ SECRET = re.compile(
     r"|gho_[A-Za-z0-9]{20,}"
 )
 SKIP_SUFFIXES = {".yaml", ".yml", ".lock"}
+NAME_RE = re.compile(r"^name:\s*['\"]?([a-z0-9][a-z0-9-]{0,62})['\"]?\s*$", re.M)
+
+sys.path.insert(0, str(ROOT / "scripts"))
+from resolve_skill import bundled_missing_skill_md, resolve  # noqa: E402
+
+
+def parse_name(text: str) -> str | None:
+    if not text.startswith("---"):
+        return None
+    end = text.find("\n---", 3)
+    if end < 0:
+        return None
+    block = text[3:end]
+    m = NAME_RE.search(block)
+    return m.group(1) if m else None
 
 
 def main() -> int:
     errors: list[str] = []
+    warnings: list[str] = []
     if not SKILLS.is_dir():
         print("FAIL: skills/ missing")
         return 1
@@ -38,6 +54,16 @@ def main() -> int:
         text = md.read_text(encoding="utf-8")
         if "description:" not in text:
             errors.append(f"{d.name}: SKILL.md missing description")
+        name = parse_name(text)
+        if not name:
+            errors.append(f"{d.name}: SKILL.md missing/invalid name frontmatter")
+        elif name != d.name:
+            errors.append(f"{d.name}: frontmatter name={name!r} != directory")
+        hit = resolve(d.name)
+        if not hit:
+            errors.append(f"{d.name}: resolve_skill.py cannot find SKILL.md")
+        elif not Path(hit["path"]).is_file():
+            errors.append(f"{d.name}: resolved path missing: {hit['path']}")
         if SECRET.search(text):
             errors.append(f"{d.name}: possible secret in SKILL.md")
 
@@ -63,13 +89,21 @@ def main() -> int:
         if SECRET.search(blob):
             errors.append(f"{path.relative_to(ROOT)}: possible secret")
 
+    for name in bundled_missing_skill_md():
+        warnings.append(f"bundled/{name}: no SKILL.md (TUI may fail to load this skill)")
+
+    if warnings:
+        print("WARN")
+        for item in warnings:
+            print(f" - {item}")
+
     if errors:
         print("FAIL")
         for item in errors:
             print(f" - {item}")
         return 1
 
-    print(f"OK {len(dirs)} skills")
+    print(f"OK {len(dirs)} user skills")
     return 0
 
 

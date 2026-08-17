@@ -14,7 +14,7 @@ Features (full potential pack):
 
 Env:
   R2_MEMORY_BUCKET, R2_EMBED_MODEL, AWS_REGION, R2_MEMORY_DIR
-  R2_MEMORY_FLUSH_EVERY          default 3
+  R2_MEMORY_FLUSH_EVERY          default 1 (searchable the same turn)
   R2_MEMORY_CONVERSATION_ID      default chat_grok_build
   R2_MEMORY_EMBED_MODE           exchange (default) | all
   R2_MEMORY_METRICS              1 (default) | 0
@@ -41,7 +41,8 @@ DEFAULT_REGION = "us-east-1"
 DEFAULT_CONV = "chat_grok_build"
 SHARED_CONV = "chat_shared_ops"
 AGENT_CONV = "chat_agent_ops"  # unified durable agent memory (prefs / mandates)
-INDEX_MAX = 400
+CATALOG_CONV = "chat_catalog"  # pinned skill + topic cards (short)
+INDEX_MAX = 1500
 EMBED_DIMS = 512
 SESSION_BOOT_QUERY = (
     "standing preferences mandates decisions always commit push "
@@ -65,7 +66,7 @@ def env_model() -> str:
 
 def env_flush_every() -> int:
     try:
-        n = int(os.environ.get("R2_MEMORY_FLUSH_EVERY", "3"))
+        n = int(os.environ.get("R2_MEMORY_FLUSH_EVERY", "1"))
     except ValueError:
         n = 3
     return max(1, min(n, 50))
@@ -142,8 +143,8 @@ def decisions_path() -> Path:
 
 
 def default_retrieve_conversations() -> list[str]:
-    """Phone shared + Grok Build + unified agent prefs."""
-    return [SHARED_CONV, DEFAULT_CONV, AGENT_CONV]
+    """Phone shared + Grok Build + durable prefs + skill/topic catalog."""
+    return [SHARED_CONV, DEFAULT_CONV, AGENT_CONV, CATALOG_CONV]
 
 
 # ── AWS helpers ──────────────────────────────────────────────────────
@@ -328,25 +329,9 @@ def embed_text(text: str, *, dimensions: int = EMBED_DIMS) -> list[float] | None
 
 def needs_retrieval(message: str) -> bool:
     """True when the agent MUST run Titan retrieve before answering."""
-    s = (message or "").lower().strip()
-    if not s:
-        return False
-    patterns = [
-        # classic memory
-        r"\b(remember|recall|reminds? me|you said|we (?:said|decided|agreed|talked|discussed)|last time|previously|earlier|before|history|what did (?:we|i|you)|did we|have we|as i (?:said|told)|you told me|from (?:our|the) (?:chat|conversation|thread))\b",
-        r"\b(decision|preference|we always|don't forget|do not forget|open (?:todo|item)|backlog)\b",
-        r"\b(what was|what were) (?:the |our )?(?:last|previous|prior)\b",
-        # mandates / standing rules
-        r"\b(mandate|standing|always (?:commit|push|save|track|do|query|include|use))\b",
-        r"\b(going forward|from now on|permanently|permanent rule|durable)\b",
-        r"\b(add to (?:your )?skills?|in your skills?|save (?:this|that) in (?:your )?memory|save this)\b",
-        r"\b(don't ask again|do not ask again|without asking|don't wait|do not wait)\b",
-        r"\b(first time i|not the first|i (?:already )?said|as (?:i|we) (?:said|told))\b",
-        r"\b(r2 ?memory|titan|embedding|chat_shared|chat_grok)\b",
-        r"\b(check-?in|check-?out).{0,40}\b(always|skill|est)\b",
-        r"\balways\b.{0,60}\b(hospitable|commit|push|query|include|report)\b",
-    ]
-    return any(re.search(p, s, re.I) for p in patterns)
+    from topic_catalog import needs_retrieval as _topic_needs  # local sibling
+
+    return _topic_needs(message)
 
 
 def is_meaningful_turn(user_message: str, assistant_reply: str = "") -> bool:
@@ -534,6 +519,10 @@ def archive_turns_batch(
         for record in records:
             role = record.get("role") or ""
             do_embed = role in embed_roles
+            # Exchange-only mode: keep user/assistant in jsonl, do not spend
+            # index slots on unembedded cards (3× more searchable history).
+            if not do_embed and env_embed_mode() == "exchange":
+                continue
             emb = None
             if do_embed:
                 text = f"{role}: {record['content']}"[:2000]
@@ -699,8 +688,12 @@ def retrieve_relevant(
         emb = 0.0
         if q_emb and isinstance(e.get("embedding"), list):
             emb = cosine_similarity(q_emb, e["embedding"]) * 8.0
-        # boost agent_ops durable prefs
-        boost = 0.4 if e.get("_conversationId") == AGENT_CONV else 0.0
+        cid = e.get("_conversationId")
+        boost = 0.0
+        if cid == AGENT_CONV:
+            boost = 0.4
+        elif cid == CATALOG_CONV:
+            boost = 0.55
         scored.append({"entry": e, "score": kw + emb + boost, "kw": kw, "emb": emb})
 
     scored.sort(key=lambda s: s["score"], reverse=True)
@@ -892,12 +885,59 @@ def record_turn_auto(
 # ── (1) mandatory gate + (8) bootstrap ───────────────────────────────
 
 
+def replace_catalog_index(cards: list[dict[str, Any]]) -> dict[str, Any]:
+    """Rebuild chat_catalog index from short skill/topic cards (pinned, no eviction mix)."""
+    cid = CATALOG_CONV
+    errors: list[str] = []
+    entries: list[dict[str, Any]] = []
+    for card in cards:
+        text = str(card.get("text") or "").strip()
+        if not text:
+            continue
+        tid = str(card.get("id") or f"card_{len(entries)}")
+        record = _make_record(
+            conversation_id=cid,
+            role="exchange",
+            content=text[:4000],
+            turn_id=tid,
+            source="skill_topic_catalog",
+        )
+        emb = embed_text(f"exchange: {text}"[:2000], dimensions=EMBED_DIMS)
+        entry = _record_to_index_entry(record, emb)
+        entry["pinned"] = True
+        entries.append(entry)
+    try:
+        s3_put_json(
+            index_key(cid),
+            {
+                "version": 1,
+                "conversationId": cid,
+                "kind": "skill_topic_catalog",
+                "updatedAt": now_iso(),
+                "entries": entries,
+            },
+        )
+    except Exception as e:
+        errors.append(str(e))
+    return {
+        "wrote": not errors,
+        "reason": "ok" if not errors else "s3_error",
+        "cards": len(entries),
+        "errors": errors,
+        "conversationId": cid,
+    }
+
+
 def memory_gate(user_message: str, *, force: bool = False, top_k: int = 6) -> dict[str, Any]:
     """
     Mandatory pre-answer gate.
     If needs_retrieval (or force), run Titan retrieve and return hits text.
     Agent MUST incorporate when must_retrieve=True.
     """
+    from topic_catalog import match_topics, skills_for_message
+
+    topics = match_topics(user_message)
+    skills = skills_for_message(user_message)
     must = force or needs_retrieval(user_message)
     if not must:
         return {
@@ -906,6 +946,8 @@ def memory_gate(user_message: str, *, force: bool = False, top_k: int = 6) -> di
             "text": "",
             "method": "skipped",
             "hits": [],
+            "topics": [t["id"] for t in topics],
+            "skills": skills,
         }
     result = retrieve_relevant(user_message, top_k=top_k, log_metrics=True)
     return {
@@ -917,6 +959,8 @@ def memory_gate(user_message: str, *, force: bool = False, top_k: int = 6) -> di
         "scores": result.get("scores"),
         "ms": result.get("ms"),
         "query": user_message,
+        "topics": [t["id"] for t in topics],
+        "skills": skills,
     }
 
 
@@ -955,6 +999,13 @@ def bootstrap_session(*, run_pull: bool = True, standing_query: str | None = Non
     mem = retrieve_relevant(q, top_k=8, log_metrics=True)
     decisions = load_decisions_head()
     pending = load_pending()
+    catalog: dict[str, Any] = {"wrote": False, "reason": "skipped"}
+    try:
+        from r2_index_catalog import refresh_catalog
+
+        catalog = refresh_catalog(force=False)
+    except Exception as e:
+        catalog = {"wrote": False, "reason": str(e)}
     return {
         "pull": pull_out,
         "standingQuery": q,
@@ -966,4 +1017,5 @@ def bootstrap_session(*, run_pull: bool = True, standing_query: str | None = Non
         "flushEvery": env_flush_every(),
         "embedMode": env_embed_mode(),
         "conversations": default_retrieve_conversations(),
+        "catalog": catalog,
     }

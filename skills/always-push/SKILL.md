@@ -42,6 +42,7 @@ When the work is in `auto-reply-sqs-harness`: run skill **`guest-messaging-harne
 - `~/.grok/rules/00-always-commit-push.md`
 - `~/.grok/rules/01-local-grok-skills.md`
 - `~/.grok/rules/03-guest-messaging-prepush.md`
+- `~/.grok/rules/04-skill-resolve-and-memory.md`
 - Skill `guest-messaging-harness`
 - Stop hook `~/.grok/hooks/always-commit-push.json`
 - User skills repo `~/localGrokSkills` (`jeromevidaao/localGrokSkills`) — SessionStart pulls, Stop auto-commits

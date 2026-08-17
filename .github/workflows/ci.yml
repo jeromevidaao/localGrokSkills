@@ -16,3 +16,6 @@ jobs:
 
       - name: Validate SKILL.md files and compile scripts
         run: python3 scripts/check_skills.py
+
+      - name: Topic map + skill resolver tests
+        run: python3 scripts/test_skill_memory.py
