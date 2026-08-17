@@ -174,6 +174,8 @@ Conversation `GET /v3/conversations/me/{id}` (used by Android/web HE chat header
 | `exchange.home.id` + `home.descriptions[].title` + `home.images[].cdn_link` | Listing they are booking (map `3202475`/`3285044`/`3285159` → Apt #3/#2/#1B) |
 | `exchange.status` | **0** requested · **1** pre-approved (`approved_at`) · **3** finalized (`finalized_at`) · **5** cancelled (`canceleted_at`) |
 | `exchange.guest_nb` / `night_nb` | Party size / nights |
+| `exchange.guest.phone` | E.164 **on conversation DETAIL only** (`GET /v3/conversations/me/{id}`). Inbox list omits it. Present after pre-approve (`status=1`) or finalize (`status=3`). Last-4 is the Schlage PIN — see `addDeleteCodeWiFiPyschlage`. Never log the full number. |
+| `exchange.guest.email` | Also on conversation detail after approve/finalize. Do not store in git / R2Memory. |
 
 `cleaningbutton-api` `act=homeexchange_messages` returns `guestImageUrl`, `checkIn`, `checkOut`, `unitLabel`, `reservationStatus`, `exchanges[]`.
 | `GET` | `/v1/conversations/search` | Search threads |
@@ -315,6 +317,18 @@ origin: https://www.homeexchange.com
 referer: https://www.homeexchange.com/conversations
 ```
 
+## Door codes (Schlage)
+
+Same flow as Airbnb / Hospitable, in `addDeleteCodeWiFiPyschlage` (every 5 min):
+
+1. Inbox `GET /v3/conversations/me?limit=50` — keep exchanges on Pine homes with `status` **1** (pre-approved) or **3** (finalized). Skip requested (`0`) and cancelled (`5` / `canceleted_at`).
+2. If stay is in the code window (day before check-in through checkout day until **11:00 America/New_York**), fetch `GET /v3/conversations/me/{id}` for `guest.phone`.
+3. PIN = last 4 of that phone (same NANP ranking as Hospitable). Lock name `{first} - HE CI:MM-DD - CO:MM-DD`.
+4. Checkout after 11:00 ET: code is removed with the rest of the desired list.
+5. HE guests are **not** passed to `doorCodeMessageMismatchHeal` (no Hospitable check-in message). `code_not_there_text_alert` still expects the HE PIN.
+
+Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astimezone` UTC midnight into `America/New_York` (that would drop the PIN a day early).
+
 ## Calendar sync (AWS)
 
 `jeromevidaao/home-exchange-cal-sync` Lambda `homeexchange-processor`:
@@ -340,6 +354,7 @@ referer: https://www.homeexchange.com/conversations
 | Auto-reply / approve | `~/auto-reply-sqs-harness/src/clients/HomeExchangeClient.js` |
 | Calendar sync | `~/home-exchange-cal-sync` (`HE_HOMES`) |
 | Token refresh | Lambda `he-token-refresh` |
+| Schlage door codes | `~/add-delete-code-wifi-pyschlage` — HE last-4 same window as Airbnb (day before CI → CO 11:00 ET). Verifier: `~/code_not_there_text_alert`. |
 
 ## Slash
 
