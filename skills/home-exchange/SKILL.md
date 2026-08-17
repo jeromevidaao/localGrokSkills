@@ -181,6 +181,8 @@ Conversation `GET /v3/conversations/me/{id}` (used by Android/web HE chat header
 `cleaningbutton-api` `act=homeexchange_messages` returns `guestImageUrl`, `checkIn`, `checkOut`, `unitLabel`, `reservationStatus`, `exchanges[]`.
 
 Owner Android FCM (HE poll every 5m, `act=homeexchange_poll`): new guest chat is `homeexchange_message`. **Guest finalized / accepted** (exchange `status` 3 after we had them as Requested/Pre-approved) is `homeexchange_reservation_accepted` — title `HE guest accepted — {name}`, tap opens the HE chat. Cursor stores `reservationStatus` so we notify once on the transition, not on historical finalized threads.
+
+**Check-in instructions (3 days before arrival):** poller also enqueues `act=homeexchange_checkin_instructions` onto `grok_message` for finalized Pine stays when `daysUntilCheckIn <= 3` (same-day / 2-day accepts go out immediately). Conversation DETAIL `exchange.guest.phone` last-4 is the keypad PIN. Templates live in S3 `s3://cleaningbutton-ai-context-us-east-1/data/checkin-templates/apt-{1b,2,3}.json` (must match HE home `3285159` / `3285044` / `3202475`). Harness never defaults an unknown home to Apt #3. Owner FCM on every send (`HE check-in instructions sent`).
 | `GET` | `/v1/conversations/search` | Search threads |
 | `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
 | `GET` | `/v3/messages?conversation_id=` | Thread body |
