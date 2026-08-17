@@ -173,11 +173,14 @@ Conversation `GET /v3/conversations/me/{id}` (used by Android/web HE chat header
 | `exchange.start_on` / `end_on` | Check-in / check-out (`YYYY-MM-DD`, half-open) |
 | `exchange.home.id` + `home.descriptions[].title` + `home.images[].cdn_link` | Listing they are booking (map `3202475`/`3285044`/`3285159` → Apt #3/#2/#1B) |
 | `exchange.status` | **0** requested · **1** pre-approved (`approved_at`) · **3** finalized (`finalized_at`) · **5** cancelled (`canceleted_at`) |
+| System chat `type` / `type_auto` | **type 0** user chat · **type 1** system. `type_auto` **1** host approved · **2** guest finalized · **3** cancelled pre-approval · **9/10** modified start/end date. Conversation `last_message` often **does not update** for type=1 — poll watches `reservationStatus` / `finalized_at` and enqueues `act=homeexchange_approval_status`. Auto-reply thanks the guest for confirming (never "You're welcome", never re-approve). |
 | `exchange.guest_nb` / `night_nb` | Party size / nights |
 | `exchange.guest.phone` | E.164 **on conversation DETAIL only** (`GET /v3/conversations/me/{id}`). Inbox list omits it. Present after pre-approve (`status=1`) or finalize (`status=3`). Last-4 is the Schlage PIN — see `addDeleteCodeWiFiPyschlage`. Never log the full number. |
 | `exchange.guest.email` | Also on conversation detail after approve/finalize. Do not store in git / R2Memory. |
 
 `cleaningbutton-api` `act=homeexchange_messages` returns `guestImageUrl`, `checkIn`, `checkOut`, `unitLabel`, `reservationStatus`, `exchanges[]`.
+
+Owner Android FCM (HE poll every 5m, `act=homeexchange_poll`): new guest chat is `homeexchange_message`. **Guest finalized / accepted** (exchange `status` 3 after we had them as Requested/Pre-approved) is `homeexchange_reservation_accepted` — title `HE guest accepted — {name}`, tap opens the HE chat. Cursor stores `reservationStatus` so we notify once on the transition, not on historical finalized threads.
 | `GET` | `/v1/conversations/search` | Search threads |
 | `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
 | `GET` | `/v3/messages?conversation_id=` | Thread body |
