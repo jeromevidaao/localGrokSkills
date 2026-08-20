@@ -327,7 +327,7 @@ referer: https://www.homeexchange.com/conversations
 Same flow as Airbnb / Hospitable, in `addDeleteCodeWiFiPyschlage` (every 5 min):
 
 1. Inbox `GET /v3/conversations/me?limit=50` — keep exchanges on Pine homes with `status` **1** (pre-approved) or **3** (finalized). Skip requested (`0`) and cancelled (`5` / `canceleted_at`).
-2. If stay is in the code window (day before check-in through checkout day until **11:00 America/New_York**), fetch `GET /v3/conversations/me/{id}` for `guest.phone`.
+2. If stay is in the code window (**5:00 America/New_York on check-in day** through checkout day until **11:00**), fetch `GET /v3/conversations/me/{id}` for `guest.phone`. Do **not** program the day before check-in (Michael 2026-08-20: early arrival unlocked while the prior guest was still in).
 3. PIN = last 4 of that phone (same NANP ranking as Hospitable). Lock name `{first} - HE CI:MM-DD - CO:MM-DD`.
 4. Checkout after 11:00 ET: code is removed with the rest of the desired list.
 5. HE guests are **not** passed to `doorCodeMessageMismatchHeal` (no Hospitable check-in message). `code_not_there_text_alert` still expects the HE PIN.
@@ -361,7 +361,7 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 | Auto-reply / approve | `~/auto-reply-sqs-harness/src/clients/HomeExchangeClient.js` |
 | Calendar sync | `~/home-exchange-cal-sync` (`HE_HOMES`) |
 | Token refresh | Lambda `he-token-refresh` |
-| Schlage door codes | `~/add-delete-code-wifi-pyschlage` — HE last-4 same window as Airbnb (day before CI → CO 11:00 ET). Verifier: `~/code_not_there_text_alert`. |
+| Schlage door codes | `~/add-delete-code-wifi-pyschlage` — HE last-4 same window as Airbnb (**5:00 ET on CI day** → CO 11:00 ET). Verifier: `~/code_not_there_text_alert`. |
 
 ## Slash
 
