@@ -44,6 +44,8 @@ python3 ~/.grok/skills/r2/scripts/r2_chat.py "Set unit 2 bedroom to 20 cool"
 - R2Lambda `lib/kumo.js` — status + `parseClimateCommand` + `applyClimateCommand`
 - SSM: `/kumocloud/email`, `/kumocloud/password`
 - Same reliability path as API `act=set_climate` (power-cycle when already on)
+- **Live room temp:** `GET /v3/devices/{serial}` — **not** `/v3/sites/{id}/zones` (that list caches stale `adapter.roomTemp`; 1B sat at 25.5°C for days while the device endpoint was ~20°C, matching a Nest at 21.6°C). Overlay device onto zone adapters.
+- Hourly snapshots: Dynamo `climateTempSamples` (HeatPump + dashboard attach). Graph API `act=climate_temp_series`.
 
 ## Safety
 
