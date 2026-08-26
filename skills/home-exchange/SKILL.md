@@ -344,13 +344,16 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 ## Pre-approve
 
 1. Dates open on **both** Hospitable and `GET /v1/homes/{heHomeId}/calendar` for that unit.
-2. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array.
-3. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
-4. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
+2. Recheck Hospitable calendar + reservations **immediately before** PATCH approve. If nights are no longer open, do not approve.
+3. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array.
+4. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
+5. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
+
+**Cleaning fee is paid separately — never “included”.** Guests pay us after the stay. Do not say the fee is included in GuestPoints / the exchange / the reservation. Self-clean is never allowed.
 
 **Cancel + extra night (Katie 2026-08-17 Apt #2):** guest cancels the pre-approval, adds a night, resubmits. Check Hospitable for the extra night. Prior nights we already blocked (no Airbnb reservation) are leftover USER/VENDOR blocks — treat as open for this guest. If the extra night is free, say so and pre-approve the new stay + block the full range again. Never ask for an Airbnb alteration. “Just submitted, thank you!” after a cancelled pre-approval is a re-approve turn, not shared “You’re welcome.”
 
-**Cleaning fee — thank once, keep it on the reservation:** Pull the **full** HE thread (`GET /v3/messages?conversation_id=&limit=100`) on every auto-reply. Guest yes (Caroline “the cleaning fee is fine” / Katie “We’re completely fine with the cleaning fee!”) is stored as `reservation.cleaningFeeAccepted` on the SQS payload and `heReservation.cleaningFeeAccepted` in the harness (also on the DDB pre-approval block). Do **not** thank them for the fee again if a prior host message already said “thanks for confirming … cleaning fee” (the extra-night re-approve must not repeat it).
+**Cleaning fee — thank once, keep it on the reservation:** Pull the **full** HE thread (`GET /v3/messages?conversation_id=&limit=100`) on every auto-reply. Guest yes (Caroline “the cleaning fee is fine” / Katie “We’re completely fine with the cleaning fee!” / Clara “Yes we accept paying $125 cleaning fee”) is stored as `reservation.cleaningFeeAccepted` on the SQS payload and `heReservation.cleaningFeeAccepted` in the harness (also on the DDB pre-approval block). Do **not** thank them for the fee again if a prior host message already said “thanks for confirming … cleaning fee” (the extra-night re-approve must not repeat it). Self-clean ask (Clara “clean the apartment ourselves”) is refused; they still pay the fee separately after the stay.
 
 ## Implementation map
 
