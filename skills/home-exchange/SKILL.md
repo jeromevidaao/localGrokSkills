@@ -2,11 +2,11 @@
 name: home-exchange
 description: >
   HomeExchange (HE) API for CleaningButton Pine Apt #3, Apt #2, and Apt #1B:
-  inbox, listings, calendar, photos, exchanges, pre-approve, destination search.
-  Always load the bearer from AWS SSM /homeexchange/bearer-token — never store
-  tokens locally or in git. Use when the user asks about HomeExchange, HE guests,
-  HE calendar, HE conversations, pre-approve, searching HE homes, or runs
-  /home-exchange.
+  inbox, listings, calendar, photos, exchanges, pre-approve, destination search,
+  outbound stay requests. Always load the bearer from AWS SSM
+  /homeexchange/bearer-token — never store tokens locally or in git. Use when
+  the user asks about HomeExchange, HE guests, HE calendar, HE conversations,
+  pre-approve, searching HE homes, contacting a host, or runs /home-exchange.
 ---
 
 # HomeExchange API
@@ -14,7 +14,7 @@ description: >
 Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-api` HE chat, `auto-reply-sqs-harness` `HomeExchangeClient`, and `homeexchange-processor`.
 
 **Base:** `https://api.homeexchange.com` (listings, inbox, calendar)  
-**Search BFF:** `https://bff.homeexchange.com` (destination search)  
+**Search / stay-request BFF:** `https://bff.homeexchange.com` (destination search + `POST /exchange/v3`)  
 **Auth:** `authorization: Bearer <jwt>` + `he_web_version` (`20.32.0-rc.1`)  
 **Token:** AWS SSM **`/homeexchange/bearer-token`** (SecureString), fetched at call time.
 
@@ -60,10 +60,11 @@ python3 $S request PATCH /v1/homes/3285159 --body '{"min_nights":2}'
 python3 $S request PATCH /v1/homes/3285044 --body '{"prefers_reciprocal":false}'
 python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 python3 $S search --place manhattan --from 2026-12-25 --to 2027-01-03 --adults 2 --children 3 --bedrooms 3
-python3 $S search --place paris --from 2026-09-10 --to 2026-09-17 --adults 2
+python3 $S search --place oahu --from 2026-12-28 --to 2027-01-03 --adults 2 --children 1
+python3 $S request-stay --home 2087763 --from 2026-12-28 --to 2027-01-03 --adults 2 --children 1 --text "…" --yes
 ```
 
-`--json` dumps the API payload. Writes (`send`, `approve`, PATCH/POST) only when the user asked.
+`--json` dumps the API payload. Writes (`send`, `request-stay`, `approve`, PATCH/POST) only when the user asked.
 
 **Standing:** when you discover a working HE path or field, **append it here** (this table + listing prefs). Do not leave it only in chat.
 
@@ -76,7 +77,7 @@ python3 $S search --place paris --from 2026-09-10 --to 2026-09-17 --adults 2
 | Exchange type | **`calendar.exchange_types: ["available","guest-wanted"]`**. `available` = nights open to GP *or* swap; `guest-wanted` = GP-only nights. **Both take points.** Do not send only `guest-wanted` (drops dual/`AVAILABLE` homes). Reciprocal-only = `["reciprocal"]` — omit unless he asks to swap. Other strings 422. |
 | Host quality | `filters: ["response-rate-above-threshold"]` (~≥80%) unless he says skip |
 | Kids | Amenity `children-welcome` only if he asks or results are plentiful (stacking it on scarce dates can zero the set). Filter tag 422. |
-| Bedrooms | **This stay: at least 3.** `home.size.bedrooms: 3` (min). BFF home `detail.bedroom_nb` confirms. Katherine [1673876](https://www.homeexchange.com/homes/view/1673876) is **1 BR** — do not re-offer. |
+| Bedrooms | **Match the party.** 2 adults + 1 child (Hawaii family): **no 3BR min**. Manhattan 5 people / 3 kids: **`--bedrooms 3`**. Katherine [1673876](https://www.homeexchange.com/homes/view/1673876) is **1 BR** — do not re-offer for that stay. BFF `detail.bedroom_nb` confirms (API `bedrooms_nb` is often null). |
 | CLI | `he_api.py search` defaults to points + response-rate + calendar verify |
 | Result rows | **Always show the HE listing id** as a clickable markdown link `[1673876](https://www.homeexchange.com/homes/view/1673876)`. **Never** `/home/{id}` — that is a **404**. `/homes/view/{id}` 200s (lands on `/holiday-home/{id}`). Test a new URL pattern with GET before presenting. Never title-only. |
 
@@ -85,11 +86,11 @@ Do **not** first-contact hosts unless he picks a listing.
 ### Fast-track playbook (every dest search)
 
 1. Parse: place, dates (checkout = last day mentioned), guests. “5 people and 3 kids” = **2 adults + 3 children** unless he says 5 adults. Year = next occurrence of those dates.
-2. `python3 $S search --place <city> --from YYYY-MM-DD --to YYYY-MM-DD --adults N --children N --bedrooms 3`  
-   Known polygons: `manhattan`, `nyc`. Any other city → Nominatim bounds (no Jawg token on disk). Or `--location-id whosonfirst:…`.
-3. CLI already: GuestPoints (`available`+`guest-wanted`), good response rate, drops `min_nights` > stay, **Manhattan clip** (polygon leaks Brooklyn / Jersey City / Queens), **calendar verify** (keep `AVAILABLE` / `NON_RECIPROCAL`, drop `RECIPROCAL`-only). `--children-welcome` if he wants that amenity.
+2. `python3 $S search --place <city> --from YYYY-MM-DD --to YYYY-MM-DD --adults N --children N`  
+   Add `--bedrooms 3` only when the stay needs it (Manhattan 5-person). Known polygons: `manhattan`, `nyc`. `oahu` / `honolulu` / any other city → Nominatim bounds (no Jawg token on disk). Or `--location-id whosonfirst:…`.
+3. CLI already: GuestPoints (`available`+`guest-wanted`), good response rate, drops `min_nights` > stay, **Manhattan clip** (polygon leaks Brooklyn / Jersey City / Queens), **calendar verify** (keep `AVAILABLE` / `NON_RECIPROCAL`, drop `RECIPROCAL`-only). `--children-welcome` if he wants that amenity. Calendar ranges are half-open `[start,end)` — checkout day is `end`.
 4. Rank by `resp` then `exchange_count`. Present a short table whose **first column is Listing** = markdown `[id](https://www.homeexchange.com/homes/view/{id})` (numeric id visible + clickable). Then host, area, capacity, reply %, GP/night + stay total, calendar type. **Never** `https://www.homeexchange.com/home/{id}` (404). If a new path is guessed, GET it first and confirm 200 + listing title before showing or `open`.
-5. Skip fewer than **3 bedrooms**, titles that demand reciprocal / beach / ski only, `min_nights` longer than the stay. Confirm `detail.bedroom_nb` on BFF `GET /v1/homes/{id}` (API `bedrooms_nb` is often null).
+5. Skip titles that demand reciprocal / beach / ski only, and `min_nights` longer than the stay. Confirm `detail.bedroom_nb` on `GET /v1/homes/{id}`.
 6. If he asks for reciprocal, rerun `--exchange reciprocal`. Never send messages in this step.
 
 `--no-response-rate` / `--no-verify` / `--exchange both` only when asked.
@@ -108,6 +109,41 @@ Manhattan · **2026-12-25 → 2027-01-03** (9 nights) · 2 adults + 3 children �
 Do **not** re-offer [1673876](https://www.homeexchange.com/homes/view/1673876) Katherine (1 BR / 650 sqft) or [3099298](https://www.homeexchange.com/homes/view/3099298) Julian (1 BR). Dropped: Sandy [916443](https://www.homeexchange.com/homes/view/916443) min 14, Kim [2547120](https://www.homeexchange.com/homes/view/2547120) min 20, Olga [1253413](https://www.homeexchange.com/homes/view/1253413) no GPs.
 
 Manhattan clip: keep Inwood (`lat≥40.82` east to −73.91). Never substring-match `lic ` (hits “pub**lic** transit”). BFF `detail.bedroom_nb` / `bathroom_nb` — API `bedrooms_nb` is often null.
+
+### Current dest search (2026-08-28)
+
+Oahu · **2026-12-28 → 2027-01-03** (6 nights) · 2 adults + 1 child (6yo) · GuestPoints · **no 3BR min**.
+
+| Listing | Host | Beds | Area | Reply | Notes |
+|---|---|---|---|---|---|
+| [2087763](https://www.homeexchange.com/homes/view/2087763) | Vina | 2BR/1BA · 1200 sqft · cap 6 | Kaimuki / Wilhelmina Rise | 88–89% | Only GP listing covering checkout **3 Jan**. Car, parking, stairs. **$150 cleaning**. `NON_RECIPROCAL` 15 Dec → 8 Jan. |
+| [2471881](https://www.homeexchange.com/homes/view/2471881) | Catherine | 3BR/2BA | Manoa | 100% | Calendar open through 3 Jan but **min 7** — search drops a 6-night stay. |
+| [2778013](https://www.homeexchange.com/homes/view/2778013) | Jen | 3BR/2BA · Kailua Beach | Kailua | 94% | Checkout **2 Jan** — misses the 2 Jan night. |
+| [2788923](https://www.homeexchange.com/homes/view/2788923) | Dan | 3BR/2BA · 2100 sqft | Kailua | 100% | Checkout **1 Jan**, then `BOOKED`. |
+
+Outreach 2026-08-28: **not sent**. Ruby user `5703979` `verified_status=-1` (on verification). HE blocks new stay requests until `verified_status>=1`.
+
+## Outbound stay request (guest contacting a host)
+
+HE web `createStayRequestV3` → **BFF** (not `api.homeexchange.com`).
+
+```bash
+python3 $S me   # refuse if verified_status != 1
+python3 $S request-stay --home 2087763 --from 2026-12-28 --to 2027-01-03 \
+  --adults 2 --children 1 --text "…" --yes
+```
+
+| | |
+|---|---|
+| Endpoint | `POST https://bff.homeexchange.com/exchange/v3` |
+| Body | `{stayType, startDate, endDate, homeId, hostId, guestId, guestNumber, content}` |
+| `stayType` | **`WITH-GP`** (GuestPoints, default) · `RECIPROCAL` · `RECIPROCAL-WITH-GP`. Strings only. Numeric `1` **400**. |
+| `guestNumber` | adults+children+babies |
+| Message | No emails or links (HE 400). UI warns if under ~35 words. Sign as **Ruby** (account `first_name`). |
+| Verify first | `GET /v1/users/me` `verified_status` **must be `1`**. `-1` = on verification — do not send. |
+| 429 | `"Rate limit exceeded too many request"` after a failed POST. **Do not loop.** Wait (minutes, not seconds) and retry once. |
+
+Do **not** first-contact hosts unless he picks a listing **and** the account is verified.
 
 ## Listing prefs (Pine — all three homes unless noted)
 
@@ -202,6 +238,8 @@ Listing search is **not** on `api.homeexchange.com`. Use the BFF with search-v2 
 | Method | Path | Use |
 |---|---|---|
 | `POST` | `https://bff.homeexchange.com/search/homes?offset=&limit=` | Destination search. Headers: `X-SEARCH-API-VERSION: v2`, `X-LEGACY-RESPONSE: true`, `X-HE-PAGE-NAME: /search-v2`. Body `{search_query:{…}}` (optional `last_search`) |
+| `POST` | `https://bff.homeexchange.com/exchange/v3` | **New stay request.** Body `{stayType,startDate,endDate,homeId,hostId,guestId,guestNumber,content}`. `stayType`: `WITH-GP` \| `RECIPROCAL` \| `RECIPROCAL-WITH-GP`. Also `POST /exchange` (v1, same body). |
+| `GET` | `https://bff.homeexchange.com/exchange/config` | `{NB_DAYS_PREAPPROVAL_EXPIRATION, NB_DAYS_TO_AUTO_DECLINE}` |
 
 `search_query` fields that work (2026-08-16):
 
@@ -212,7 +250,7 @@ Listing search is **not** on `api.homeexchange.com`. Use the BFF with search-v2 
 | `calendar.date_ranges` | `[{from:"2026-12-25", to:"2027-01-03"}]` | Stay window (checkout = `to`) |
 | `calendar.exchange_types` | `["available","guest-wanted"]` | **Default (points).** `available` = GP or swap those nights; `guest-wanted` = GP-only. Reciprocal-only = `["reciprocal"]`. Only `guest-wanted` drops dual homes. Other strings 422. |
 | `home.size.beds` | `{adults:2, children:3, babies:0}` | Guest mix. `guests_nb` also works |
-| `home.size.bedrooms` | `3` | **Min bedrooms** (this stay ≥ 3). `bedrooms_nb` is ignored. |
+| `home.size.bedrooms` | `3` | Min bedrooms. Use only when the stay needs it. `bedrooms_nb` is ignored. |
 | `filters` | `["response-rate-above-threshold"]` | Host response ≥ HE average (~80%). `children-welcome` / `guest-wanted` as **filters** are 422 |
 | `home.amenities` | `["children-welcome"]` | Works. `kids-friendly` is 422 |
 | `extended` | `true` | Ignores availability — do not use for dated trips |
@@ -368,4 +406,4 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 
 ## Slash
 
-`/home-exchange` → run `he_api.py` for the user’s ask. Destination / dates / “find a stay” → `search` (GuestPoints default). Otherwise `homes`. Never echo the bearer.
+`/home-exchange` → run `he_api.py` for the user’s ask. Destination / dates / “find a stay” → `search` (GuestPoints default). “Contact / request that listing” → `request-stay` only if he picked it **and** `verified_status=1`. Otherwise `homes`. Never echo the bearer.

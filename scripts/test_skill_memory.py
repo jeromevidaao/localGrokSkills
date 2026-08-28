@@ -41,6 +41,9 @@ def main() -> int:
     check(needs_retrieval("is unit 2 occupied?") is True, "occupancy retrieves")
     check(needs_retrieval("can they leave the car in the parking spot after checkout?") is True, "parking")
     check(needs_retrieval("HE destination search Manhattan") is True, "homeexchange")
+    check(needs_retrieval("Cherry Crest calendar Christmas Oahu") is True, "family travel")
+    fam = skills_for_message("fly to Oahu over Cherry Crest winter break")
+    check("family-travel" in fam and "home-exchange" in fam, f"family-travel skills {fam}")
     check(needs_retrieval("remember what we decided about push") is True, "memory language")
     check(needs_retrieval("Eval failed on CI required phrases") is True, "harness eval")
 

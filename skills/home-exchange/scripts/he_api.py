@@ -392,6 +392,74 @@ def cmd_send(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
+# BFF createStayRequestV3. 400 if stayType is not one of these strings
+# (numeric calendar types like 1 are invalid). GuestPoints = WITH-GP.
+HE_STAY_TYPES = {
+    "points": "WITH-GP",
+    "gp": "WITH-GP",
+    "with-gp": "WITH-GP",
+    "guestpoints": "WITH-GP",
+    "reciprocal": "RECIPROCAL",
+    "reciprocal-with-gp": "RECIPROCAL-WITH-GP",
+}
+
+
+def cmd_request_stay(args: argparse.Namespace, as_json: bool) -> int:
+    """POST bff /exchange/v3 — new GuestPoints (or swap) request. Write."""
+    if not args.yes:
+        raise RuntimeError("request-stay is a write: pass --yes")
+    text = (args.text or "").strip()
+    if not text:
+        raise RuntimeError("request-stay requires --text")
+    stay = HE_STAY_TYPES.get((args.exchange or "points").strip().lower())
+    if not stay:
+        raise RuntimeError("exchange must be points | reciprocal | reciprocal-with-gp")
+
+    _, me = he_request("GET", "/v1/users/me")
+    verified = (me or {}).get("verified_status")
+    guest_id = (me or {}).get("id")
+    if verified != 1 and not args.force:
+        raise RuntimeError(
+            f"HE verified_status={verified} (need 1). Outbound stay requests "
+            "are blocked until the account is verified. --force to try anyway."
+        )
+    if not guest_id:
+        raise RuntimeError("GET /v1/users/me has no id")
+
+    hid = int(args.home_id)
+    host_id = int(args.host_id) if args.host_id else None
+    if host_id is None:
+        _, home = he_request("GET", f"/v1/homes/{hid}")
+        user = (home or {}).get("user") or {}
+        host_id = user.get("id")
+        if not host_id:
+            raise RuntimeError(f"home {hid} has no user.id")
+
+    adults = max(1, int(args.adults))
+    children = max(0, int(args.children))
+    babies = max(0, int(args.babies))
+    body = {
+        "stayType": stay,
+        "startDate": args.start_on,
+        "endDate": args.end_on,
+        "homeId": hid,
+        "hostId": int(host_id),
+        "guestId": int(guest_id),
+        "guestNumber": adults + children + babies,
+        "content": text,
+    }
+    _, data = he_request(
+        "POST",
+        "/exchange/v3",
+        body,
+        base=HE_BFF_BASE,
+        referer=HE_LISTING_PATH.format(id=hid),
+        extra_headers={"X-HE-PAGE-NAME": f"/holiday-home/{hid}"},
+    )
+    emit(data if data is not None else {"ok": True}, as_json or True)
+    return 0
+
+
 def _place_key(name: str) -> str:
     return (name or "").strip().lower().replace(" ", "-").replace("_", "-")
 
@@ -734,7 +802,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--bedrooms",
         type=int,
         default=None,
-        help="min bedrooms (home.size.bedrooms; 3 for this family stay)",
+        help="min bedrooms (omit unless the stay needs it; Manhattan 5-person was 3)",
     )
     c.add_argument("--limit", type=int, default=20)
     c.add_argument("--offset", type=int, default=0)
@@ -799,6 +867,31 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--text", required=True)
 
     c = sub.add_parser(
+        "request-stay",
+        help="POST bff /exchange/v3 new stay request (write)",
+        parents=[common],
+    )
+    c.add_argument("--home", dest="home_id", required=True, help="listing id")
+    c.add_argument("--host", dest="host_id", default=None, help="host user id (else GET home)")
+    c.add_argument("--from", dest="start_on", required=True, help="YYYY-MM-DD check-in")
+    c.add_argument("--to", dest="end_on", required=True, help="YYYY-MM-DD checkout")
+    c.add_argument("--adults", type=int, default=2)
+    c.add_argument("--children", type=int, default=0)
+    c.add_argument("--babies", type=int, default=0)
+    c.add_argument(
+        "--exchange",
+        default="points",
+        help="points (WITH-GP, default) | reciprocal | reciprocal-with-gp",
+    )
+    c.add_argument("--text", required=True, help="first message (no email/links)")
+    c.add_argument("--yes", action="store_true", help="required: actually send")
+    c.add_argument(
+        "--force",
+        action="store_true",
+        help="send even if verified_status != 1",
+    )
+
+    c = sub.add_parser(
         "approve", help="PATCH approve (write; conversation id)", parents=[common]
     )
     c.add_argument("conversation_id")
@@ -835,6 +928,8 @@ def main() -> int:
             return cmd_exchanges(args, as_json)
         if args.cmd == "send":
             return cmd_send(args, as_json)
+        if args.cmd == "request-stay":
+            return cmd_request_stay(args, as_json)
         if args.cmd == "approve":
             return cmd_approve(args, as_json)
         if args.cmd == "publish":

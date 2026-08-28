@@ -52,6 +52,18 @@ TOPICS: list[dict[str, Any]] = [
         ),
     },
     {
+        "id": "family-travel",
+        "title": "Family vacation / school calendar",
+        "retrieve": True,
+        "skills": ["family-travel", "home-exchange"],
+        "when": "Cherry Crest, school break, Oahu, Hawaii trip, SEA-HNL, Christmas vacation",
+        "pattern": (
+            r"\b(cherry crest|school (?:break|calendar)|winter break|"
+            r"oahu|ohau|hawaii trip|sea-?hnl|honolulu flight|"
+            r"christmas (?:break|vacation|trip))\b"
+        ),
+    },
+    {
         "id": "harness",
         "title": "Guest auto-reply / parking / eval",
         "retrieve": True,
