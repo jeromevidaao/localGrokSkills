@@ -149,7 +149,7 @@ Do **not** first-contact hosts unless he picks a listing **and** the account is 
 
 | Setting | Where | Field | Pine value (2026-08-15) | Notes |
 |---|---|---|---|---|
-| Only request when dates marked available | home | `contact_allowed` | **`0`** all three | `0` = only available dates (UI: “Members can only send me requests when my home is marked as being available”). `1` = any time in the year (HE default after **publish** — re-apply `0`). Re-applied 2026-08-16; **#1B `3285159` had drifted to `1`** |
+| Only request when dates marked available | home | `contact_allowed` | **`0`** all three | `0` = only available dates (UI: “Members can only send me requests when my home is marked as being available”). `1` = any time in the year (HE default after **publish**, and HE has reset this back to `1` on their side — all three were `1` on 2026-08-29). `he_api.py publish` re-applies `0`. Daily `homeexchange-processor` `sync_availability` restores it. |
 | Reciprocal exchange | home | `prefers_reciprocal` | **`false`** all three | UI: “For a reciprocal exchange, I want my home at 0 GuestPoints.” `true` = reciprocal-at-0-GP. Open nights are already `NON_RECIPROCAL` (GuestPoints only); processor never writes `RECIPROCAL`. |
 | Verified members only | **user** `5703979` | `verified_only` | **`true`** | Account-wide (all homes). UI wants `verified_status>=1`; API accepted while Ruby is `-1` (on verification). |
 | Publish | home | `status` | **`5`** all three | `5` online, `-5` offline. `GET /v1/homes/me` shows it; `GET /v1/homes/{id}` often omits it. Needs completion ≥ 80. |

@@ -723,7 +723,11 @@ def cmd_search(args: argparse.Namespace, as_json: bool) -> int:
 
 def cmd_publish(args: argparse.Namespace, as_json: bool) -> int:
     hid = args.home_id
-    _, data = he_request("PATCH", f"/v1/homes/{urllib.parse.quote(str(hid), safe='')}", {"status": 5})
+    _, data = he_request(
+        "PATCH",
+        f"/v1/homes/{urllib.parse.quote(str(hid), safe='')}",
+        {"status": 5, "contact_allowed": 0, "prefers_reciprocal": False},
+    )
     emit(
         {
             "id": data.get("id") if isinstance(data, dict) else hid,
