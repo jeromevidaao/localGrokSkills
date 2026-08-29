@@ -284,9 +284,16 @@ HE identity + address verification is **UI-only** (cannot be completed via this 
 | Proof of address | Last **6 months**, name + address match listing **53 Pine Street, Portland, ME** (utility, bank, lease, tax, insurance) | Same pending state |
 | Selfie | Face must match the ID | Same pending state |
 
-**Likely reject:** account `first_name` is **Ruby** / `last_name` **Dinh**. HE fails ID if the legal name on the document does not match. Fix the profile name to match the ID **before** re-upload, or use an ID that says Ruby (nicknames need an explanation). Proof of address must also be in that same name at Pine, not a different owner / LLC / Bellevue address.
+**Retry:** HE allows **3 re-uploads**. Generic UI fail: “It looks like your documents couldn’t go through for some reason.” After 3, a support ticket is auto-created — [open one here](https://help.homeexchange.com/hc/en-us/requests/new) if the button is gone.
 
-Additional listings only need extra proof of address (ID is once). Instant or email within ~48h; **3 retries** then a support ticket. Do **not** send stay requests until `verified_status=1`.
+**Do not retry the same packet.** Two likely fails for this account:
+
+1. **Name mismatch.** Profile is **Ruby Dinh**; ID/email is **Ngoc**. HE’s own help: change the profile first/last name to match the ID *before* the next upload (nicknames like Ruby=Ngoc need an explanation to support).
+2. **Proof of address is not the listed home.** Must be last **6 months**, **53 Pine Street, Portland, ME**, and the **same legal name as the ID**. A Bellevue / Jerome / LLC bill will fail. Pine is not the primary residence — still need a Pine document (tax, insurance, utility, or deed).
+
+Photo rules: color, all four corners, no glare, both sides of a license, live selfie (not a photo of a photo). Formats: jpg / png / pdf. Camera permission required.
+
+Additional listings only need extra proof of address (ID is once). Instant or email within ~48h. Do **not** send stay requests until `verified_status=1`.
 
 ### Photos
 
