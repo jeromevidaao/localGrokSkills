@@ -273,7 +273,7 @@ Place IDs: Jawg autocomplete `https://api.jawg.io/places/v1/autocomplete` (publi
 
 ### Account verification (Ruby `5703979`)
 
-HE identity + address verification is **UI-only** (cannot be completed via this CLI). Docs: [what is the process](https://help.homeexchange.com/hc/en-us/articles/360000611557-What-is-the-verification-process), [how to verify](https://help.homeexchange.com/hc/en-us/articles/360001061618-How-do-I-verify-my-identity-and-home-address-on-HomeExchange). Upload: [homeexchange.com/user/verification](https://www.homeexchange.com/user/verification).
+HE identity + address verification is **UI-only** (cannot be completed via this CLI). Docs: [what is the process](https://help.homeexchange.com/hc/en-us/articles/360000611557-What-is-the-verification-process), [how to verify](https://help.homeexchange.com/hc/en-us/articles/360001061618-How-do-I-verify-my-identity-and-home-address-on-HomeExchange). Upload: [homeexchange.com/user/verification](https://www.homeexchange.com/user/verification). Profile name (first/last): [homeexchange.com/user/edit/5703979](https://www.homeexchange.com/user/edit/5703979) (`user.edit.url`; needs the user id — `/user/edit` 404s).
 
 | Step | Requirement | Ruby status (2026-08-29) |
 |---|---|---|
