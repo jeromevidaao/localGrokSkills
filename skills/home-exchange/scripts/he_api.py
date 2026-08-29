@@ -741,6 +741,19 @@ def cmd_publish(args: argparse.Namespace, as_json: bool) -> int:
     return 0
 
 
+def cmd_decline(args: argparse.Namespace, as_json: bool) -> int:
+    if not args.yes:
+        raise RuntimeError("decline is a write — pass --yes")
+    cid = args.conversation_id
+    _, data = he_request(
+        "PATCH",
+        f"/v1/conversations/{urllib.parse.quote(cid, safe='')}",
+        {"accepted": 0},
+    )
+    emit(data if data is not None else {"ok": True, "accepted": False}, as_json or True)
+    return 0
+
+
 def cmd_approve(args: argparse.Namespace, as_json: bool) -> int:
     if not args.yes:
         raise RuntimeError("approve is a write — pass --yes")
@@ -866,6 +879,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     c.add_argument("conversation_id")
 
+    c = sub.add_parser(
+        "decline",
+        help="PATCH /v1/conversations/{id} {accepted:false} (pending request)",
+        parents=[common],
+    )
+    c.add_argument("conversation_id")
+    c.add_argument("--yes", action="store_true")
+
     c = sub.add_parser("send", help="POST /v1/messages (write)", parents=[common])
     c.add_argument("conversation_id")
     c.add_argument("--text", required=True)
@@ -936,6 +957,8 @@ def main() -> int:
             return cmd_request_stay(args, as_json)
         if args.cmd == "approve":
             return cmd_approve(args, as_json)
+        if args.cmd == "decline":
+            return cmd_decline(args, as_json)
         if args.cmd == "publish":
             return cmd_publish(args, as_json)
         raise RuntimeError(f"unknown command {args.cmd}")
