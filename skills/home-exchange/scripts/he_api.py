@@ -745,12 +745,77 @@ def cmd_decline(args: argparse.Namespace, as_json: bool) -> int:
     if not args.yes:
         raise RuntimeError("decline is a write — pass --yes")
     cid = args.conversation_id
+    pine = {"3202475", "3285044", "3285159"}
+    _, conv_wrap = he_request("GET", f"/v3/conversations/me/{urllib.parse.quote(cid, safe='')}")
+    conv = ((conv_wrap or {}).get("data") or {}).get("conversation") or conv_wrap or {}
+    exchanges = conv.get("exchanges") or conv.get("all_exchanges") or []
+    types = [ex.get("type") for ex in exchanges]
+    theirs_id = None
+    for ex in exchanges:
+        home = (ex or {}).get("home") or {}
+        hid = str(home.get("id") or (ex or {}).get("home_id") or "")
+        if hid and hid not in pine and (ex or {}).get("id") is not None:
+            theirs_id = ex["id"]
+            break
+    stay_type = None
+    stay_status = None
+    try:
+        _, v2 = he_request(
+            "GET",
+            f"/exchange/v2/{urllib.parse.quote(cid, safe='')}",
+            base=HE_BFF_BASE,
+            extra_headers={"x-frontend-client": "true"},
+        )
+        sr = (v2 or {}).get("stayRequest") if isinstance(v2, dict) else None
+        stay_type = (sr or {}).get("stayType")
+        stay_status = (sr or {}).get("stayRequestStatus")
+    except RuntimeError:
+        sr = None
+    reciprocal = (
+        2 in types
+        or theirs_id is not None
+        or str(stay_type or "").upper() in {"RECIPROCAL", "RECIPROCAL-WITH-GP"}
+    )
+    if reciprocal:
+        emit(
+            {
+                "ok": False,
+                "skipped": True,
+                "reason": "reciprocal_cannot_decline",
+                "stayRequestStatus": stay_status,
+                "stayType": stay_type,
+                "note": (
+                    "HE has no pending decline for a reciprocal stay. "
+                    "Do not change-to-non-reciprocal (that is a transform, not a decline). "
+                    "Reply on the thread; after a host reply you are in conversation."
+                ),
+            },
+            as_json or True,
+        )
+        return 0
     _, data = he_request(
         "PATCH",
-        f"/v1/conversations/{urllib.parse.quote(cid, safe='')}",
-        {"accepted": 0},
+        f"/exchange/{urllib.parse.quote(cid, safe='')}/manual-decline",
+        {"isPresetModified": True},
+        base=HE_BFF_BASE,
+        extra_headers={"x-frontend-client": "true"},
     )
-    emit(data if data is not None else {"ok": True, "accepted": False}, as_json or True)
+    _, v2 = he_request(
+        "GET",
+        f"/exchange/v2/{urllib.parse.quote(cid, safe='')}",
+        base=HE_BFF_BASE,
+        extra_headers={"x-frontend-client": "true"},
+    )
+    sr = (v2 or {}).get("stayRequest") if isinstance(v2, dict) else None
+    emit(
+        {
+            "ok": True,
+            "stayRequestStatus": (sr or {}).get("stayRequestStatus"),
+            "stayType": (sr or {}).get("stayType"),
+            "manualDecline": data,
+        },
+        as_json or True,
+    )
     return 0
 
 
@@ -881,7 +946,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     c = sub.add_parser(
         "decline",
-        help="PATCH /v1/conversations/{id} {accepted:false} (pending request)",
+        help="PATCH bff manual-decline (WITH-GP pending only; reciprocal cannot be declined)",
         parents=[common],
     )
     c.add_argument("conversation_id")

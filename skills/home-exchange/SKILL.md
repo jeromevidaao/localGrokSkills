@@ -62,9 +62,10 @@ python3 $S request PATCH /v1/users/5703979 --body '{"verified_only":true}'
 python3 $S search --place manhattan --from 2026-12-25 --to 2027-01-03 --adults 2 --children 3 --bedrooms 3
 python3 $S search --place oahu --from 2026-12-28 --to 2027-01-03 --adults 2 --children 1
 python3 $S request-stay --home 2087763 --from 2026-12-28 --to 2027-01-03 --adults 2 --children 1 --text "…" --yes
+python3 $S decline 95201321 --yes   # WITH-GP pending only; reciprocal is skipped
 ```
 
-`--json` dumps the API payload. Writes (`send`, `request-stay`, `approve`, PATCH/POST) only when the user asked.
+`--json` dumps the API payload. Writes (`send`, `request-stay`, `approve`, `decline`, PATCH/POST) only when the user asked.
 
 **Standing:** when you discover a working HE path or field, **append it here** (this table + listing prefs). Do not leave it only in chat.
 
@@ -150,7 +151,7 @@ Do **not** first-contact hosts unless he picks a listing **and** the account is 
 | Setting | Where | Field | Pine value (2026-08-15) | Notes |
 |---|---|---|---|---|
 | Only request when dates marked available | home | `contact_allowed` | **`0`** all three | `0` = only available dates (UI: “Members can only send me requests when my home is marked as being available”). `1` = any time in the year (HE default after **publish**, and HE has reset this back to `1` on their side — all three were `1` on 2026-08-29). `he_api.py publish` re-applies `0`. Daily `homeexchange-processor` `sync_availability` restores it. |
-| Reciprocal exchange | home | `prefers_reciprocal` | **`false`** all three | UI: “For a reciprocal exchange, I want my home at 0 GuestPoints.” `true` = reciprocal-at-0-GP. **Does not block inbound swaps** — guests can still send `exchange.type=2` (Nina 2026-08-29). Auto-reply declines those: GuestPoints only. Open nights are already `NON_RECIPROCAL`; processor never writes `RECIPROCAL`. |
+| Reciprocal exchange | home | `prefers_reciprocal` | **`false`** all three | UI: “For a reciprocal exchange, I want my home at 0 GuestPoints.” `true` = reciprocal-at-0-GP. **Does not block inbound swaps** — guests can still send `exchange.type=2` (Nina 2026-08-29). Auto-reply **messages** that we only host GuestPoints stays. HE has **no pending decline for reciprocal** (see Inbox / exchanges). Open nights are already `NON_RECIPROCAL`; processor never writes `RECIPROCAL`. |
 | Verified members only | **user** `5703979` | `verified_only` | **`true`** | Account-wide (all homes). UI wants `verified_status>=1`; API accepted while Ruby is `-1` (on verification). |
 | Publish | home | `status` | **`5`** all three | `5` online, `-5` offline. `GET /v1/homes/me` shows it; `GET /v1/homes/{id}` often omits it. Needs completion ≥ 80. |
 | Min stay | home | `min_nights` | **`2`** all three | UI: “Minimum of nights recommended.” (was 1; set 2026-08-15) |
@@ -209,12 +210,14 @@ Conversation `GET /v3/conversations/me/{id}` (used by Android/web HE chat header
 | `exchange.start_on` / `end_on` | Check-in / check-out (`YYYY-MM-DD`, half-open) |
 | `exchange.home.id` + `home.descriptions[].title` + `home.images[].cdn_link` | Listing they are booking (map `3202475`/`3285044`/`3285159` → Apt #3/#2/#1B) |
 | `exchange.status` | **0** requested · **1** pre-approved (`approved_at`) · **3** finalized (`finalized_at`) · **5** cancelled (`canceleted_at`) |
-| `exchange.type` | **1** GuestPoints (`WITH-GP`) · **2** reciprocal home swap (`guestpoint_amount` 0, often a second exchange on *their* home). Pine **only accepts type 1**. Auto-reply declines type 2 + `PATCH /v1/conversations/{id}` `{accepted:false}`. |
+| `exchange.type` | **1** GuestPoints (`WITH-GP`) · **2** reciprocal home swap (`guestpoint_amount` 0, often a second exchange on *their* home). Pine **only accepts type 1**. Auto-reply **messages** that we don't do home swaps. **Do not** convert type 2 → WITH-GP. |
 | Conversation `accepted` | `null` pending · `false` host declined the request (unstarted). Form children on `PATCH /v1/conversations/{id}` are `title`, `accepted`. |
-| System chat `type` / `type_auto` | **type 0** user chat · **type 1** system. `type_auto` **1** host approved · **2** guest finalized · **3** cancelled pre-approval · **9/10** modified start/end date · **16** guest transformed the request into a reciprocal swap (Nina). Conversation `last_message` often **does not update** for type=1 — poll watches `reservationStatus` / `finalized_at` and enqueues `act=homeexchange_approval_status`. Auto-reply thanks the guest for confirming (never "You're welcome", never re-approve). First-message path must ignore system lines when counting `message_count`. |
+| System chat `type` / `type_auto` | **type 0** user chat · **type 1** system. `type_auto` **1** host approved · **2** guest finalized · **3** cancelled pre-approval · **9/10** modified start/end date · **15** host/guest transformed into a **non-reciprocal** (WITH-GP) · **16** transformed into a **reciprocal** swap (Nina). There is **no** “declined the request” system line. Conversation `last_message` often **does not update** for type=1 — poll watches `reservationStatus` / `finalized_at` and enqueues `act=homeexchange_approval_status`. Auto-reply thanks the guest for confirming (never "You're welcome", never re-approve). First-message path must ignore system lines when counting `message_count`. |
 | `exchange.guest_nb` / `night_nb` | Party size / nights |
 | `exchange.guest.phone` | E.164 **on conversation DETAIL only** (`GET /v3/conversations/me/{id}`). Inbox list omits it. Present after pre-approve (`status=1`) or finalize (`status=3`). Last-4 is the Schlage PIN — see `addDeleteCodeWiFiPyschlage`. Never log the full number. |
 | `exchange.guest.email` | Also on conversation detail after approve/finalize. Do not store in git / R2Memory. |
+
+**Pending stay decline (2026-08-29):** HE product has **no host decline for a pending reciprocal stay.** `PATCH …/manual-decline` is WITH-GP-only. After any host user-chat the thread is “in conversation”: 4-day auto-decline stops, and HE staff (forum, Sep 2025) say you cannot manually decline and do not need to. Auto-reply: send the GuestPoints-only / dates-closed message; **leave the stay `NEW` `RECIPROCAL`**. Do not convert. Closed WITH-GP still uses `manual-decline`. Restore a mistaken convert with `change-to-reciprocal/{theirHomeId}`.
 
 `cleaningbutton-api` `act=homeexchange_messages` returns `guestImageUrl`, `checkIn`, `checkOut`, `unitLabel`, `reservationStatus`, `exchanges[]`.
 
@@ -228,8 +231,12 @@ Owner Android FCM (HE poll every 5m, `act=homeexchange_poll`): new guest chat is
 | `GET` | `/v3/messages/config` | Allowed email/link lists |
 | `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
 | `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
-| `PATCH` | `/v1/conversations/{id}` | `{accepted:0}` **declines a pending (not-started) request**. JSON `false` 200s but **does not persist**; integer `0` does. `{accepted:"nope"}` 400. |
-| `PATCH` | `/v1/exchanges/{conversationId}/cancel` | Started/finalized stays only. Pending request 200 `{"error":"The exchange is not started yet"}`. Arg 3 to `ExchangeService::cancel()` must be array or null. |
+| `PATCH` | `/v1/conversations/{id}` | `{accepted:0}` is **not** a stay-request decline (v3 still shows exchange status 0). JSON `false` 200s but does not persist. |
+| `PATCH` | `https://bff.homeexchange.com/exchange/{conversationId}/manual-decline` | **WITH-GP pending only.** Body `{isPresetModified:true}` after we sent our own message. Empty body 400 (`isPresetModified` boolean required). Reciprocal → **400 `Invalid exchange type for manual decline`**. `/v1/exchanges/{id}/cancel` is only for **started** stays (`"The exchange is not started yet"`). |
+| `PATCH` | `https://bff.homeexchange.com/exchange/{conversationId}/change-to-non-reciprocal/{theirExchangeId}` | **Not a decline.** Drops their home, posts `type_auto` **15** (“transformed into a non-reciprocal”), stay becomes WITH-GP. Do **not** use this to refuse a swap (Nina 2026-08-29). Path param is the **exchange id to delete**. Reciprocal v2 GET often 500s until converted. |
+| `PATCH` | `https://bff.homeexchange.com/exchange/{conversationId}/change-to-reciprocal/{theirHomeId}` | Undo a convert. Path param is their **home id** (Nina Berlin `3298786`, Marie Québec `2222089`) — **not** their exchange id (exchange id → 409 already reciprocal). Posts `type_auto` **16**. Resets `stayRequest` to **`NEW` `RECIPROCAL`**. |
+| `GET` | `https://bff.homeexchange.com/exchange/v2/{conversationId}` | `{stayRequest:{stayRequestStatus,stayType,stayDrafts[]}, exchanges[]}`. Statuses: `NEW` · `ACCEPTED` · `EXPIRED` · **`MANUALLY_DECLINED`** · `AUTOMATICALLY_DECLINED` · `PAST_DATES_DECLINE`. `stayType`: `WITH-GP` · `RECIPROCAL` · `RECIPROCAL-WITH-GP`. |
+| `PATCH` | `/v1/exchanges/{conversationId}/cancel` | Started/finalized stays only. Pending 200 `{"error":"The exchange is not started yet"}`. Host cancel status is **6** (`STATUS_HOST_CANCELED`); **5** is guest cancel. |
 | `PATCH` | `/v1/conversations/{id}/archive` | Archive thread (204). `PATCH …/unarchive` restores. Not a decline — exchange stays status 0. |
 | `GET` | `/v1/exchanges/user/me?filter=&limit=&offset=` | User exchanges (`filter=all` 400 — use a real filter) |
 | `GET` | `/v1/exchanges/restrictions` | `{has_post_expired_subscription_exchange}` |
