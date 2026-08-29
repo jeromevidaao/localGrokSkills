@@ -263,13 +263,30 @@ Place IDs: Jawg autocomplete `https://api.jawg.io/places/v1/autocomplete` (publi
 
 | Method | Path | Use |
 |---|---|---|
-| `GET` | `/v1/users/me` | Self + `homes[]`, `verified_only`, `verified_status` (`-1` on verification, `0` not, `1` verified) |
+| `GET` | `/v1/users/me` | Self + `homes[]`, `verified_only`, `verified_status` (`-1` on verification, `0` not, `1` verified), `verification_pending`, `verification.{phoneIsVerified,emailIsVerified,email[]}`, `homes[].is_verified` / `completion_rate`. No dedicated verification-status route (`GET /v1/users/me/verification` 404). |
 | `PATCH` | `/v1/users/{id}` | `{verified_only:true}` and other user fields |
 | `GET` | `/v1/users/{id}` | Public-ish profile |
 | `GET` | `/v1/notification/headband` | Banner (204 if none) |
 | `GET` | `/v1/users/me/alerts` | Saved-search alerts |
 | `GET` | `/v1/search/last?version=2` | Recent search history (`query.location`, `calendar.date_ranges`, `home.size.beds`) |
 | `GET` | `/v1/settings/mail-subscribe/list` | Email prefs |
+
+### Account verification (Ruby `5703979`)
+
+HE identity + address verification is **UI-only** (cannot be completed via this CLI). Docs: [what is the process](https://help.homeexchange.com/hc/en-us/articles/360000611557-What-is-the-verification-process), [how to verify](https://help.homeexchange.com/hc/en-us/articles/360001061618-How-do-I-verify-my-identity-and-home-address-on-HomeExchange). Upload: [homeexchange.com/user/verification](https://www.homeexchange.com/user/verification).
+
+| Step | Requirement | Ruby status (2026-08-29) |
+|---|---|---|
+| Listing ≥ 80% | First home complete enough to start | All three Pine homes `completion_rate=100`, `status=5` |
+| Phone | SMS code from profile “Confidential information” | `phoneIsVerified=true` (`+16462043958`) |
+| Email | Click the verify link | `verification.email[].verified=true` for `ngoc.h.dinh@gmail.com`; wrapper `emailIsVerified` can still be `false` — re-check in UI |
+| Government ID | Passport, ID card, or driver’s license of the **account holder** | Pending (`verified_status=-1`, `verification_pending=true`, all `homes[].is_verified=0`) |
+| Proof of address | Last **6 months**, name + address match listing **53 Pine Street, Portland, ME** (utility, bank, lease, tax, insurance) | Same pending state |
+| Selfie | Face must match the ID | Same pending state |
+
+**Likely reject:** account `first_name` is **Ruby** / `last_name` **Dinh**. HE fails ID if the legal name on the document does not match. Fix the profile name to match the ID **before** re-upload, or use an ID that says Ruby (nicknames need an explanation). Proof of address must also be in that same name at Pine, not a different owner / LLC / Bellevue address.
+
+Additional listings only need extra proof of address (ID is once). Instant or email within ~48h; **3 retries** then a support ticket. Do **not** send stay requests until `verified_status=1`.
 
 ### Photos
 
