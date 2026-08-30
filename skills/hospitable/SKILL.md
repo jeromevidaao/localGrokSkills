@@ -177,7 +177,9 @@ Source of truth in code: `~/R2Lambda/lib/hospitable.js` (`LISTING_TO_PROPERTY` /
 | **Performance vs goals (default)** | **Not Hospitable** — public S3 `https://www.cleaningbutton.com/data/occupancy/latest.json` (Lambda pricing-tool-report). R2 flag `needOccupancyReport`. Skill **`pricing`**. |
 | Occupancy (live guests) | `GET /reservations?properties[]=…&include=properties,guest,financials` over a date window; skip cancelled/inquiry |
 | Fill refresh (when host wants live beyond weekly report) | Same reservations window with explicit `start_date`/`end_date` covering trailing-30 + forward-30; optional **`GET /properties/{uuid}/calendar?start_date=&end_date=`** per Pine unit for night-level status |
-| **Block / unblock a night** | R2 chat **executes** `PUT /properties/{uuid}/calendar` `{ dates: [{ date, available: false\|true }] }`. Token already has **`calendar:write`**. Skips RESERVED nights. Same path as Kumo climate control. |
+| **Block / unblock a night** | R2 chat **executes** `PUT /properties/{uuid}/calendar` `{ date, available: false, closed_for_checkin: true, closed_for_checkout: true }`. Night is not fully blocked if check-in is still open. Token has **`calendar:write`**. Skips RESERVED nights. |
+| **Send guest message** | R2 chat **executes** `POST /reservations/{uuid}/messages` `{ body }` (`message:write`). |
+| **Public review reply** | R2 chat **executes** `POST /reviews/{uuid}/respond` `{ response }` (`reviews:write`). |
 | Revenue | Same reservations call; **net** = `financials.host.accommodation.amount` + sum `financials.host.host_fees[].amount` (cents); **excludes** cleaning / guest fees |
 | Airbnb cleaning fee line | `financials.host.guest_fees` (or guest fees) labels matching `/clean/i` |
 | Month bucketing | By **check-in** month in `America/New_York` |

@@ -37,7 +37,8 @@ This skill **invokes the Lambda** with AWS creds (not the phone app).
 
 - User: “ask R2…”, “call R2…”, `/r2 …`
 - Occupancy / guests: “is unit 2 free?”, “who is in apt 3?”
-- **Block / unblock nights** on Hospitable: “block unit 2 tomorrow”, “unblock apt 3 tonight” — R2 **executes** calendar PUT (`calendar:write`). Do not claim R2 lacks permission.
+- **Block / unblock nights** on Hospitable: “block unit 2 tomorrow”, “unblock apt 3 tonight” — R2 **executes** calendar PUT with the night **and check-in** closed (`available: false`, `closed_for_checkin: true`).
+- **Guest message / review reply:** “send a message to the guest in unit 2: …”, “respond to the review from Sam: …” — R2 executes Hospitable POST. Do not claim missing permission.
 - Revenue: “past month revenue?”, “July net by unit?”
 - **Hospitable API map** (endpoints, scopes, financials shape): skill **`hospitable`** / `/hospitable` — full Public API v2 index; use this skill for live answers
 - Cleaning spend: “how much did we spend on cleaning last week?”
