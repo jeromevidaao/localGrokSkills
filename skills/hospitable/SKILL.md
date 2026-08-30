@@ -177,6 +177,7 @@ Source of truth in code: `~/R2Lambda/lib/hospitable.js` (`LISTING_TO_PROPERTY` /
 | **Performance vs goals (default)** | **Not Hospitable** — public S3 `https://www.cleaningbutton.com/data/occupancy/latest.json` (Lambda pricing-tool-report). R2 flag `needOccupancyReport`. Skill **`pricing`**. |
 | Occupancy (live guests) | `GET /reservations?properties[]=…&include=properties,guest,financials` over a date window; skip cancelled/inquiry |
 | Fill refresh (when host wants live beyond weekly report) | Same reservations window with explicit `start_date`/`end_date` covering trailing-30 + forward-30; optional **`GET /properties/{uuid}/calendar?start_date=&end_date=`** per Pine unit for night-level status |
+| **Block / unblock a night** | R2 chat **executes** `PUT /properties/{uuid}/calendar` `{ dates: [{ date, available: false\|true }] }`. Token already has **`calendar:write`**. Skips RESERVED nights. Same path as Kumo climate control. |
 | Revenue | Same reservations call; **net** = `financials.host.accommodation.amount` + sum `financials.host.host_fees[].amount` (cents); **excludes** cleaning / guest fees |
 | Airbnb cleaning fee line | `financials.host.guest_fees` (or guest fees) labels matching `/clean/i` |
 | Month bucketing | By **check-in** month in `America/New_York` |
@@ -227,7 +228,8 @@ python3 ~/.grok/skills/r2/scripts/r2_chat.py --local --no-history \
 - **Do** keep net-revenue definition aligned with `netRevenueCentsFromFinancials` (accommodation + host_fees only).
 - **Do not** claim payouts/owner statements exist on Public API unless OpenAPI is updated.
 - **Do not** send guest messages without `message:write` approval.
-- **Do not** update calendars when `calendar_restricted: true` on the property.
+- **Do** execute host “block/unblock night” requests in R2Lambda (`parseCalendarCommand` / `applyCalendarCommand`). The production PAT has `calendar:write` (PUT returns 202, not 403). Never tell the host R2 lacks calendar permission.
+- **Do not** update calendars when `calendar_restricted: true` on the property. Pine units are `calendar_restricted: false`.
 - Messages: plain text only (no HTML); `\n` for line breaks; max 3 images @ 5MB.
 - Calendar PUT: up to **3 years** ahead; OpenAPI marks max **60** date objects per body; rate 1000/min.
 - Property search requires a **self-hosted Direct** site; max **90-day** stay window, up to 3 years out.
