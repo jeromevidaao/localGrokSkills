@@ -191,7 +191,7 @@ Add new rows when a call succeeds. Source: live API + HE web `commons*.js`.
 | `POST` | `/v1/homes/{id}/calendar` | `{type, start_on, end_on}` upsert a range |
 | `POST` | `/v1/homes/disponibilities` | Legacy `{start_on,end_on,type,home}` — prefer calendar POST |
 
-Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (home swap), `available` (both, search UI), `RESERVED` (blocked/Airbnb), `UNAVAILABLE` (owner closed), `BOOKED` (HE exchange; `details.conversation_id`). Nights **not listed** are closed. Processor: all three homes, Hospitable `BLOCKED` → `UNAVAILABLE` (skip `BOOKED`), open gaps → `NON_RECIPROCAL`; June–Aug + Thanksgiving/Christmas/NYE → `UNAVAILABLE`.
+Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (home swap), `available` (both, search UI), `RESERVED` (blocked/Airbnb), `UNAVAILABLE` (owner closed), `BOOKED` (HE exchange; `details.conversation_id`). Nights **not listed** are closed. Processor: all three homes, Hospitable `BLOCKED` → `UNAVAILABLE` (skip `BOOKED`), open gaps → `NON_RECIPROCAL`; **May 15–Oct 31** (every year) + Thanksgiving/Christmas/NYE → `UNAVAILABLE`. Airbnb/Hospitable stay open for paid stays.
 
 ### Inbox / exchanges
 
@@ -412,7 +412,7 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 
 `jeromevidaao/home-exchange-cal-sync` Lambda `homeexchange-processor`:
 
-- Daily `sync_availability`: Apt **#3** from Airbnb iCal **plus** Hospitable calendar; Apt **#2** and Apt **#1B** from Hospitable `GET /v2/properties/{uuid}/calendar` (SSM `/hospitable/bearer-token`). Hospitable `BLOCKED` nights (manual USER blocks, vendor API blocks) are written to HE as `UNAVAILABLE` for every listing; HE `BOOKED` exchanges are skipped. Then June–Aug + holidays `UNAVAILABLE`.
+- Daily `sync_availability`: Apt **#3** from Airbnb iCal **plus** Hospitable calendar; Apt **#2** and Apt **#1B** from Hospitable `GET /v2/properties/{uuid}/calendar` (SSM `/hospitable/bearer-token`). Hospitable `BLOCKED` nights (manual USER blocks, vendor API blocks) are written to HE as `UNAVAILABLE` for every listing; HE `BOOKED` exchanges are skipped. Then **May 15–Oct 31** (every year; `getSeasonalOverridePeriods`) + holidays `UNAVAILABLE`. Airbnb/Hospitable stay open.
 - Reservation webhooks on `home-exchange-reservations` SQS: block HE calendar for **#1B, #2, or #3** (`HE_HOMES`). Other properties are dropped.
 
 ## Pre-approve
