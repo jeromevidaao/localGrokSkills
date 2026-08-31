@@ -390,11 +390,14 @@ Required headers (script sets these):
 
 ```
 Accept: application/json
+Accept-Language: en
 authorization: Bearer <ssm>
 he_web_version: 20.32.0-rc.1
 origin: https://www.homeexchange.com
 referer: https://www.homeexchange.com/conversations
 ```
+
+**Never send `Accept-Language: *`.** Node `fetch` (undici, Lambda Node 22) defaults to `*`. HE `GET /v1/homes/me` then 500s `{message:"Invalid \"*\" locale."}` — that was the 2026-08-31 `homeexchange-processor` / DLQ alarm. `he_api.py`, auto-reply `HomeExchangeClient`, and the processor all send `en`.
 
 ## Door codes (Schlage)
 
@@ -410,7 +413,7 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 
 ## Calendar sync (AWS)
 
-`jeromevidaao/home-exchange-cal-sync` Lambda `homeexchange-processor`:
+`jeromevidaao/home-exchange-cal-sync` Lambda `homeexchange-processor` (must send `Accept-Language: en`; retries 429/5xx with 2s/5s/15s; does not redrive DLQ after a processing failure):
 
 - Daily `sync_availability`: Apt **#3** from Airbnb iCal **plus** Hospitable calendar; Apt **#2** and Apt **#1B** from Hospitable `GET /v2/properties/{uuid}/calendar` (SSM `/hospitable/bearer-token`). Hospitable `BLOCKED` nights (manual USER blocks, vendor API blocks) are written to HE as `UNAVAILABLE` for every listing; HE `BOOKED` exchanges are skipped. Then **May 15–Oct 31** (every year; `getSeasonalOverridePeriods`) + holidays `UNAVAILABLE`. Airbnb/Hospitable stay open.
 - Reservation webhooks on `home-exchange-reservations` SQS: block HE calendar for **#1B, #2, or #3** (`HE_HOMES`). Other properties are dropped.
