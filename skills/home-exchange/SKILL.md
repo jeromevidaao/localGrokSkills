@@ -46,6 +46,8 @@ Airbnb occupancy/revenue is skill **`hospitable`**.
 
 **Auto-reply wiring (Katie 2026-08-17):** `heBuildAutoReplySqsPayload` and harness `resolveHeUnit` must map the HE home id to **that** unit’s Hospitable UUID + Airbnb listing. Never hardcode Apt #3 when `listing.platform_id` is `3285044` or `3285159`.
 
+**Host-only auto-reply (Jen 2026-09-02):** Poller + harness send **only when we are the host of a Pine home**. Outbound guest threads (we contacted Jen / Vina / Dan / Janet) FCM the owner but must not run auto-reply — Jen declined our Kailua request and got “You're welcome, Jen!”. Reciprocal (our listing + theirs, Nina/Marie) still replies because we are hosting.
+
 ## Live CLI
 
 ```bash
@@ -145,6 +147,8 @@ python3 $S request-stay --home 2087763 --from 2026-12-28 --to 2027-01-03 \
 | 429 | `"Rate limit exceeded too many request"` after a failed POST. **Do not loop.** Wait (minutes, not seconds) and retry once. |
 
 Do **not** first-contact hosts unless he picks a listing **and** the account is verified.
+
+**Auto-reply must not fire on these threads.** We are the guest. Poller FCM is fine; SQS auto-reply is host-only (Jen 2026-09-02).
 
 ## Listing prefs (Pine — all three homes unless noted)
 
