@@ -57,6 +57,8 @@ Rewards teammate (points combine — separate bot).
 Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
 (also `~/.grok/skills/r2-memory/scripts/`).
 Bucket: `cleaningbutton-ai-context-us-east-1`.
+On this shared computer, `~/.aws/credentials` is already **grok-bot-titan**,
+region `us-east-1`. Run the scripts directly — no SSM, no missing-keys dance.
 
 ### Before answering (retrieve)
 
