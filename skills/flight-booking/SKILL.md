@@ -32,20 +32,24 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    receipt fields. Never leave blank or use a different address.
 5. **Billing address:** always fill the full home/billing address on payment forms:
    **3099 125th Ave NE, Bellevue, WA 98005** (street, city, state, ZIP). Never skip.
-6. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
+6. **Seats:** if Jerome is flying **alone**, skip paid/optional seat selection — he does
+   not care. If he is flying **with anyone else**, stop at seat selection and let
+   **him pick** the seats (hand the box or wait for his choices). Never auto-assign
+   companion seats.
+7. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
    numbers, open the **DINH ANSIA PERSONAL WIKI** Google Sheet and use the values
    there (do not invent or reuse stale guesses). Sheet:
    https://docs.google.com/spreadsheets/d/1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo/edit
    Drive file id: `1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo`
-7. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
+8. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
    related flight playbook) must be committed and pushed to
    `jeromevidaao/localGrokSkills` **immediately** — never leave skill changes only
    on disk. Follow **always-push** (public → `git push` `main` → CI green → private).
    Do not ask “want me to push?”.
-8. **Refine after book:** when a booking finishes (or Jerome corrects a field),
+9. **Refine after book:** when a booking finishes (or Jerome corrects a field),
    update this `SKILL.md` with the learning, then commit + push (rule 5), and
    mirror durable facts into agent memory.
-9. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+10. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
 
@@ -136,7 +140,15 @@ Typical week: **Mon ~7am SEA→SJC**, **Fri ~5pm SJC→SEA**, **nonstop** prefer
 4. Hold or stage to Review & pay; wait for explicit OK; then pay.
 5. After purchase, run **Post-booking checklist** below.
 
+## Seats
+
+| Party | Action |
+|---|---|
+| Jerome alone | Skip seat selection / leave random assignment |
+| Jerome + anyone else | Pause and let Jerome choose seats |
+
 ## Post-booking checklist (every flight)
+
 
 Do all of these before saying done:
 
@@ -175,7 +187,7 @@ Do all of these before saying done:
 
 - Guest checkout is common; no Atmos.
 - Fill full name **Jerome Lionel Ansia**, DOB, gender, email **jerome.ans@gmail.com**, phone, KTN, and billing **3099 125th Ave NE, Bellevue, WA 98005** when asked.
-- Skip seats if optional; stop for card entry if no saved method / Apple Pay.
+- Seats: skip when solo; if traveling with others, stop for Jerome to pick. Stop for card entry if no saved method / Apple Pay.
 - Calendar + Santa Clara week still apply for SJC work returns.
 
 ### Chase Ultimate Rewards
