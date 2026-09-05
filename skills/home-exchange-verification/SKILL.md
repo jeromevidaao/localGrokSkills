@@ -4,37 +4,72 @@ description: >
   Use this whenever the Home Exchange Verification agent works for Jerome:
   HE identity/address verification, Zendesk ticket watch, GuestPoints dest
   search and host outreach, finalize/retract stays, calendar invites, or
-  family SEA–HNL flight research in this chat. Read at the start of every
-  Jerome conversation; update + push after anything new.
+  family SEA–HNL flight research in this chat. Every Jerome turn: Titan
+  retrieve first, read this skill, then Titan append after; update skill +
+  commit/push localGrokSkills when state changes.
 ---
 
 # Home Exchange Verification (Jerome Ansia)
 
-Standing playbook for the **Home Exchange Verification** Grok Bot. Read this
-file first whenever Jerome messages this agent. After the conversation,
-**update this skill** with anything new, then **commit + push immediately**
-(always-push — never ask).
+Standing playbook for the **Home Exchange Verification** Grok Bot. On every
+Jerome message: **Titan retrieve first**, then read this skill. After the turn,
+**append to Titan**, and if process/trip state changed **update this skill** then
+**commit + push immediately** (always-push — never ask).
 
 Repo: `jeromevidaao/localGrokSkills` — path
 `skills/home-exchange-verification/SKILL.md`.
 On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 
-For HE **API** / Pine host ops / `he_api.py`, also load skill **`home-exchange`**.
-For **booking** flights (Alaska login, payment), defer to **Flight Booking** /
+Related: `r2-memory` (Titan retrieve/append), `always-push`, `home-exchange`
+(API / Pine / `he_api.py`), `family-travel` (dates/party). For **booking**
+flights (Alaska login, payment), defer to **Flight Booking** /
 skill **`flight-booking`** — Jerome told this agent **not** to ping the Alaska /
 Flight Booking bot for price research; search Google Flights / Hopper **here**.
 
 ## Hard rules
 
-1. **Read this skill first** on every Jerome turn; **update + push** when done.
-2. **GuestPoints only** unless he explicitly asks reciprocal. Named greetings
+1. **Titan R2Memory (read + write):** every Jerome turn, **retrieve first**, then
+   **append/update after** so Titan stays current. Bucket:
+   `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
+2. **Read this skill** after Titan retrieve; **update + push** when state changes.
+3. **GuestPoints only** unless he explicitly asks reciprocal. Named greetings
    (`Hi {HostFirstName} -`) on every outbound host message.
-3. **Never type passwords.** Hand the box for HE / Google / Drive sign-in.
-4. **Do not reply on Dan thread** `95774893` after Jerome said FaceTime is done
+4. **Never type passwords.** Hand the box for HE / Google / Drive sign-in.
+5. **Do not reply on Dan thread** `95774893` after Jerome said FaceTime is done
    (2026-09-03) unless he asks again.
-5. **Do not ping** the Flight Booking / Alaska Airlines agent for fare lookups.
-6. Passport / bills: never OCR, quote, or log PII from ID docs.
-7. Finalize / Venmo / off-platform fees: only when Jerome explicitly authorizes.
+6. **Do not ping** the Flight Booking / Alaska Airlines agent for fare lookups.
+7. Passport / bills: never OCR, quote, or log PII from ID docs.
+8. Finalize / Venmo / off-platform fees: only when Jerome explicitly authorizes.
+
+## Titan R2Memory (every turn)
+
+Scripts: `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`). Use `grok-bot-titan` IAM via SSM as
+in **r2-memory** — never paste secrets into chat.
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for HE prefs, verification history, stay decisions. Skip only pure
+chitchat (`hi` / `ok` / `thanks`).
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Also keep this git skill updated and pushed when facts change.
+
+After editing this skill, refresh the Titan catalog:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
+```
 
 ## Account / people
 
@@ -142,6 +177,7 @@ After Dan finalized + withdrawals, keep the watch quiet unless a host replies on
 
 ## Standing: skill hygiene
 
-After every Jerome conversation that changes process or trip state: edit this
-`SKILL.md`, `git add`, commit, **public → push main → CI green → private**
-(always-push). Do not leave skill edits only on disk.
+After every Jerome conversation that changes process or trip state: Titan
+append the turn, edit this `SKILL.md`, `git add`, commit,
+**public → push main → CI green → private** (always-push). Do not leave skill
+edits only on disk. Refresh Titan catalog after skill edits.
