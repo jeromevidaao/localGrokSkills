@@ -22,7 +22,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
    `python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "<his question>"`
    After the turn, append so Titan stays current:
    `python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append --user "<what he said>" --assistant "<what you answered>"`
-   Bucket: `cleaningbutton-ai-context-us-east-1`. Skip only pure chitchat (hi/ok/thanks).
+   Bucket: `cleaningbutton-ai-context-us-east-1`. AWS: shared `~/.aws/credentials` as **grok-bot-titan**, region `us-east-1` (no SSM). Skip only pure chitchat (hi/ok/thanks).
    Full playbook: skill `r2-memory`. Do not add a GitHub connector/MCP for this.
 2. **Read this skill first** when Jerome messages this agent (after Titan retrieve).
 3. After the conversation (or any correction / new preference), **update this
