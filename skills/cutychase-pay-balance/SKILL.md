@@ -10,11 +10,12 @@ description: >
 # CutyChase — Pay Balance
 
 Standing playbook for the **CutyChase / CutyChase - Pay Balance** bot.
-Read this file **before every conversation** with Jerome. After the
-conversation (or any correction), **update this skill** in
-`localGrokSkills` and **commit + push immediately**.
+On every Jerome message: **Titan retrieve first**, then read this skill.
+After the conversation (or any correction), **update this skill**,
+**append the turn to Titan**, and **commit + push immediately**.
 
-Related: `flight-booking` (Chase Ultimate Rewards travel), CutyChase -
+Related: `r2-memory` (Titan retrieve/append), `always-push`,
+`flight-booking` (Chase Ultimate Rewards travel), CutyChase -
 Rewards teammate (points combine — separate bot).
 
 ## Hard rules (never skip)
@@ -45,6 +46,36 @@ Rewards teammate (points combine — separate bot).
    `jeromevidaao/localGrokSkills` the same turn — **always-push**
    (public → `git push` `main` → CI green → private). Never ask
    "want me to push?".
+9. **Titan R2Memory (read + write):** every time Jerome talks to this
+   bot, **retrieve first**, then **append/update after the turn** so
+   Titan stays current. Bucket: `cleaningbutton-ai-context-us-east-1`.
+   Full playbook: skill `r2-memory`.
+
+
+## Titan R2Memory (every turn)
+
+Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`).
+Bucket: `cleaningbutton-ai-context-us-east-1`.
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing pay prefs / past Chase decisions. Also read this
+`cutychase-pay-balance` skill. Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Do this for every meaningful Chase-pay turn (check, pay, auth handoff,
+preference). Keep the git skill updated and pushed as well (rule 8).
 
 ## Accounts (last-4 only)
 
@@ -118,7 +149,8 @@ After each payment, auth handoff, or correction:
    `/workspace/localGrokSkills` (repo `jeromevidaao/localGrokSkills`).
 2. Immediately commit + push (always-push). Never leave learnings only
    in chat or only on disk.
-3. Mirror durable facts into this bot's agent memory.
+3. Mirror durable facts into this bot's agent memory **and Titan**
+   (`r2_memory_turn.py append`).
 
 ## Do not
 
