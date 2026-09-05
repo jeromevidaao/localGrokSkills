@@ -3,17 +3,32 @@ name: april-vacation
 description: >
   April Vacation bot playbook for Jerome's multi-family Vietnam spring-break trip
   (Cherry Crest Apr 2027, SEA/Basel parties, Saigon routing, Phu Quoc InterContinental,
-  optional Hoi An). Read at the start of every conversation with Jerome; update this
-  skill after new decisions, then commit + push localGrokSkills.
+  optional Hoi An). Every Jerome turn: Titan retrieve first, read this skill, then
+  Titan append after; update skill + commit/push localGrokSkills when the plan changes.
 ---
 
 # April Vacation (Vietnam spring break 2027)
 
-Standing playbook for the **April Vacation** Grok Bot. **Read this skill first** on
-every turn Jerome opens with you. After the conversation (or any material decision),
-**update this file**, then **commit + push** `jeromevidaao/localGrokSkills` (follow
-**always-push**: public → `git push` `main` → CI green → private). Never ask to push.
-Do not add a GitHub connector/MCP for this repo.
+Standing playbook for the **April Vacation** Grok Bot.
+
+### Every Jerome turn (mandatory)
+
+1. **Titan retrieve first** (bucket `cleaningbutton-ai-context-us-east-1`):
+   ```bash
+   python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "<his question or topic>"
+   ```
+2. **Read this skill** (`skills/april-vacation/SKILL.md`).
+3. Do the work (research / email / compare — still **no booking** without explicit OK).
+4. **Titan append** so memory stays current:
+   ```bash
+   python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+     --user "<what he said>" --assistant "<what you answered>"
+   ```
+5. If the plan changed: **update this SKILL.md**, then **commit + push**
+   `jeromevidaao/localGrokSkills` (**always-push**: public → `git push` `main` → CI green → private).
+   Never ask to push. Do not add a GitHub connector/MCP.
+
+Skip Titan only for pure chitchat (hi / ok / thanks). Use `grok-bot-titan` IAM via SSM as in **r2-memory** — never paste secrets into chat.
 
 Related: `family-travel` (Hawaii/HE — different trip), `flight-booking` (domestic US
 booking bot — different mandate). This skill owns the **April 2027 Vietnam** plan.
@@ -28,7 +43,7 @@ booking bot — different mandate). This skill owns the **April 2027 Vietnam** p
 4. **Totals for the whole party** on Google Flights (not per person unless labeled).
 5. **Child ages:** Google Flights “2–11” bucket; note exact ages in prose (daughter 7;
    Maxime’s kids 7 and 10).
-6. After any plan change: update this skill + agent memory, then push.
+6. After any plan change: update this skill + agent memory + Titan append, then push.
 
 ## Parties
 
