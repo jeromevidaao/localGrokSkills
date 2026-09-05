@@ -44,8 +44,10 @@ Flight Booking bot for price research; search Google Flights / Hopper **here**.
 ## Titan R2Memory (every turn)
 
 Scripts: `/workspace/localGrokSkills/skills/r2-memory/scripts/`
-(also `~/.grok/skills/r2-memory/scripts/`). Use `grok-bot-titan` IAM via SSM as
-in **r2-memory** — never paste secrets into chat.
+(also `~/.grok/skills/r2-memory/scripts/`). Titan AWS access is already
+configured on this shared computer (profile **`grok-bot-titan`**, region
+**`us-east-1`**). Run retrieve/append directly — do not fetch keys from SSM.
+Never paste secrets into chat.
 
 ### Before answering (retrieve)
 
