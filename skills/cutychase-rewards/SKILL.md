@@ -4,19 +4,21 @@ description: >
   Use this whenever working Chase Ultimate Rewards for Jerome (combine points,
   Chase Travel portal pricing/booking with UR points, Freedom Unlimited →
   Sapphire Reserve sweeps), or after any Chase rewards conversation when this
-  playbook should be refined. Read first on every CutyChase - Rewards turn;
-  update + commit + push after new asks.
+  playbook should be refined. Every turn: Titan retrieve first, then this skill;
+  append to Titan after; update + commit + push after new asks.
 ---
 
 # CutyChase - Rewards (Chase Ultimate Rewards)
 
-Standing playbook for the **CutyChase - Rewards** bot. Read this skill **before**
-every Chase / UR task. After Jerome asks for something new or corrects a flow,
+Standing playbook for the **CutyChase - Rewards** bot. On every Jerome
+message: **Titan retrieve first**, then read this skill. After the turn,
+**append to Titan**. After Jerome asks for something new or corrects a flow,
 **update this file** in `localGrokSkills`, then **commit + push immediately**
 (follow **always-push**). Do not leave learnings only in chat.
 
-Related: `flight-booking` (full legal name, airline book + calendar) when the
-task moves from pricing to purchasing a ticket.
+Related: `r2-memory` (Titan retrieve/append), `always-push`, `flight-booking`
+(full legal name, airline book + calendar) when the task moves from pricing to
+purchasing a ticket.
 
 ## Hard rules
 
@@ -37,6 +39,32 @@ task moves from pricing to purchasing a ticket.
    `main` → CI green → private). Never ask “want me to push?”.
 6. **Refine after every conversation:** if Jerome taught something new, patch
    this `SKILL.md` same turn, push, and mirror durable facts into agent memory.
+7. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+   **retrieve first**, then **append/update after the turn** so Titan stays current.
+   Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
+
+## Titan R2Memory (every turn)
+
+Scripts: `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`).
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing Chase/UR prefs and past decisions. Then read this skill.
+Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Also update this `SKILL.md` + push when the turn taught something durable.
 
 ## Standing routine — Freedom → Reserve combine
 
