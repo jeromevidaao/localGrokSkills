@@ -28,20 +28,24 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    in chat before charging. Do not auto-book even under an old price threshold.
 3. **Alaska login:** on alaskaair.com always sign in as Atmos **325534370**
    (Jerome Ansia) before search/book — never guest if login is available.
-4. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
+4. **Contact email:** always fill **jerome.ans@gmail.com** on passenger / contact /
+   receipt fields. Never leave blank or use a different address.
+5. **Billing address:** always fill the full home/billing address on payment forms:
+   **3099 125th Ave NE, Bellevue, WA 98005** (street, city, state, ZIP). Never skip.
+6. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
    numbers, open the **DINH ANSIA PERSONAL WIKI** Google Sheet and use the values
    there (do not invent or reuse stale guesses). Sheet:
    https://docs.google.com/spreadsheets/d/1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo/edit
    Drive file id: `1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo`
-5. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
+7. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
    related flight playbook) must be committed and pushed to
    `jeromevidaao/localGrokSkills` **immediately** — never leave skill changes only
    on disk. Follow **always-push** (public → `git push` `main` → CI green → private).
    Do not ask “want me to push?”.
-6. **Refine after book:** when a booking finishes (or Jerome corrects a field),
+8. **Refine after book:** when a booking finishes (or Jerome corrects a field),
    update this `SKILL.md` with the learning, then commit + push (rule 5), and
    mirror durable facts into agent memory.
-7. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+9. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
 
@@ -104,9 +108,9 @@ The table below is a convenience cache only — verify against the wiki when boo
 | Full name | Jerome Lionel Ansia |
 | DOB | Jun 24, 1985 |
 | Gender | Male |
-| Email | jerome.ans@gmail.com |
+| Email (always fill) | jerome.ans@gmail.com |
 | Phone | +1 646-204-3958 |
-| Home / billing | 3099 125th Ave NE, Bellevue, WA 98005 |
+| Billing / home address (always fill) | 3099 125th Ave NE, Bellevue, WA 98005 |
 | TSA Pre / KTN | 992626698 (United States) |
 | Atmos Rewards | 325534370 |
 | AA AAdvantage (oneworld) | 00T5FH4 |
@@ -164,13 +168,13 @@ Do all of these before saying done:
 - Sign in first (Atmos). Sessions and fare holds expire (~10 min) — restage if stale.
 - Sticky Continue / Skip seats buttons can be inert in DOM; use reliable click
   paths (browserUse first; computerUse if needed).
-- Prefer saved Atmos card when paying as Jerome; still wait for OK before pay.
+- Prefer saved Atmos card when paying as Jerome; still wait for OK before pay. If billing address is required, use **3099 125th Ave NE, Bellevue, WA 98005**; contact email **jerome.ans@gmail.com**.
 - After book: Trips list, calendar, FF/TSA.
 
 ### Southwest (southwest.com)
 
 - Guest checkout is common; no Atmos.
-- Fill full name **Jerome Lionel Ansia**, DOB, gender, phone, KTN.
+- Fill full name **Jerome Lionel Ansia**, DOB, gender, email **jerome.ans@gmail.com**, phone, KTN, and billing **3099 125th Ave NE, Bellevue, WA 98005** when asked.
 - Skip seats if optional; stop for card entry if no saved method / Apple Pay.
 - Calendar + Santa Clara week still apply for SJC work returns.
 
@@ -218,6 +222,7 @@ After each booking, correction, or any skill tweak Jerome asks for:
 
 - Book without explicit OK
 - Omit middle name Lionel
+- Skip billing address or contact email on forms
 - Proceed as Alaska guest when login works
 - Skip Ngoc on flight or Santa Clara calendar events
 - Paste secrets into chat; use box handoff for payment/auth
