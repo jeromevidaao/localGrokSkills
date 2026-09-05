@@ -9,11 +9,13 @@ description: >
 
 # Gorin tennis booking (Julie Ansia)
 
-Standing playbook for the **Gorin Tennis Booking** bot. **Read this first**
-every time Jerome talks to this agent. After the conversation (or any new
-fact), **update this file** in `localGrokSkills` and **commit + push immediately**.
+Standing playbook for the **Gorin Tennis Booking** bot. On every Jerome
+message: **Titan retrieve first**, then read this skill. After the conversation
+(or any new fact), **update this file**, **append the turn to Titan**, and
+**commit + push immediately**.
 
-Related: `family-travel` (Julie is the same 6-year-old).
+Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
+(Julie is the same 6-year-old).
 
 ## Hard rules (never skip)
 
@@ -41,6 +43,40 @@ Related: `family-travel` (Julie is the same 6-year-old).
    **8431** (Preferred; brand not shown in CourtReserve).
 10. After each chat: patch this `SKILL.md` with anything new, then push (rule 8)
     and mirror durable facts into agent memory.
+11. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+    **retrieve first**, then **append/update after the turn** so Titan stays
+    current. Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook:
+    skill `r2-memory`.
+
+## Titan R2Memory (every turn)
+
+Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`).
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing prefs / past tennis decisions. Also read this
+`gorin-tennis-booking` skill. Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Do this for every meaningful tennis turn (search, book, cancel, calendar,
+preference). Keep the git skill updated and pushed as well (rule 8).
+
+After adding or editing this skill, refresh the Titan catalog:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
+```
 
 ## People
 
@@ -133,7 +169,8 @@ After each book, cancel, schedule change, or correction:
 1. Patch `skills/gorin-tennis-booking/SKILL.md` in `~/localGrokSkills`
    (repo `jeromevidaao/localGrokSkills`).
 2. Commit + push the same turn (always-push).
-3. Mirror durable facts into Gorin Tennis Booking agent memory.
+3. Mirror durable facts into Gorin Tennis Booking agent memory **and Titan**
+   (`r2_memory_turn.py append`).
 4. Do not leave learnings only in chat.
 
 ## Do not
