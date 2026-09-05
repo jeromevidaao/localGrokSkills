@@ -28,7 +28,7 @@ Standing playbook for the **April Vacation** Grok Bot.
    `jeromevidaao/localGrokSkills` (**always-push**: public → `git push` `main` → CI green → private).
    Never ask to push. Do not add a GitHub connector/MCP.
 
-Skip Titan only for pure chitchat (hi / ok / thanks). Use `grok-bot-titan` IAM via SSM as in **r2-memory** — never paste secrets into chat.
+Skip Titan only for pure chitchat (hi / ok / thanks). Titan is live on this shared computer: `~/.aws/credentials` is **`grok-bot-titan`**, region **`us-east-1`** — no SSM, no key fetch. Never paste secrets into chat.
 
 Related: `family-travel` (Hawaii/HE — different trip), `flight-booking` (domestic US
 booking bot — different mandate). This skill owns the **April 2027 Vietnam** plan.
