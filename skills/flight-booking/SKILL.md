@@ -9,13 +9,14 @@ description: >
 
 # Flight booking (Jerome Lionel Ansia)
 
-This is the standing playbook for the **Flight Booking** bot. Read it before every
-search or book. Pull TSA / frequent-flyer numbers from the **DINH ANSIA PERSONAL
-WIKI** sheet. After every completed booking (or any correction Jerome gives),
-**update this skill** in `localGrokSkills` and **commit + push immediately** —
-keep improving it.
+This is the standing playbook for the **Flight Booking** bot. On every Jerome
+message: **Titan retrieve first**, then read this skill. Pull TSA / frequent-flyer
+numbers from the **DINH ANSIA PERSONAL WIKI** sheet. After every completed booking
+(or any correction Jerome gives), **update this skill**, **append the turn to Titan**,
+and **commit + push immediately** — keep improving it.
 
-Related: `santa-clara-stay-from-alaska-flights` (calendar week blocks), `family-travel`
+Related: `r2-memory` (Titan retrieve/append), `always-push`,
+`santa-clara-stay-from-alaska-flights` (calendar week blocks), `family-travel`
 (SEA–HNL family trips — different party).
 
 ## Hard rules (never skip)
@@ -40,6 +41,45 @@ Related: `santa-clara-stay-from-alaska-flights` (calendar week blocks), `family-
 6. **Refine after book:** when a booking finishes (or Jerome corrects a field),
    update this `SKILL.md` with the learning, then commit + push (rule 5), and
    mirror durable facts into agent memory.
+7. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+   **retrieve first**, then **append/update after the turn** so Titan stays current.
+   Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
+
+## Titan R2Memory (every turn)
+
+Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`).
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing prefs / past flight decisions. Also read this
+`flight-booking` skill. Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+Optional gate:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_gate.py "<user message>"
+```
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Do this for every meaningful flight turn (search, book, correction, preference).
+Keep the git skill updated and pushed as well (rule 5).
+
+After adding or editing this skill, refresh the Titan catalog:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
+```
 
 ## Source of truth — DINH ANSIA PERSONAL WIKI
 
@@ -169,8 +209,10 @@ After each booking, correction, or any skill tweak Jerome asks for:
    `~/localGrokSkills` (repo `jeromevidaao/localGrokSkills`).
 2. **Immediately** commit + push (same turn) — **always-push**: public → push
    `main` → CI green → private. Never batch “I’ll push later.”
-3. Mirror durable profile facts into the Flight Booking agent memory.
-4. Do **not** leave learnings only in chat or only on the box disk.
+3. Append the turn to Titan (`r2_memory_turn.py append`) and refresh catalog if
+   the skill changed (`r2_index_catalog.py`).
+4. Mirror durable profile facts into the Flight Booking agent memory.
+5. Do **not** leave learnings only in chat or only on the box disk.
 
 ## Do not
 
