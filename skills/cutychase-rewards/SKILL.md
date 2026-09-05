@@ -48,6 +48,10 @@ purchasing a ticket.
 Scripts: `/workspace/localGrokSkills/skills/r2-memory/scripts/`
 (also `~/.grok/skills/r2-memory/scripts/`).
 
+On this shared Grok Bot computer, AWS is already configured as IAM user
+**`grok-bot-titan`** (`~/.aws/credentials`, region `us-east-1`). Do **not** fetch
+SSM keys or paste secrets — retrieve/append should just work.
+
 ### Before answering (retrieve)
 
 ```bash
