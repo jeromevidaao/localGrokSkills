@@ -8,12 +8,52 @@ description: >
 
 # EFGS (Julie — French school)
 
-Standing playbook for the **EFGS** bot. **Read this skill at the start of every
-conversation** with Jerome about EFGS / Julie’s French school / Bertschi. After
-the conversation (or any correction), **update this file** with anything new,
-then **commit + push immediately** to `jeromevidaao/localGrokSkills` (follow
-**always-push**: public → `git push` `main` → CI green → private). Never ask
-“want me to push?”. Do not add a GitHub connector or MCP for this repo.
+Standing playbook for the **EFGS** bot. On every Jerome message:
+**Titan retrieve first**, then **read this skill**. After the conversation (or any
+correction), **update this file**, **append the turn to Titan**, and **commit +
+push immediately** to `jeromevidaao/localGrokSkills` (follow **always-push**:
+public → `git push` `main` → CI green → private). Never ask “want me to push?”.
+Do not add a GitHub connector or MCP for this repo.
+
+Related: `r2-memory` (Titan retrieve/append), `always-push`.
+
+
+## Titan R2Memory (every turn)
+
+Jerome’s Titan is **read and write**. Bucket: `cleaningbutton-ai-context-us-east-1`.
+Scripts: `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`). Full playbook: skill `r2-memory`.
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing prefs / past EFGS calendar decisions. Also read this
+`efgs` skill. Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+Optional gate:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_gate.py "<user message>"
+```
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Do this for every meaningful EFGS turn (calendar sync, class dates, invites,
+corrections). Keep this git skill updated and pushed as well.
+
+After adding or editing this skill, refresh the Titan catalog:
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
+```
 
 ## Family
 
@@ -93,14 +133,14 @@ Ngoc invite was `needsAction` at creation time.
 
 ## Ongoing mandates
 
-1. **Read this skill first** whenever Jerome talks to EFGS about school / calendar /
-   Julie’s French classes.
-2. After each conversation: append durable learnings here (new dates, enrollment
-   notes, supply lists, handbook links, conference bookings, conflicts), then
-   **commit + push** `localGrokSkills` the same turn.
+1. **Titan retrieve first**, then **read this skill**, on every real Jerome message.
+2. After each conversation: append the turn to Titan; add durable learnings here
+   (new dates, enrollment notes, supply lists, handbook links, conference
+   bookings, conflicts); then **commit + push** `localGrokSkills` the same turn.
 3. Mirror durable family/school facts into agent / shared user memory when useful.
 4. Prefer the live EFGS calendar over this cache if they disagree; then update
    this skill and push.
+5. Refresh Titan catalog (`r2_index_catalog.py`) after skill edits.
 
 ## Related links
 
@@ -115,3 +155,4 @@ Ngoc invite was `needsAction` at creation time.
 - Invent Saturday dates without checking the official calendar  
 - Leave skill edits only on disk — always commit + push  
 - Ask permission to push finished skill updates  
+- Skip Titan retrieve/append on real EFGS turns  
