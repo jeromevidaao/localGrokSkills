@@ -70,14 +70,15 @@ def list_skills(*, kind: str | None = None) -> list[dict[str, str]]:
 
 
 def bundled_missing_skill_md() -> list[str]:
-    """Top-level bundled dirs that look like skills but have no SKILL.md."""
-    skip = {"shared"}
+    """Top-level bundled dirs with no SKILL.md (TUI still tries to load them).
+
+    Includes library folders such as `shared`. SessionStart health_skills.py
+    writes these into ~/.grok/config.toml [skills] ignore.
+    """
     missing: list[str] = []
     if not BUNDLED_SKILLS.is_dir():
         return missing
     for d in sorted(p for p in BUNDLED_SKILLS.iterdir() if p.is_dir() and not p.name.startswith(".")):
-        if d.name in skip:
-            continue
         if not (d / "SKILL.md").is_file():
             missing.append(d.name)
     return missing

@@ -7,7 +7,7 @@ Grok sees every skill **name + description**. Do **not** load every `SKILL.md`.
 - Use the **Absolute path** from the Available Skills list when present.
 - Otherwise resolve: `python3 ~/localGrokSkills/scripts/resolve_skill.py <name>`
 - Never assume `~/.grok/skills/<name>/SKILL.md`. Bundled skills live in `~/.grok/bundled/skills/`.
-- Empty bundled dirs (no `SKILL.md`) break TUI load — ignore them in `~/.grok/config.toml` `[skills] ignore`.
+- Empty bundled dirs (no `SKILL.md`) break TUI load (status `Read N skill · M failed`). SessionStart `health_skills.py` unions them into `~/.grok/config.toml` `[skills] ignore` (includes `shared` and `remove-wall-of-text`). Deprecated alias `ai-context` is ignored the same way — use **r2-memory**.
 
 ## Every real question uses memory
 

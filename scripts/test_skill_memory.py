@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "skills" / "r2-memory" / "scripts"))
 
+from health_skills import upsert_skills_ignore  # noqa: E402
 from resolve_skill import bundled_missing_skill_md, resolve  # noqa: E402
 from topic_catalog import needs_retrieval, skills_for_message, match_topics  # noqa: E402
 
@@ -28,6 +29,7 @@ def main() -> int:
     missing = bundled_missing_skill_md()
     if (Path.home() / ".grok" / "bundled" / "skills").is_dir():
         check("remove-wall-of-text" in missing, f"empty bundled dir detected: {missing}")
+        check("shared" in missing, f"shared lib dir detected: {missing}")
         bundled = resolve("skill-design-principles")
         check(bundled is not None and bundled["kind"] == "bundled", "resolve bundled skill")
         check(
@@ -36,6 +38,22 @@ def main() -> int:
         )
     else:
         check(resolve("skill-design-principles") is None, "no bundled skills on CI")
+
+    sample = '[cli]\ninstaller = "internal"\n\n[skills]\nignore = ["~/.grok/bundled/skills/remove-wall-of-text"]\npaths = []\n'
+    updated, added = upsert_skills_ignore(
+        sample,
+        [
+            "~/.grok/bundled/skills/remove-wall-of-text",
+            "~/.grok/bundled/skills/shared",
+            "~/.grok/skills/ai-context",
+        ],
+    )
+    check("~/.grok/bundled/skills/shared" in added, f"ignore adds shared: {added}")
+    check("~/.grok/skills/ai-context" in added, f"ignore adds ai-context: {added}")
+    check("~/.grok/bundled/skills/shared" in updated, "updated toml has shared")
+    again, added2 = upsert_skills_ignore(updated, ["~/.grok/bundled/skills/shared"])
+    check(added2 == [], f"idempotent ignore: {added2}")
+    check(again == updated, "second upsert is a no-op")
 
     check(needs_retrieval("hi") is False, "chitchat skip")
     check(needs_retrieval("is unit 2 occupied?") is True, "occupancy retrieves")
