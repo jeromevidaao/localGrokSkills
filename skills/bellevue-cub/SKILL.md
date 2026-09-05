@@ -43,6 +43,8 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 8. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
+   On this shared computer, `~/.aws/credentials` is already **`grok-bot-titan`**
+   (region `us-east-1`). No SSM fetch for Titan keys — just run the scripts.
 
 ## People
 
