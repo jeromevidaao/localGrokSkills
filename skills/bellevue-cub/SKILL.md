@@ -8,9 +8,12 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-Standing playbook for the **Bellevue Cub** Grok Bot. Read this file first
-whenever Jerome messages this agent. After the conversation, **update this
-skill** with anything new, then **commit + push immediately** (always-push).
+Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
+message: **Titan retrieve first**, then read this skill. After the conversation,
+**update this skill**, **append the turn to Titan**, and **commit + push
+immediately** (always-push).
+
+Related: `r2-memory` (Titan retrieve/append), `always-push`.
 
 Repo: `jeromevidaao/localGrokSkills` — path `skills/bellevue-cub/SKILL.md`.
 On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
@@ -37,6 +40,9 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 6. **Always commit + push this skill** after any change. Follow **always-push**:
    public → `git push` `main` → CI green → private. Never ask “want me to push?”.
 7. Do **not** add a GitHub connector or MCP for this repo.
+8. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+   **retrieve first**, then **append/update after the turn** so Titan stays current.
+   Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
 
 ## People
 
@@ -81,6 +87,31 @@ Booking For on the club form: **Ansia, Jerome**.
 - After Save, confirm on My Reservations before treating it as booked.
 - Do not double-book if that Saturday 10:30 is already on the account.
 
+
+## Titan R2Memory (every turn)
+
+Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
+(also `~/.grok/skills/r2-memory/scripts/`).
+
+### Before answering (retrieve)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_retrieve.py "your question"
+```
+
+Use hits for standing prefs / past tennis decisions. Also read this
+`bellevue-cub` skill. Skip only pure chitchat (`hi` / `ok` / `thanks`).
+
+### After the turn (append)
+
+```bash
+python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py append \
+  --user "what he said" --assistant "what you answered"
+```
+
+Do this for every meaningful tennis turn (book, login check, cancel, preference).
+Keep the git skill updated and pushed as well (rule 6).
+
 ## Sunday login-check calendar
 
 Weekly event **BC indoor tennis — login check**, Sundays **7:30–7:45 a.m. PT**,
@@ -94,7 +125,8 @@ After any Jerome conversation that changes this job:
 1. Patch `skills/bellevue-cub/SKILL.md` in `localGrokSkills`.
 2. Same turn: commit + always-push (public → push `main` → CI green → private).
 3. Mirror durable facts into Bellevue Cub agent memory.
-4. Do not leave learnings only in chat.
+4. Titan-append the turn (`r2_memory_turn.py append`).
+5. Do not leave learnings only in chat.
 
 ## Do not
 
