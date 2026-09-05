@@ -1,0 +1,147 @@
+---
+name: gorin-tennis-booking
+description: >
+  Use this whenever Jerome asks about Gorin Tennis / CourtReserve lessons for
+  Julie (Bellevue Tiny Tigers / U6 or Future Stars / U8): search, book, cancel,
+  refunds, or calendar. Read it at the start of every Gorin Tennis Booking
+  conversation; update and push after anything new.
+---
+
+# Gorin tennis booking (Julie Ansia)
+
+Standing playbook for the **Gorin Tennis Booking** bot. **Read this first**
+every time Jerome talks to this agent. After the conversation (or any new
+fact), **update this file** in `localGrokSkills` and **commit + push immediately**.
+
+Related: `family-travel` (Julie is the same 6-year-old).
+
+## Hard rules (never skip)
+
+1. **Bellevue only** unless Jerome says otherwise. Do not book Redmond, Tacoma,
+   or Tukwila.
+2. **Student is Julie Ansia**, DOB **3 Dec 2019** (girl, 6). Book her, never
+   Ruby as the player. CourtReserve child member **#11433210**.
+3. **Account:** Gorin Sports Washington CourtReserve club **7306**, signed in as
+   **Ruby Dinh** (guest / non-member). Portal:
+   https://app.courtreserve.com/Online/Portal/Index/7306
+4. **No Sunday lock-in.** Winter Sundays are for skiing. Book Sunday only when
+   Jerome asks for a specific date (week-ahead is usually enough).
+5. **Drop-in, not packages.** Single date only unless he asks for a full-event
+   block. Do not click “Register for Full Event”.
+6. **Beginner 6yo → Tiny Tigers / U6 (101)** (60 min, $40 + tax). Future Stars /
+   U8 (201) is 90 min, $57; Gorin wants ~6 months of tennis for a 6-year-old.
+   Ages 7–8 can join U8 with no experience.
+7. **Calendar every booking:** timed event on `jerome.ans@gmail.com`, invite
+   **ngoc.h.dinh@gmail.com** (and Jerome). No Google Meet.
+8. **Always commit + push this skill** after any edit (public → `git push`
+   `main` → CI green → private). Never ask “want me to push?”. Do not add a
+   GitHub connector or MCP for this repo.
+9. **Waiver / payment:** do not draw Ruby’s liability signature. Hand the box
+   (`request_box_help`) for waiver, 2FA, or a new card. Card on file ends
+   **8431** (Preferred; brand not shown in CourtReserve).
+10. After each chat: patch this `SKILL.md` with anything new, then push (rule 8)
+    and mirror durable facts into agent memory.
+
+## People
+
+| | |
+|---|---|
+| Child | Julie Ansia, born 3 Dec 2019 |
+| CourtReserve login | Ruby Dinh (Ngoc), guest |
+| Ruby / Ngoc email | ngoc.h.dinh@gmail.com |
+| Jerome calendar | jerome.ans@gmail.com |
+| Front desk | (425) 274-2969 · WashingtonCustomerCare@GorinTennis.com |
+
+## Club & location
+
+| | |
+|---|---|
+| Club | Gorin Sports Washington, CourtReserve **7306** |
+| Book | Bellevue Tennis Academy, 13203 NE Spring Blvd, Bellevue, WA 98005 |
+| Court (U6) | Bellevue Kids Court |
+| Public facility | No membership required |
+
+Junior pages:
+- https://www.gorintennis.com/our-washington-locations/bellevue-junior-programs
+- Embed: https://app.courtreserve.com/Online/Public/EmbedCode/7306/22145 (category BELLEVUE JUNIOR TENNIS PROGRAM)
+
+Naming: through Aug 31 2026 classes showed **TINY TIGERS U6** / **FUTURE STARS U8**.
+From Sep 2026 the same slots are **U6 (101)** and **U8 (201)**.
+
+## Bellevue weekly pattern (as of 30 Aug 2026)
+
+**Tiny Tigers / U6 (101)** — 60 min, **$40** single / $160 for 4 dates (prices + tax)
+
+| Day | Time |
+|---|---|
+| Mon | 4:30–5:30pm |
+| Wed | 4:30–5:30pm |
+| Fri | 4:30–5:30pm |
+| Sat | 11:30am–12:30pm |
+| Sun | 2:30–3:30pm |
+
+**Future Stars / U8 (201)** — 90 min, **$57** single / $228 for 4 dates
+
+Mon–Fri 4:30–6:00pm, Sat 10:00–11:30am, Sun 1:00–2:30pm.
+
+U8 Advanced (202) is Tue/Thu 4:30 — not a first class. Mini-group of 3 with
+Coach Davi (Sat 12:30 or 2:30, $55) is usually waitlist.
+
+Weekday 4:30s (especially 6-spot U6 Mon/Wed) fill faster than Sat/Sun.
+Guest court window is ~7 days; group drop-ins are listed weeks out.
+
+Optional junior membership $100/year: 12% off a monthly series. Not required.
+
+## Book a drop-in (CourtReserve)
+
+1. Sign in as Ruby Dinh on portal 7306 (browser; no CourtReserve connector).
+2. Events → List. Search is unreliable — scan **U6 (101)** / Tiny Tigers,
+   Bellevue, the requested date.
+3. **Register for [that date]** only. Leave other Sundays unchecked.
+4. If a liability waiver blocks, hand the box to Jerome/Ruby to sign. Do not
+   sign it yourself.
+5. If Julie is missing from My Family, add her (first Julie, last Ansia, DOB
+   12/03/2019, Child, Female). Email not required; “Not Allowed To Log In” is OK.
+6. Select **Julie Ansia**. Confirm total (~$40 + tax + convenience fee; Sept 13
+   example was **$45.66**).
+7. Pay with the card on file if that is what he asked. Stop for a new card.
+8. Capture receipt #, who, date/time, amount.
+9. Add Google Calendar (rule 7). Title like `Julie — Tiny Tigers tennis`.
+   Location: Bellevue Tennis Academy address. Note coaches + receipt + 24h
+   cancel in the description.
+
+## Cancel / refund
+
+Drop-in cancelled **24+ hours** before start: **full refund** (Gorin group-class
+policy). Inside 24 hours: no refund on the guest plan (no protection pass).
+Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
+Confirm in chat before cancelling.
+
+## Current booking
+
+- **Sun 13 Sep 2026, 2:30–3:30pm** Bellevue U6 (101) / Tiny Tigers
+- Julie Ansia · coaches Gulcin Odemis, Fatma Tapan
+- Receipt **LJON17306** · $45.66 · card …8431 · booked 30 Aug 2026
+- Calendar: [Julie — Tiny Tigers tennis](https://www.google.com/calendar/event?eid=bjdvMmtrbzU2NWc1NDc1MDZjZGZiamZrZzQgamVyb21lLmFuc0Bt)
+  on jerome.ans@gmail.com, Ngoc invited
+- Jerome said **keep it** (30 Aug)
+
+## Continuous improvement
+
+After each book, cancel, schedule change, or correction:
+
+1. Patch `skills/gorin-tennis-booking/SKILL.md` in `~/localGrokSkills`
+   (repo `jeromevidaao/localGrokSkills`).
+2. Commit + push the same turn (always-push).
+3. Mirror durable facts into Gorin Tennis Booking agent memory.
+4. Do not leave learnings only in chat.
+
+## Do not
+
+- Book Redmond / Tacoma / Tukwila
+- Register Ruby as the player
+- Buy a 4-week package unless asked
+- Lock every Sunday (skiing)
+- Sign the waiver or type card numbers
+- Skip Ngoc on the calendar invite
+- Add a GitHub connector just to update this repo
