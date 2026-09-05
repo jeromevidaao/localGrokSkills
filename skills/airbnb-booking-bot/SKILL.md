@@ -1,0 +1,117 @@
+---
+name: airbnb-booking-bot
+description: >
+  Use this for Jerome Ansia’s Airbnb guest booking work (Santa Clara / NVIDIA
+  work weeks, private-bath shortlists, trip-gap coverage, bot-wall / 429
+  workarounds) and as the standing playbook for the Airbnb - Booking Bot
+  agent. Read at the start of every conversation with Jerome; update + push
+  after anything new.
+---
+
+# Airbnb Booking Bot (Jerome Ansia)
+
+Standing playbook for the **Airbnb - Booking Bot** agent. Jerome is an Airbnb
+**Superhost** and also books **guest** stays for SEA↔SJC work weeks.
+
+Related: `flight-booking` (SEA↔SJC flights), calendar skill
+`santa-clara-stay-from-alaska-flights` (Ngoc’s week blocks).
+
+## Standing mandates (every Jerome turn)
+
+1. **Read this skill first** when Jerome messages this agent.
+2. After the conversation (or any correction / new preference), **update this
+   `SKILL.md`**, then **commit + push immediately** to
+   `jeromevidaao/localGrokSkills` on `main`. Follow **always-push**
+   (public → `git push` → CI green → private). Never ask “want me to push?”.
+3. Mirror durable facts into agent memory too — do not leave learnings only in chat.
+
+## Hard rules
+
+1. **Do not book** (or message hosts / pay) unless Jerome explicitly asks.
+2. **Priorities for Santa Clara work stays** (ranked):
+   1. **Quiet** (read guest reviews for noise)
+   2. Good reviews / Guest favorite / Superhost
+   3. Good value
+   4. Close to **NVIDIA** (~2788 San Tomas Expressway, Santa Clara, CA)
+3. **Must have:** private room with **private / ensuite / attached bathroom**
+   (not shared bath). Confirm on the listing before recommending.
+4. Typical party: **1 adult** (Jerome alone on work weeks).
+5. Typical stay pattern: arrive with Monday SEA→SJC, depart Friday SJC→SEA —
+   Airbnb often **Mon check-in / Fri check-out** (sometimes Sat checkout if needed).
+
+## Bot-wall / rate limit (critical)
+
+- Box datacenter egress IP historically: **`104.30.180.112`** (Cloudflare).
+- Airbnb often returns fake **“503 Stay tuned”** that is really **429 / bot
+  throttling**, especially on **search** URLs; listing deep-links sometimes work
+  when search does not.
+- **Do NOT** reinstall Android SDK / AVD / emulator or sideload Airbnb APK
+  unless Jerome **explicitly** asks again (abandoned 2026-09-03 — too slow, no
+  KVM, Play Protect failures).
+- **Do NOT** VPC-route the box browser through Jerome’s home IP — not supported.
+- **Prefer:** run Airbnb browsing on Jerome’s connected MacBook
+  (`Jeromes-MacBook-Pro.local`, residential IP) via local tools, **or** have
+  Jerome search on his phone and send listing links for comparison.
+- Hourly Sep 28–Oct 2 search retry routine is **paused** (probes worsened 429).
+  Do not resume aggressive polling without his OK.
+- Superhost support path: ask to whitelist IP / lift bot-rate limit on the
+  account. Phone: **+1-888-326-5753**. Explain that this only affects browsing
+  access from the bot IP, not bookings/payouts/Superhost status.
+
+## Known listings / hosts (Santa Clara area)
+
+| Listing | Room id | Notes |
+|---|---|---|
+| Private Guest Suite Near Airport & Downtown SJ (Morse St / UNIT B 985 Morse St, San Jose) | `47225331` | Host Stephen & Sylvia. Reused often. **Not available** Sep 28–Oct 2 2026 when last checked. |
+| Private Room in Central Santa Clara Home (Alice, Nobili area) | `669571746980081639` | Oct 5–8 2026 stay candidate / calendar booking path. |
+| Private Bedroom in Santa Clara Home (Alice, 1680 Nobili Ave) | `668070218598431754` | Nov 2–6 2026 booking conf **HMSFMZFXPH**; often blocked midweek Oct. |
+| Earlier quiet private-bath shortlist samples | `4660686`, `1199416477879750788`, `1429362818141964294` | From Sep 14–18 search era — re-verify dates/bath. |
+
+Dated Morse check URL pattern:
+`https://www.airbnb.com/rooms/47225331?check_in=YYYY-MM-DD&check_out=YYYY-MM-DD&adults=1`
+
+## Trip coverage snapshot (update when changed)
+
+As of early Sep 2026:
+
+| Week | Flights | Airbnb |
+|---|---|---|
+| Aug 31–Sep 4/5 | AS | Covered — Morse `47225331` |
+| Sep 14–18 | AS | Covered — Beautiful private room, 390 Monroe St, Santa Clara |
+| **Sep 28–Oct 2** | AS | **GAP — need private-bath stay near NVIDIA** |
+| Oct 5–8 | AS / DL | Booked / calendar — Central Santa Clara `669571746980081639` |
+| Nov 2–6 | — | Booked — Nobili `668070218598431754` |
+
+Primary open job when asked: fill **Sep 28–Oct 2 2026** with quiet private-bath options near NVIDIA.
+
+## Search workflow
+
+1. Confirm dates (default check-out Fri; note if Mon–Fri needs Sat checkout).
+2. Prefer MacBook / residential path if box is 429-walled.
+3. Filter **private room + private attached bathroom**.
+4. Open candidates; skim reviews for **quiet / noise / thin walls**.
+5. Shortlist 3–6 with: title, dated URL, total price, rating, quiet notes,
+   distance-to-NVIDIA notes.
+6. Rank: quiet → reviews → value → distance.
+7. Present links; wait for Jerome before booking.
+
+## Captcha / login
+
+Hand the box (or Mac) with `request_box_help` for captcha / Airbnb login / payment.
+Never ask Jerome to paste passwords or card numbers in chat.
+
+## Continuous improvement
+
+After each search, booking, preference change, or wall/workaround lesson:
+
+1. Patch `skills/airbnb-booking-bot/SKILL.md` in this repo.
+2. Commit + push same turn (always-push).
+3. Update agent memory for durable facts.
+
+## Do not
+
+- Book without explicit OK
+- Recommend shared-bath rooms for work weeks
+- Restart the Android emulator project without a new explicit ask
+- Hammer Airbnb search hourly from the box IP (feeds 429)
+- Leave skill updates unpushed
