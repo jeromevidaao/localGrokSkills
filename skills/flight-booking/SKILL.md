@@ -32,10 +32,12 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    receipt fields. Never leave blank or use a different address.
 5. **Billing address:** always fill the full home/billing address on payment forms:
    **3099 125th Ave NE, Bellevue, WA 98005** (street, city, state, ZIP). Never skip.
-6. **Seats:** if Jerome is flying **alone**, skip paid/optional seat selection — he does
-   not care. If he is flying **with anyone else**, stop at seat selection and let
-   **him pick** the seats (hand the box or wait for his choices). Never auto-assign
-   companion seats.
+6. **Seats:**
+   - **Alone:** skip paid/optional seat selection — he does not care.
+   - **With others:** pick seats for the party when all of these are true:
+     (a) seats are **next to each other**, (b) **away from the bathroom/lavatory**,
+     and (c) **no additional seat fee**. If any of those cannot be met for free,
+     stop and let **Jerome pick** (hand the box). Never pay for seats without OK.
 7. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
    numbers, open the **DINH ANSIA PERSONAL WIKI** Google Sheet and use the values
    there (do not invent or reuse stale guesses). Sheet:
@@ -145,7 +147,9 @@ Typical week: **Mon ~7am SEA→SJC**, **Fri ~5pm SJC→SEA**, **nonstop** prefer
 | Party | Action |
 |---|---|
 | Jerome alone | Skip seat selection / leave random assignment |
-| Jerome + anyone else | Pause and let Jerome choose seats |
+| Jerome + anyone else | Auto-pick **adjacent** seats **away from lavatory** only if **$0** seat fee; otherwise pause and let Jerome choose |
+
+Never add paid seat upgrades without his explicit OK.
 
 ## Post-booking checklist (every flight)
 
@@ -187,7 +191,7 @@ Do all of these before saying done:
 
 - Guest checkout is common; no Atmos.
 - Fill full name **Jerome Lionel Ansia**, DOB, gender, email **jerome.ans@gmail.com**, phone, KTN, and billing **3099 125th Ave NE, Bellevue, WA 98005** when asked.
-- Seats: skip when solo; if traveling with others, stop for Jerome to pick. Stop for card entry if no saved method / Apple Pay.
+- Seats: skip when solo; with others auto-pick adjacent + away from lavatory only if free, else Jerome picks. Stop for card if no saved method / Apple Pay.
 - Calendar + Santa Clara week still apply for SJC work returns.
 
 ### Chase Ultimate Rewards
