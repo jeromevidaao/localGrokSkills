@@ -27,6 +27,25 @@ Enforced by `~/.grok/rules/00-always-commit-push.md` + Stop hook `always-commit-
 | File sync | `~/R2Lambda/scripts/r2memory-sync.py` |
 | Titan scripts | `~/.grok/skills/r2-memory/scripts/` (= `~/R2Lambda/scripts/r2-memory/`) |
 
+### Grok Bot IAM (Titan only)
+
+IAM user **`grok-bot-titan`** / policy **`GrokBotTitanAccess`**. Fetch keys from SSM at use — never commit, never paste the secret into chat or R2Memory.
+
+| | |
+|---|---|
+| Access key ID | SSM `/grok/titan-iam-access-key-id` |
+| Secret | SSM `/grok/titan-iam-secret-access-key` |
+| S3 | `context/*` on `cleaningbutton-ai-context-us-east-1` — Get/Put/Delete + ListBucket prefix `context/` |
+| Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
+| Denied | SSM, Hospitable, Lambda, S3 outside `context/` (`data/`, `workspaces/`, …) |
+
+```bash
+aws ssm get-parameter --name /grok/titan-iam-access-key-id --with-decryption --query Parameter.Value --output text
+aws ssm get-parameter --name /grok/titan-iam-secret-access-key --with-decryption --query Parameter.Value --output text
+```
+
+On the Grok Bot computer: `aws configure` with those values, region `us-east-1`. Then run `r2_retrieve.py` / `r2_memory_turn.py` from the cloned `localGrokSkills` tree.
+
 ### Conversation IDs
 
 | Id | Purpose |
