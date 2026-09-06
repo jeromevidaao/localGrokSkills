@@ -8,6 +8,12 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
+**STATUS (2026-09-06): auto-booking PAUSED.** Jerome cancelled standing Saturday
+grabs and the Mon Sep 7 one-off for now — different path. Do **not** book or
+run the Sunday/Monday open unless he explicitly restarts. Weekly Saturday
+routine is paused; one-off was deleted; Sunday login-check calendar event
+removed.
+
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
 **update this skill**, **append the turn to Titan**, and **commit + push
@@ -20,8 +26,8 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 
 ## Hard rules
 
-1. **Standing book:** keep grabbing **Saturday 10:30–11:45 a.m.** indoor tennis
-   at Bellevue Club until Jerome says stop. Sep 12 2026 was missed; next standing
+1. **Standing book (PAUSED):** when Jerome restarts, grab **Saturday 10:30–11:45 a.m.**
+   indoor tennis until he says stop. Sep 12 2026 was missed; next standing
    targets are following Saturdays (e.g. Sep 19). Any ITC 1–6. Do not substitute
    another time if 10:30 is gone.
 2. **Window:** courts book **7 days out**, new day opens **7:45 a.m. PT**.
