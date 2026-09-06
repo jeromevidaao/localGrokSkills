@@ -52,6 +52,15 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    then books next Saturday **10:30–11:45 indoor** (first open ITC). Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
+   **Cloudflare:** Lambda does **not** store or reuse a browser `cf_clearance`
+   (IP + UA bound; laptop cookie cannot be used on AWS). HTTP client UA is
+   exactly `Mozilla/5.0`, which currently skips the tennis-grid challenge.
+   Cookies live only in the invocation CookieJar. `__cf_bm` TTL is **~30 min**
+   if Cloudflare sets it — irrelevant because each run is a new session, not a
+   persisted token. What *can* break later is Cloudflare starting to challenge
+   AWS IPs even with that UA — not token expiry. Hourly canary
+   `bellevueClubTennis-hourly-canary` (`cron(10 * * * ? *)` PT, payload
+   `{"canary":true}`) login+grid no book; fail throws → CW alarm + SES.
 7. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
    the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
    `grok-bot-titan` may GetParameter **only** those two `/bellevue-club/*` names.
@@ -174,6 +183,7 @@ After any Jerome conversation that changes this job:
 - Task-resume a parked browser across the open second
 - Book a different time if 10:30 is gone
 - Store the club password on disk, in git, in chat, or in Titan (fetch SSM at login)
+- Assume Lambda holds a Cloudflare token that will expire — it does not; UA skip + hourly canary
 - Add a Google Meet link to tennis events
 - Skip inviting Ngoc on the court calendar event
 - Ask whether to commit/push this skill
