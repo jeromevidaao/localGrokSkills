@@ -52,9 +52,13 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    then books next Saturday **10:30–11:45 indoor** (first open ITC). Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
-   **Cloudflare:** Lambda does **not** store or reuse a browser `cf_clearance`
-   (IP + UA bound; laptop cookie cannot be used on AWS). HTTP client UA is
-   exactly `Mozilla/5.0`, which currently skips the tennis-grid challenge.
+   **Cloudflare:** in front of **every** `members.bellevueclub.com` request
+   (login, tennis grid, AJAX save, my-reservations) — not a door you pass once.
+   Club login cookies ≠ CF. Being signed in does **not** skip Turnstile.
+   Chrome UA trips CF on the **tennis grid** specifically; Lambda UA is
+   exactly `Mozilla/5.0`, which currently skips that challenge. Lambda does
+   **not** store or reuse a browser `cf_clearance` (IP + UA bound; laptop
+   cookie cannot be used on AWS).
    Cookies live only in the invocation CookieJar. `__cf_bm` TTL is **~30 min**
    if Cloudflare sets it — irrelevant because each run is a new session, not a
    persisted token. What *can* break later is Cloudflare starting to challenge
@@ -71,7 +75,7 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    until we change approach (browser/`cf_clearance` mint, or a different egress).
 7. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
    the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
-   `grok-bot-titan` may GetParameter **only** those two `/bellevue-club/*` names.
+   `grok-bot-titan` can GetParameter those two `/bellevue-club/*` names (SSM read on this user).
 8. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
