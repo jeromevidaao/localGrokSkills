@@ -61,6 +61,14 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    AWS IPs even with that UA — not token expiry. Hourly canary
    `bellevueClubTennis-hourly-canary` (`cron(10 * * * ? *)` PT, payload
    `{"canary":true}`) login+grid no book; fail throws → CW alarm + SES.
+   **Will the UA skip fail eventually?** Yes, likely — not on a timer, not because
+   a token expires. Same pattern as HomeExchange: a club/CF dashboard toggle
+   (Bot Fight / Super Bot Fight / “definitely automated”) or a CF managed-ruleset
+   update can start challenging AWS IPs overnight. Chrome UA already trips
+   Turnstile on this zone; `Mozilla/5.0` is a hole that can close. AWS IP
+   reputation can also make it **intermittent** (one invoke challenged, next
+   not). Hourly canary is the detector; when it emails, the HTTP path is dead
+   until we change approach (browser/`cf_clearance` mint, or a different egress).
 7. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
    the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
    `grok-bot-titan` may GetParameter **only** those two `/bellevue-club/*` names.
