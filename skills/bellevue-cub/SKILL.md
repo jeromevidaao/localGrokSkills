@@ -122,6 +122,13 @@ Weekly event **BC indoor tennis — login check**, Sundays **7:30–7:45 a.m. PT
 starting 2026-09-06, event id `1qllep9n3tru7439cl819a9md8`. Popup + email
 reminders 10 minutes prior (7:20). Recurs every Sunday.
 
+
+## Lessons from Sep 6 2026 (first live run)
+
+- Target Sat **Sep 12** 10:30 was **fully gone** at open (ITC 1–4 RESERVED; ITC 5–6 Live Ball). Do not substitute another time.
+- My Reservations empty — correct to report miss, not invent a booking.
+- Notify on miss too: chat + email Jerome (calendar only on success).
+
 ## Continuous improvement
 
 After any Jerome conversation that changes this job:
