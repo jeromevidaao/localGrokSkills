@@ -90,13 +90,13 @@ As of early Sep 2026:
 |---|---|---|
 | Aug 31–Sep 4/5 | AS | Covered — Morse `47225331` |
 | Sep 14–18 | AS | Covered — Beautiful private room, 390 Monroe St, Santa Clara |
-| **Sep 28–Oct 2** | AS | **GAP** — Morse `47225331` **not available** (rechecked 2026-09-06) |
+| Sep 28–Oct 2 | AS | **Booked** Clean room `15820573` conf **HMBST9ADPK** $481.80 |
 | Oct 5–8 | AS / DL | Booked (trips) |
 | Oct 19–22 | OXSCPB / Chase | **Booked** Alice Nobili conf **HMZHKX2R2K** (Jerome) |
 | Nov 2–6 | MMQIZO | Booked (trips; through Nov 7) |
 | Nov 16–20 | NZIZXV + WN | **Booked** Morse `47225331` conf **HMNH8YP2HW** \$476.30 |
 
-Open jobs: fill **Sep 28–Oct 2**, **Oct 19–22**, **Nov 16–20** (prefer Morse `47225331` when available).
+Open jobs: none on the known SEA↔SJC list (as of 2026-09-06).
 
 ## Search workflow
 
