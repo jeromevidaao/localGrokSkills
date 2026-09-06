@@ -92,7 +92,7 @@ As of early Sep 2026:
 | Sep 14–18 | AS | Covered — Beautiful private room, 390 Monroe St, Santa Clara |
 | **Sep 28–Oct 2** | AS | **GAP** — Morse `47225331` **not available** (rechecked 2026-09-06) |
 | Oct 5–8 | AS / DL | Booked (trips) |
-| **Oct 19–22** | OXSCPB / Chase | **GAP** — no Airbnb on calendar |
+| Oct 19–22 | OXSCPB / Chase | **Booked** Alice Nobili conf **HMZHKX2R2K** (Jerome) |
 | Nov 2–6 | MMQIZO | Booked (trips; through Nov 7) |
 | Nov 16–20 | NZIZXV + WN | **Booked** Morse `47225331` conf **HMNH8YP2HW** \$476.30 |
 
