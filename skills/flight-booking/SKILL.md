@@ -140,11 +140,17 @@ Loyalty defaults when the airline allows a partner:
 
 ## Default work-week pattern (SEA ↔ SJC)
 
-Typical week: **Mon ~7am SEA→SJC**, **Fri ~5pm SJC→SEA**, **nonstop** preferred.
+Typical week: **nonstop** preferred.
 
-1. Compare **Alaska** (signed in), **Google Flights**, and when useful **Southwest**
-   / **Chase Ultimate Rewards** points. Separate tickets are fine if cheaper.
-2. Prefer nonstops near those times; report options + totals before booking.
+| Leg | Preferred window |
+|---|---|
+| Outbound (usually Mon) SEA→SJC | Depart **~7:00–7:30am** (nearby morning OK) |
+| Return (usually Fri) SJC→SEA | Depart **3:00–5:00pm** inclusive (not after 5pm) |
+
+1. Prefer **Alaska** signed in; also compare Google Flights / Southwest / Chase
+   points when useful. Separate tickets are fine if cheaper.
+2. Filter to nonstops in those windows first; if Alaska has no return in 3–5pm,
+   say so and show the closest earlier/later Alaska nonstop + cheaper alts.
 3. Saver / Basic is OK when Jerome chooses price over flexibility.
 4. Hold or stage to Review & pay; wait for explicit OK; then pay.
 5. After purchase, run **Post-booking checklist** below.
