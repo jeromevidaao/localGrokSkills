@@ -33,10 +33,12 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    the reservation page, then book 10:30 on the first open indoor court.
 4. **Runs on this computer, not Jerome’s.** His laptop can be off. Login lives
    in this agent’s Chrome profile (`members.bellevueclub.com`).
-5. **After a successful book:** Google Calendar event Saturday 10:30–11:45 PT,
-   location Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
-   (ngoc.h.dinh@gmail.com)**. No Google Meet. Then message Jerome with date,
-   court, time, fee, and that Ngoc was invited.
+5. **After a successful book (same turn, immediately):**
+   - **Chat ping** Jerome here with date, court, time, fee.
+   - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
+   - **Google Calendar** event Saturday 10:30–11:45 PT at Bellevue Club,
+     invite **jerome.ans@gmail.com** and **Ngoc Dinh (ngoc.h.dinh@gmail.com)**.
+     No Google Meet. She must actually get the invite.
 6. **Always commit + push this skill** after any change. Follow **always-push**:
    public → `git push` `main` → CI green → private. Never ask “want me to push?”.
 7. Do **not** add a GitHub connector or MCP for this repo.
