@@ -17,7 +17,8 @@ and **commit + push immediately** — keep improving it.
 
 Related: `r2-memory` (Titan retrieve/append), `always-push`,
 `santa-clara-stay-from-alaska-flights` (calendar week blocks), `family-travel`
-(SEA–HNL family trips — different party).
+(SEA–HNL family trips — different party), **`efgs`** (Julie Saturday class
+conflicts — ping on out-of-WA trips).
 
 ## Hard rules (never skip)
 
@@ -54,6 +55,12 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
 10. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
+11. **EFGS / Julie class conflict:** if the trip puts anyone **outside Washington
+   state** (destination or overnight not in WA — includes SEA↔SJC), **ping the
+   EFGS agent** (`00e87ed1-d005-4527-b29b-bfe7cccb59c2`) via SendToAgent with
+   route, dates, travelers, and conf code **before** saying the booking is done.
+   Prefer also flagging when presenting options if a Saturday conflict is clear.
+   EFGS owns the warning to Jerome. In-WA-only itineraries: no ping. Skill: `efgs`.
 
 ## Titan R2Memory (every turn)
 
@@ -176,6 +183,10 @@ Do all of these before saying done:
 6. Hand the box for captcha / card / 2FA when needed (`request_box_help`); never ask
    Jerome to paste card numbers in chat.
 7. Update this skill + memory with anything new he corrected.
+8. **Ping EFGS** when the trip is **outside Washington** (see hard rule 11):
+   SendToAgent → EFGS id `00e87ed1-d005-4527-b29b-bfe7cccb59c2` with dates,
+   airports, who travels, and whether Saturday morning PT is spent outside WA.
+   Do not skip for SJC work weeks — Julie’s Bertschi class is Sat 9:15–12:15.
 
 ## Airline / site notes
 
@@ -221,6 +232,28 @@ Before asking to book, send a short options summary:
 
 Then stage the chosen itinerary to Review & pay and wait.
 
+
+## EFGS Saturday conflict (Julie)
+
+Julie has **in-person EFGS** most Saturdays **09:15–12:15 PT** at Bertschi School
+(Seattle). Full date list lives in skill **`efgs`** — read that file or ask EFGS;
+do not invent Saturdays.
+
+**Trigger:** booked (or OK’d) itinerary with any segment/overnight **outside
+Washington** (CA/SJC, HI, OR, etc.).
+
+**Action:** `SendToAgent` → EFGS (`00e87ed1-d005-4527-b29b-bfe7cccb59c2`) with a
+short factual ping. Example:
+
+> Out-of-WA booking: SEA→SJC Mon 2026-09-21, SJC→SEA Fri 2026-09-25 AS ####,
+> conf XXXXXX. Travelers: Jerome only. Please check Julie EFGS Saturdays in the
+> trip window and warn Jerome if she would miss class.
+
+EFGS replies with the warning; Flight Booking can mention the conflict in chat
+once EFGS confirms.
+
+**No trigger:** itineraries that stay entirely in Washington.
+
 ## Continuous improvement
 
 After each booking, correction, or any skill tweak Jerome asks for:
@@ -242,3 +275,4 @@ After each booking, correction, or any skill tweak Jerome asks for:
 - Proceed as Alaska guest when login works
 - Skip Ngoc on flight or Santa Clara calendar events
 - Paste secrets into chat; use box handoff for payment/auth
+- Skip EFGS ping on out-of-WA bookings (incl. SEA↔SJC work weeks)
