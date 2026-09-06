@@ -4,7 +4,7 @@ Standing (2026-08-15). Third-party API secrets are **not** stored on disk, in sk
 
 - Fetch at use time: `aws ssm get-parameter --name … --with-decryption` (or the SDK equivalent).
 - Never commit tokens, passwords, PATs, or poll secrets. Never put them on a CLI flag (shell history). Never paste them into chat or R2Memory.
-- Do not write a local `.env` / token file for HomeExchange, Hospitable, or Kumo.
+- Do not write a local `.env` / token file for HomeExchange, Hospitable, Kumo, or Bellevue Club.
 
 | Integration | SSM |
 |---|---|
@@ -14,6 +14,7 @@ Standing (2026-08-15). Third-party API secrets are **not** stored on disk, in sk
 | HomeExchange login (refresh Lambda only) | `/homeexchange/credentials` |
 | Hospitable PAT | `/hospitable/bearer-token` |
 | KumoCloud | `/kumocloud/email`, `/kumocloud/password` |
+| Bellevue Club | `/bellevue-club/username`, `/bellevue-club/password` |
 
 Grok Bot Titan user `grok-bot-titan` / policy `GrokBotTitanAccess`: S3 `context/*` read+write on `cleaningbutton-ai-context-us-east-1` + Bedrock Titan embed. No SSM, Hospitable, or Lambda.
 
