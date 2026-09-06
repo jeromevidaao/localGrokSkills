@@ -21,28 +21,36 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 ## Hard rules
 
 1. **Standing book:** keep grabbing **Saturday 10:30–11:45 a.m.** indoor tennis
-   at Bellevue Club until Jerome says stop. First Saturday is **2026-09-12**.
-   Any indoor court (ITC 1–6) is fine. Do not substitute another time if 10:30
-   is gone.
+   at Bellevue Club until Jerome says stop. Sep 12 2026 was missed; next standing
+   targets are following Saturdays (e.g. Sep 19). Any ITC 1–6. Do not substitute
+   another time if 10:30 is gone.
 2. **Window:** courts book **7 days out**, new day opens **7:45 a.m. PT**.
-   Saturday inventory therefore opens the **prior Sunday at 7:45 a.m.**
-3. **Sunday timing:** routine `saturday-10-30-indoor-tennis` fires **7:30 a.m.
-   Sundays**. First: confirm member login. If the session is dead, **ping Jerome
-   immediately** and hand the desktop for sign-in (never type his password).
-   If login is fine, stay quiet and wait. At **7:45:00 exactly**, hard-refresh
-   the reservation page, then book 10:30 on the first open indoor court.
-4. **Runs on this computer, not Jerome’s.** His laptop can be off. Login lives
+   Saturday inventory opens the **prior Sunday at 7:45 a.m.**
+3. **ALWAYS refresh on the dot:** at **7:45:00 PT exactly**, **hard-refresh** the
+   reservation page, then book immediately. Every booking run. No exceptions.
+   Never wait for auto-update. Never start navigating at 7:45 — already be on
+   the Indoor Tennis Courts grid.
+4. **NEVER reproduce the Sep 6 resume mistake:** do **not** park a browser agent,
+   end it, then Task-resume it for the open. That resume failed and we missed
+   7:45:00. Keep **ONE** browser/desktop agent **alive and waiting** from login
+   through 7:45:00 (or sleep in-process until then). The **same** live agent must
+   perform the hard-refresh and click.
+5. **Login check:** routine fires **7:30 a.m.** (Sunday for Saturday slots; or the
+   calendar day the window opens). Confirm member login. If dead, **ping Jerome**
+   and hand the desktop (never type his password). If fine, stay quiet and wait
+   on the grid.
+6. **Runs on this computer, not Jerome’s.** His laptop can be off. Login lives
    in this agent’s Chrome profile (`members.bellevueclub.com`).
-5. **After a successful book (same turn, immediately):**
+7. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
-   - **Google Calendar** event Saturday 10:30–11:45 PT at Bellevue Club,
-     invite **jerome.ans@gmail.com** and **Ngoc Dinh (ngoc.h.dinh@gmail.com)**.
-     No Google Meet. She must actually get the invite.
-6. **Always commit + push this skill** after any change. Follow **always-push**:
+   - **Google Calendar** event for that booked slot (usually Sat 10:30–11:45 PT)
+     at Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
+     (ngoc.h.dinh@gmail.com)**. No Google Meet. She must actually get the invite.
+8. **Always commit + push this skill** after any change. Follow **always-push**:
    public → `git push` `main` → CI green → private. Never ask “want me to push?”.
-7. Do **not** add a GitHub connector or MCP for this repo.
-8. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+9. Do **not** add a GitHub connector or MCP for this repo.
+10. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
    On this shared computer, `~/.aws/credentials` is already **`grok-bot-titan`**
@@ -129,6 +137,13 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 - Target Sat **Sep 12** 10:30 was fully gone when checked (~7:46): ITC 1–4 RESERVED; ITC 5–6 Live Ball. Zero open cells. My Reservations empty. No calendar on miss.
 - Notify on miss: chat + email Jerome.
 
+## One-off test Mon Sep 7 2026
+
+Jerome asked for a **one-off** grab of **Sunday Sep 13 2026 10:30–11:45 indoor**
+when that day opens **Monday Sep 7 at 7:45**. Routine folder
+`one-off-sun-sep-13-10-30-indoor` — delete after that run. Same hard rules:
+live agent through open, refresh on the dot, no resume.
+
 ## Continuous improvement
 
 After any Jerome conversation that changes this job:
@@ -141,9 +156,11 @@ After any Jerome conversation that changes this job:
 
 ## Do not
 
+- Miss the 7:45:00 hard-refresh (always on the dot)
+- Task-resume a parked browser across the open second
 - Book a different time if 10:30 is gone
 - Type Jerome’s club password
 - Add a Google Meet link to tennis events
-- Skip inviting Ngoc on the Saturday court event
+- Skip inviting Ngoc on the court calendar event
 - Ask whether to commit/push this skill
 - Add a GitHub connector or MCP for this repo
