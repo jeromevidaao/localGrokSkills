@@ -62,6 +62,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 - Hourly Sep 28–Oct 2 search retry routine is **paused** (probes worsened 429).
   Do not resume aggressive polling without his OK.
 - **Always query slowly** (see Hard rule 0): deep-links over search; wait between loads; captcha → show Jerome.
+- **Never** clear the wall by replaying Mac/browser **session cookies**, `_aat`, DataDome, or `jitney/logging` curls from the box IP. That endpoint is telemetry, not an unblock; cookie replay from a datacenter ASN worsens bot flags and risks the account. Prefer MacBook local browse or Superhost support IP whitelist.
 - Superhost support path: ask to whitelist IP / lift bot-rate limit on the
   account. Phone: **+1-888-326-5753**. Explain that this only affects browsing
   access from the bot IP, not bookings/payouts/Superhost status.
