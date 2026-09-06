@@ -36,11 +36,14 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    through 7:45:00 (or sleep in-process until then). The **same** live agent must
    perform the hard-refresh and click.
 5. **Login check:** routine fires **7:30 a.m.** (Sunday for Saturday slots; or the
-   calendar day the window opens). Confirm member login. If dead, **ping Jerome**
-   and hand the desktop (never type his password). If fine, stay quiet and wait
-   on the grid.
-6. **Runs on this computer, not Jerome’s.** His laptop can be off. Login lives
-   in this agent’s Chrome profile (`members.bellevueclub.com`).
+   calendar day the window opens). Confirm member login. If the session is dead,
+   fetch SSM `/bellevue-club/username` and `/bellevue-club/password` (SecureString)
+   and log in at https://members.bellevueclub.com/. Never write those values to
+   disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. If the session is
+   fine, stay quiet and wait on the grid.
+6. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
+   the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
+   `grok-bot-titan` may GetParameter **only** those two `/bellevue-club/*` names.
 7. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
@@ -122,7 +125,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py ap
 ```
 
 Do this for every meaningful tennis turn (book, login check, cancel, preference).
-Keep the git skill updated and pushed as well (rule 6).
+Keep the git skill updated and pushed as well (rule 8).
 
 ## Sunday login-check calendar
 
@@ -159,7 +162,7 @@ After any Jerome conversation that changes this job:
 - Miss the 7:45:00 hard-refresh (always on the dot)
 - Task-resume a parked browser across the open second
 - Book a different time if 10:30 is gone
-- Type Jerome’s club password
+- Store the club password on disk, in git, in chat, or in Titan (fetch SSM at login)
 - Add a Google Meet link to tennis events
 - Skip inviting Ngoc on the court calendar event
 - Ask whether to commit/push this skill

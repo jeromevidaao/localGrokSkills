@@ -37,7 +37,7 @@ IAM user **`grok-bot-titan`** / policy **`GrokBotTitanAccess`**. Fetch keys from
 | Secret | SSM `/grok/titan-iam-secret-access-key` |
 | S3 | `context/*` on `cleaningbutton-ai-context-us-east-1` — Get/Put/Delete + ListBucket prefix `context/` |
 | Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
-| Denied | SSM, Hospitable, Lambda, S3 outside `context/` (`data/`, `workspaces/`, …) |
+| Denied | SSM except `/bellevue-club/username` + `/bellevue-club/password`, Hospitable, Lambda, S3 outside `context/` (`data/`, `workspaces/`, …) |
 
 ```bash
 aws ssm get-parameter --name /grok/titan-iam-access-key-id --with-decryption --query Parameter.Value --output text
