@@ -75,6 +75,9 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 | Private Room in Central Santa Clara Home (Alice, Nobili area) | `669571746980081639` | Oct 5–8 2026 stay candidate / calendar booking path. |
 | Private Bedroom in Santa Clara Home (Alice, 1680 Nobili Ave) | `668070218598431754` | Nov 2–6 2026 booking conf **HMSFMZFXPH**; often blocked midweek Oct. |
 | Earlier quiet private-bath shortlist samples | `4660686`, `1199416477879750788`, `1429362818141964294` | From Sep 14–18 search era — re-verify dates/bath. |
+| Simply comfy | `680765037399315526` | Past stay Aug 2026; available some gap weeks |
+| Clean room w/ private bath near downtown SJ | `15820573` | Past stay Jul 2026; private bath in title |
+| Queen Bed Room5… | `18417096` | Past stay; often 10-night minimum |
 
 Dated Morse check URL pattern:
 `https://www.airbnb.com/rooms/47225331?check_in=YYYY-MM-DD&check_out=YYYY-MM-DD&adults=1`
