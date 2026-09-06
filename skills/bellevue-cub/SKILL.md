@@ -41,19 +41,24 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    and log in at https://members.bellevueclub.com/. Never write those values to
    disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. If the session is
    fine, stay quiet and wait on the grid.
-6. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
+6. **Weekly book is Lambda `bellevueClubTennis`** (`jeromevidaao/bellevue-club-tennis`):
+   EventBridge Scheduler Sunday **7:44 a.m. PT**, handler waits until **7:45:00.000 PT**,
+   then books next Saturday **10:30–11:45 indoor** (first open ITC). Emails
+   jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
+   double-book that slot from this bot if the Lambda already has it.
+7. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
    the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
    `grok-bot-titan` may GetParameter **only** those two `/bellevue-club/*` names.
-7. **After a successful book (same turn, immediately):**
+8. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
    - **Google Calendar** event for that booked slot (usually Sat 10:30–11:45 PT)
      at Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
      (ngoc.h.dinh@gmail.com)**. No Google Meet. She must actually get the invite.
-8. **Always commit + push this skill** after any change. Follow **always-push**:
+9. **Always commit + push this skill** after any change. Follow **always-push**:
    public → `git push` `main` → CI green → private. Never ask “want me to push?”.
-9. Do **not** add a GitHub connector or MCP for this repo.
-10. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+10. Do **not** add a GitHub connector or MCP for this repo.
+11. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
    On this shared computer, `~/.aws/credentials` is already **`grok-bot-titan`**
@@ -125,7 +130,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py ap
 ```
 
 Do this for every meaningful tennis turn (book, login check, cancel, preference).
-Keep the git skill updated and pushed as well (rule 8).
+Keep the git skill updated and pushed as well (rule 9).
 
 ## Sunday login-check calendar
 
