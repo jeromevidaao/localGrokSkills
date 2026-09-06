@@ -87,11 +87,13 @@ As of early Sep 2026:
 |---|---|---|
 | Aug 31–Sep 4/5 | AS | Covered — Morse `47225331` |
 | Sep 14–18 | AS | Covered — Beautiful private room, 390 Monroe St, Santa Clara |
-| **Sep 28–Oct 2** | AS | **GAP — need private-bath stay near NVIDIA** |
-| Oct 5–8 | AS / DL | Booked / calendar — Central Santa Clara `669571746980081639` |
-| Nov 2–6 | — | Booked — Nobili `668070218598431754` |
+| **Sep 28–Oct 2** | AS | **GAP** — Morse `47225331` **not available** (rechecked 2026-09-06) |
+| Oct 5–8 | AS / DL | Booked (trips) |
+| **Oct 19–22** | OXSCPB / Chase | **GAP** — no Airbnb on calendar |
+| Nov 2–6 | MMQIZO | Booked (trips; through Nov 7) |
+| **Nov 16–20** | NZIZXV + WN | **GAP** — no Airbnb on calendar |
 
-Primary open job when asked: fill **Sep 28–Oct 2 2026** with quiet private-bath options near NVIDIA.
+Open jobs: fill **Sep 28–Oct 2**, **Oct 19–22**, **Nov 16–20** (prefer Morse `47225331` when available).
 
 ## Search workflow
 
