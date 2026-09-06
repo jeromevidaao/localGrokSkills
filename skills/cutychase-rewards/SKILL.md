@@ -72,6 +72,40 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py ap
 
 Also update this `SKILL.md` + push when the turn taught something durable.
 
+## Chase SSM login (when signed out)
+
+SSM SecureStrings (us-east-1), readable by IAM **`grok-bot-titan`**:
+
+| Param | Purpose |
+|---|---|
+| `/chase/username` | Chase online username |
+| `/chase/password` | Chase online password |
+
+Never write those values into git, chat, Titan, screenshot captions, or this skill.
+Fetch at use only.
+
+```bash
+aws ssm get-parameter --name /chase/username --with-decryption \
+  --query Parameter.Value --output text --region us-east-1
+aws ssm get-parameter --name /chase/password --with-decryption \
+  --query Parameter.Value --output text --region us-east-1
+```
+
+Playbook:
+
+1. Fetch both params. Optional: write `CHASE_USER` / `CHASE_PASS` to a mode-`600`
+   temp file for the desktop agent, then **delete** the file after login.
+2. Prefer **computerUse** for the password field if **browserUse** loops on keys.
+   Keep the password **masked** (Hide). One clean fill + **Sign in**.
+3. If **Confirm Your Identity** / mobile app: `request_box_help` — never invent codes.
+4. Real success = `secure.chase.com` dashboard with accounts + header **Sign out**.
+   A green **“You have successfully signed out.”** banner on `chase.com` is a
+   **false positive** — sign in again and/or open
+   `https://secure.chase.com/web/auth/dashboard` (no hash) and wait ~10s.
+5. Avoid `partnerSignout` / `logoff` URLs; they wipe the session.
+
+Verified **2026-09-06**: SSM login reached Accounts overview.
+
 ## Standing routine — Freedom → Reserve combine
 
 Folder: `combine-freedom-unlimited-points-onto-reserve`  
@@ -114,8 +148,8 @@ cheaper), and Reserve balance. Stage only; wait for OK before booking.
 
 ## Browser / box notes
 
-- Prefer **browserUse** for Chase; fall back to **computerUse** if the browser
-  driver / CDP tools fail while Chrome still runs.
+- Prefer **browserUse** for Chase navigation; use **computerUse** for SSM
+  password fill if browserUse key-loops, or if the browser driver fails.
 - Chase tabs can Aw Snap (error 9); reload or open a fresh `secure.chase.com`
   tab. If the driver is dead, restart this agent’s Chrome with **`box-chrome`**
   only (never raw chrome). Sessions may drop after restart → SSM login;
