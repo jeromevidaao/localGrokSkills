@@ -33,6 +33,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 
 ## Hard rules
 
+0. **Query Airbnb slowly** — never hammer search or refresh. Prefer one listing deep-link at a time; wait for full load before the next request; space checks (minutes, not seconds). Aggressive polling feeds 429 / fake “503 Stay tuned”. If a captcha appears, stop and hand Jerome the screen (`request_box_help`) — show him the captcha; do not solve it yourself by guessing.
 1. **Do not book** (or message hosts / pay) unless Jerome explicitly asks.
 2. **Priorities for Santa Clara work stays** (ranked):
    1. **Quiet** (read guest reviews for noise)
@@ -60,6 +61,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
   Jerome search on his phone and send listing links for comparison.
 - Hourly Sep 28–Oct 2 search retry routine is **paused** (probes worsened 429).
   Do not resume aggressive polling without his OK.
+- **Always query slowly** (see Hard rule 0): deep-links over search; wait between loads; captcha → show Jerome.
 - Superhost support path: ask to whitelist IP / lift bot-rate limit on the
   account. Phone: **+1-888-326-5753**. Explain that this only affects browsing
   access from the bot IP, not bookings/payouts/Superhost status.
