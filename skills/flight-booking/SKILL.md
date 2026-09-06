@@ -132,9 +132,11 @@ The table below is a convenience cache only — verify against the wiki when boo
 
 Loyalty defaults when the airline allows a partner:
 
-- **Alaska:** prefer credit to **AA 00T5FH4** when the form lets you pick American;
-  otherwise Atmos 325534370. Note: Saver / some one-ways may lock Atmos and block
-  self-serve FF edits — tell Jerome (call Alaska or add at check-in).
+- **Alaska:** **always** select American Airlines and enter **AA 00T5FH4** when the
+  loyalty program dropdown allows it (Jerome’s standing choice). Only use Atmos
+  **325534370** if AA cannot be selected. Also always enter TSA Pre **992626698**.
+  Note: Saver / some one-ways may lock Atmos and block self-serve FF edits — tell
+  Jerome (call Alaska or add at check-in).
 - **Delta:** SkyMiles 9214639644.
 - **Southwest:** Rapid Rewards if on file; otherwise guest OK. Atmos does not apply.
 
@@ -197,6 +199,14 @@ Do all of these before saying done:
 ## Airline / site notes
 
 ### Alaska (alaskaair.com)
+
+**Checkout must (every Alaska booking):**
+1. Signed in as Jerome Ansia / Atmos **325534370** (never guest)
+2. Legal name **Jerome Lionel Ansia** (full middle name Lionel)
+3. Loyalty: **American Airlines / AA 00T5FH4** when choosable
+4. TSA Pre / KTN **992626698**
+5. Email + billing address from traveler profile
+6. Stop at Review & pay for Jerome’s OK
 
 - Sign in first (Atmos). Sessions and fare holds expire (~10 min) — restage if stale.
 - Sticky Continue / Skip seats buttons can be inert in DOM; use reliable click
