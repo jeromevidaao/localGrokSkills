@@ -20,10 +20,13 @@ Rewards teammate (points combine — separate bot).
 
 ## Hard rules (never skip)
 
-1. **Never type Chase password or 2FA.** Hand the box with
-   `request_box_help` (reason `auth`, domain `chase.com`). If Chase asks
-   "Let's make sure it's you" / mobile-app confirm, hand the box again
-   for that step. Do not ask Jerome to paste credentials in chat.
+1. **Login:** prefer the existing Chrome session. If Chase is signed out,
+   fetch SSM `/chase/username` and `/chase/password` (SecureString) and
+   type them at https://secure.chase.com/. Never write those values to
+   disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. **Never
+   type 2FA.** If Chase asks "Let's make sure it's you" / mobile-app
+   confirm, hand the box with `request_box_help` (reason `auth`, domain
+   `chase.com`). Do not ask Jerome to paste credentials in chat.
 2. **Do not scrape the Chrome cookie DB.** Session lives in this
    computer's Chrome profile. Re-auth only after Chase actually expires
    the session. Refresh loops do **not** keep Chase signed in overnight.
@@ -58,7 +61,9 @@ Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
 (also `~/.grok/skills/r2-memory/scripts/`).
 Bucket: `cleaningbutton-ai-context-us-east-1`.
 On this shared computer, `~/.aws/credentials` is already **grok-bot-titan**,
-region `us-east-1`. Run the scripts directly — no SSM, no missing-keys dance.
+region `us-east-1`. Run Titan scripts directly (no SSM for Titan keys).
+`grok-bot-titan` may GetParameter `/chase/username` + `/chase/password`
+(and the Bellevue Club pair) when the Chase session is dead.
 
 ### Before answering (retrieve)
 
@@ -88,7 +93,7 @@ preference). Keep the git skill updated and pushed as well (rule 8).
 | Inactive | 2797, 0159 | Usually $0 / closed — skip. |
 | Family Checkin | 6022 | Pay-from for card pays. |
 | Jerome Checkin | 6803 | Do not use for these pays. |
-| Chase username (prefilled) | jerome5080 | Recognition only — never type the password. |
+| Chase username (prefilled) | jerome5080 | SSM `/chase/username`. Password is SSM `/chase/password` only. |
 
 ## Routine
 
@@ -128,8 +133,9 @@ preference). Keep the git skill updated and pushed as well (rule 8).
 
 Chase kills sessions on purpose, including overnight. A ping every few
 minutes can stretch an idle timeout; it will not beat a hard logout.
-Do not hammer the site. Best path: keep the Chrome profile, hand the
-box when Chase actually boots the session.
+Do not hammer the site. Keep the Chrome profile. When Chase actually
+boots the session, fetch SSM and sign in; hand the box only for 2FA /
+mobile-app confirm.
 
 Known miss: 2026-08-28 9:12am slot skipped because the box host
 restarted for an idle auto-update around 9:16am PT (caught up ~9:22).
@@ -156,7 +162,7 @@ After each payment, auth handoff, or correction:
 
 ## Do not
 
-- Type or ask for Chase password / 2FA in chat
+- Paste Chase password / 2FA in chat, git, disk, or Titan (fetch SSM at login)
 - Scrape Chrome cookies / Login Data
 - Pay from Jerome Checkin 6803
 - Pay Sapphire / inactive cards on the scheduled routine

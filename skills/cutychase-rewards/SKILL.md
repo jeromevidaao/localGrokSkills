@@ -29,9 +29,11 @@ purchasing a ticket.
    - Sapphire Reserve **...8053** — primary UR wallet / combine destination
    - Freedom Unlimited **...6553** — combine source (sweep onto Reserve)
    - Inactive ...0159 / ...2797 — usually 0 pts; ignore unless they gain balance
-3. **Auth:** never type password, 2FA, or paste card secrets in chat. Use
-   `request_box_help` for Chase sign-in / mobile-app confirm. Username may stay
-   remembered (`jerome5080`); password is not stored.
+3. **Auth:** if signed out, fetch SSM `/chase/username` and `/chase/password`
+   (SecureString) and type them. Never write those values to disk, git, chat,
+   or Titan. **Never type 2FA** or paste card secrets in chat — use
+   `request_box_help` for mobile-app confirm. Username may stay remembered
+   (`jerome5080`).
 4. **Purchase gate:** stop before charging Chase Travel or transferring UR to an
    airline. Get Jerome’s **explicit OK** in chat before paying or irreversible
    transfers (Alaska miles transfers do not come back).
@@ -77,8 +79,8 @@ Schedule: **1st and 16th, 9:00 AM America/Los_Angeles** (`0 9 1,16 * *`)
 
 Each run:
 
-1. Open Chase / Ultimate Rewards in box Chrome. If logged out, hand box for
-   sign-in; if already in, continue.
+1. Open Chase / Ultimate Rewards in box Chrome. If already in, continue.
+   If logged out, fetch SSM and sign in; hand the box only for 2FA.
 2. Combine Points: move **all available** Freedom Unlimited (...6553) pts onto
    Sapphire Reserve (...8053). Confirm when Chase asks.
 3. If **0 available** points: **stay quiet** (do not message Jerome). Pending

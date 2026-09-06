@@ -16,6 +16,6 @@ Standing (2026-08-15). Third-party API secrets are **not** stored on disk, in sk
 | KumoCloud | `/kumocloud/email`, `/kumocloud/password` |
 | Bellevue Club | `/bellevue-club/username`, `/bellevue-club/password` |
 
-Grok Bot Titan user `grok-bot-titan` / policy `GrokBotTitanAccess`: S3 `context/*` read+write on `cleaningbutton-ai-context-us-east-1` + Bedrock Titan embed. SSM GetParameter **only** on `/bellevue-club/username` and `/bellevue-club/password`. No other SSM, Hospitable, or Lambda.
+Grok Bot Titan user `grok-bot-titan` / policy `GrokBotTitanAccess`: S3 `context/*` read+write on `cleaningbutton-ai-context-us-east-1` + Bedrock Titan embed + SSM **read** (GetParameter / GetParameters / GetParametersByPath / DescribeParameters, including SecureString decrypt). No SSM write, Hospitable, or Lambda.
 
 HomeExchange live calls: skill **`home-exchange`** / `he_api.py`.
