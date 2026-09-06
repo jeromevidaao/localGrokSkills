@@ -91,7 +91,7 @@ As of early Sep 2026:
 | Oct 5–8 | AS / DL | Booked (trips) |
 | **Oct 19–22** | OXSCPB / Chase | **GAP** — no Airbnb on calendar |
 | Nov 2–6 | MMQIZO | Booked (trips; through Nov 7) |
-| **Nov 16–20** | NZIZXV + WN | **GAP** — no Airbnb on calendar |
+| **Nov 16–20** | NZIZXV + WN | **GAP** — Morse `47225331` **available ~$433** (checked 2026-09-06); awaiting book OK |
 
 Open jobs: fill **Sep 28–Oct 2**, **Oct 19–22**, **Nov 16–20** (prefer Morse `47225331` when available).
 
