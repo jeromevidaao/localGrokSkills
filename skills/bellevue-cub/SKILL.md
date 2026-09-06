@@ -73,6 +73,15 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    reputation can also make it **intermittent** (one invoke challenged, next
    not). Hourly canary is the detector; when it emails, the HTTP path is dead
    until we change approach (browser/`cf_clearance` mint, or a different egress).
+   **Cannot stop CF tightening** (club/vendor dashboard or managed-ruleset).
+   Defensive (don't poke): freeze UA `Mozilla/5.0` — never send a Chrome UA from
+   Lambda (that already trips Turnstile); no UA rotation; no retry-storm on
+   challenge; canary is login+grid only. Hourly canary = **24 AWS logins/day**
+   — the noisiest thing we do; thinning to a few times/day (or Sunday morning
+   only) lowers chance of IP reputation heat, slower detection. NAT Elastic IP
+   does **not** beat Super Bot Fight (still AWS ASN). Durable path if CF
+   tightens: book from this box (real Chrome + ISP IP), not Lambda. Do not
+   run Lambda and the box both at Sunday 7:45.
 7. **Runs on this computer, not Jerome’s.** His laptop can be off. After login,
    the session lives in this agent’s Chrome profile (`members.bellevueclub.com`).
    `grok-bot-titan` can GetParameter those two `/bellevue-club/*` names (SSM read on this user).
