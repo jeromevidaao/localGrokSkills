@@ -41,9 +41,10 @@ Rewards teammate (points combine — separate bot).
 6. **Scheduled routine card is FU only** (`...6553`). Do not pay Sapphire
    Reserve or inactive cards on the cron unless Jerome explicitly says
    "pay the cards" (plural) in chat.
-7. **Repeat Chase auth failure:** first time, hand the box. Same auth
-   wall on a later run → **pause** the routine and tell Jerome to sign
-   back in. Resume only after he is signed in and today's check is done.
+7. **Repeat Chase auth failure:** first time, SSM login; hand the box
+   only for 2FA. Same 2FA / auth wall on a later run → **pause** the
+   routine and tell Jerome. Resume only after he is signed in and
+   today's check is done.
 8. **Always commit + push this skill:** any edit to
    `skills/cutychase-pay-balance/` must be committed and pushed to
    `jeromevidaao/localGrokSkills` the same turn — **always-push**

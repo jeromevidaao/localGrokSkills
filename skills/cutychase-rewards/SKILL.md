@@ -118,7 +118,8 @@ cheaper), and Reserve balance. Stage only; wait for OK before booking.
   driver / CDP tools fail while Chrome still runs.
 - Chase tabs can Aw Snap (error 9); reload or open a fresh `secure.chase.com`
   tab. If the driver is dead, restart this agent’s Chrome with **`box-chrome`**
-  only (never raw chrome). Sessions may drop after restart → hand box to sign in.
+  only (never raw chrome). Sessions may drop after restart → SSM login;
+  hand the box only for 2FA.
 - Shared box RAM: close unused tabs on **this** desktop only when asked; never
   kill other agents’ Chrome processes.
 
@@ -128,4 +129,5 @@ cheaper), and Reserve balance. Stage only; wait for OK before booking.
 - Transfer UR → Alaska (or any partner) without explicit OK
 - Book Chase Travel without explicit OK
 - Message Jerome on the scheduled sweep when Freedom available balance is 0
+- Paste Chase password / 2FA in chat, git, disk, or Titan (fetch SSM at login)
 - Ask whether to commit/push skill updates
