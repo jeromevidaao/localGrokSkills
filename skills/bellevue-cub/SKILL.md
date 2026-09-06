@@ -125,9 +125,9 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 
 ## Lessons from Sep 6 2026 (first live run)
 
-- Target Sat **Sep 12** 10:30 was **fully gone** at open (ITC 1–4 RESERVED; ITC 5–6 Live Ball). Do not substitute another time.
-- My Reservations empty — correct to report miss, not invent a booking.
-- Notify on miss too: chat + email Jerome (calendar only on success).
+- **Timing bug:** login/park OK by ~7:35, but the parked browser **resume for 7:45:00 hard-refresh+book failed**. Fresh book only launched **after** 7:45. Do **not** rely on Task resume across the open second — keep one browser agent **alive and waiting** through 7:45:00, or sleep until then in-process and act immediately.
+- Target Sat **Sep 12** 10:30 was fully gone when checked (~7:46): ITC 1–4 RESERVED; ITC 5–6 Live Ball. Zero open cells. My Reservations empty. No calendar on miss.
+- Notify on miss: chat + email Jerome.
 
 ## Continuous improvement
 
