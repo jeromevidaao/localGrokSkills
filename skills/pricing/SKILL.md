@@ -181,6 +181,14 @@ Published by **pricing-tool-report** (same Lambda as the email):
 
 **Generated path in code:** `report.js` → `buildOccupancyReportJson` → S3 put to `OCCUPANCY_S3_BUCKET` / `data/occupancy/latest.json`.
 
+## Weekly BASE_PRICES PRs (CI)
+
+`pricing-tool-report` may open a GitHub PR for `BASE_PRICES`. **Human approves or closes** — nothing auto-merges.
+
+CI preflight requires `index.js` `BASE_PRICES` **===** `report.js` `BASE_PRICES_SNAPSHOT`. A PR that rewrites only `index.js` goes red (`BASE_PRICES must match BASE_PRICES_SNAPSHOT`). That is what failed [PR #6](https://github.com/jeromevidaao/pricing-tool/pull/6) (2026-09-07 Cozy Sep $210→$245 / Oct $165→$190).
+
+Generator (`applyBasePricePair` + one git-tree commit) now writes **both** files. Do not ship a bases PR that skips the snapshot.
+
 ## Banned claims
 
 - "No pricing-tool / Pricing Lambda code is available"
