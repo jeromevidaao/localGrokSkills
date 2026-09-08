@@ -61,6 +61,10 @@ conflicts — ping on out-of-WA trips).
    route, dates, travelers, and conf code **before** saying the booking is done.
    Prefer also flagging when presenting options if a Saturday conflict is clear.
    EFGS owns the warning to Jerome. In-WA-only itineraries: no ping. Skill: `efgs`.
+12. **Flight calendar guests:** on every timed flight-duration calendar event,
+   invite **ngoc.h.dinh@gmail.com** and **jansia@nvidia.com** (on top of Jerome).
+   Do this for every future booking. Santa Clara all-day week blocks stay
+   Ngoc (+ Jerome) unless he says otherwise.
 
 ## Titan R2Memory (every turn)
 
@@ -129,6 +133,7 @@ The table below is a convenience cache only — verify against the wiki when boo
 | AA AAdvantage (oneworld) | 00T5FH4 |
 | Delta SkyMiles | 9214639644 |
 | Wife (calendar) | Ngoc Dinh — ngoc.h.dinh@gmail.com |
+| Work calendar (flight legs) | jansia@nvidia.com — invite on every timed flight event |
 
 Loyalty defaults when the airline allows a partner:
 
@@ -176,7 +181,7 @@ Do all of these before saying done:
 2. **Calendar — timed flight event** for each booked leg:
    - Title like `Flight to San Jose (AS 1341)` / `Flight to Seattle (WN 698)`
    - Correct local times; note conf + fare in description
-   - Invite **ngoc.h.dinh@gmail.com** (and Jerome accepted)
+   - Invite **ngoc.h.dinh@gmail.com** and **jansia@nvidia.com** (and Jerome accepted)
    - If Gmail auto-created a `FROM_GMAIL` event, still create/invite Ngoc on a
      proper event when the Gmail one won’t accept guests
 3. **Calendar — Santa Clara week** when the trip is Jerome’s SJC work week
@@ -290,5 +295,6 @@ After each booking, correction, or any skill tweak Jerome asks for:
 - Skip billing address or contact email on forms
 - Proceed as Alaska guest when login works
 - Skip Ngoc on flight or Santa Clara calendar events
+- Skip `jansia@nvidia.com` on timed flight-duration calendar events
 - Paste secrets into chat; use box handoff for payment/auth
 - Skip EFGS ping on out-of-WA bookings (incl. SEA↔SJC work weeks)
