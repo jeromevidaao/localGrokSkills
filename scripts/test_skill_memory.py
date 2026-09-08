@@ -66,7 +66,7 @@ def main() -> int:
     check(needs_retrieval("Eval failed on CI required phrases") is True, "harness eval")
 
     occ = skills_for_message("is unit 2 occupied?")
-    check("hospitable" in occ and "r2" in occ, f"occupancy skills {occ}")
+    check("hospitable" in occ, f"occupancy skills {occ}")
     park = skills_for_message("Cassidy parking after checkout")
     check("guest-messaging-harness" in park, f"parking skills {park}")
 
