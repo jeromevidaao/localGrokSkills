@@ -35,8 +35,9 @@ Flight Booking bot for price research; search Google Flights / Hopper **here**.
 3. **GuestPoints only** unless he explicitly asks reciprocal. Named greetings
    (`Hi {HostFirstName} -`) on every outbound host message.
 4. **Never type passwords.** Hand the box for HE / Google / Drive sign-in.
-5. **Do not reply on Dan thread** `95774893` after Jerome said FaceTime is done
-   (2026-09-03) unless he asks again.
+5. **Dan thread** `95774893`: do not reply unless Jerome asks. On 2026-09-08
+   he asked to send FaceTime readiness; sent: “We’re ready for the FaceTime
+   whenever you are…” (Ruby & Jerome). FaceTime was planned Tue Sep 8 ~5pm PT.
 6. **Do not ping** the Flight Booking / Alaska Airlines agent for fare lookups.
 7. Passport / bills: never OCR, quote, or log PII from ID docs.
 8. Finalize / Venmo / off-platform fees: only when Jerome explicitly authorizes.
