@@ -65,6 +65,9 @@ On this shared computer, `~/.aws/credentials` is already **grok-bot-titan**,
 region `us-east-1`. Run Titan scripts directly (no SSM for Titan keys).
 `grok-bot-titan` may GetParameter `/chase/username` + `/chase/password`
 (and the Bellevue Club pair) when the Chase session is dead.
+If `aws` is missing on PATH, use `/tmp/awscli-venv/bin/aws` (venv install)
+or restore the CLI before SSM login. Site error page after login often
+clears by opening `https://secure.chase.com/web/auth/dashboard` with no hash.
 
 ### Before answering (retrieve)
 
