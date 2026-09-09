@@ -146,6 +146,14 @@ restarted for an idle auto-update around 9:16am PT (caught up ~9:22).
 2026-09-04 Friday run **failed** `[resource_exhausted]` — no payment
 attempted that morning.
 
+## Debit card replacement
+
+Jerome Checkin (...6803) has Disney Debit (...1688). On 2026-09-09 he ordered a
+replacement (damaged) via Chase: no fee, 5–7 business days to
+3099 125TH AVE NE, Bellevue, WA 98005-1655; card number unchanged; keep using
+old card until activate. Do **not** order for Family Checkin (...6022) unless
+he asks for the common/family account.
+
 ## Manual "pay the cards" (chat)
 
 When Jerome says pay the cards (plural), check every credit card, skip
