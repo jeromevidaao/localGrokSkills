@@ -67,25 +67,26 @@ Emails: Jerome `jerome.ans@gmail.com`; Ngoc `ngoc.h.dinh@gmail.com`.
 
 **Prefer Saigon (SGN), not Hanoi (HAN).** No Hanoi if he sticks with this swap.
 
-Why (flight-only, hotel unchanged; researched ~Sep 2026 — **re-price live**):
+Live refresh **2026-09-09** (re-price again before booking):
 
-| Party | Hanoi intl (approx) | Saigon intl (approx) | Flight save | Time notes |
-|---|---|---|---|---|
-| Dinh/Ansia SEA | China Air ~$2,360 · ~19h15 out | China Air ~$2,278 · ~18h25 out / ~15h45 back | ~$69 net (intl −$82, domestic +$13) | Domestic hop ~1h vs ~2h |
-| Maxime BSL | Turkish ~$3,016 | Turkish ~$2,641 | ~$363 | Intl similar duration |
-| Maxime+Julien BSL | Turkish ~$4,121 | Turkish ~$3,596 | ~$559 | Domestic also slightly cheaper |
+| Party | SGN intl now | Domestic SGN↔PQC | Hotel 4n (pre-tax band) | Party total now | vs prior SGN plan |
+|---|---|---|---|---|---|
+| Dinh/Ansia SEA | China Air **$2,322** | **$246** | Classic OV **~$1,188** | **~$3,756** | **−~$246** (hotel down, intl +$44) |
+| Maxime BSL | Turkish **$2,614** | **$246** | Classic OV **~$1,188** | **~$4,048** | ~flat |
+| Maxime+Julien BSL | Turkish **$3,557** | **$328** | 2BR OV residence **~$2,164** | **~$6,049** | **+$293** (hotel up) |
 
-SEA SGN pattern (China Airlines via TPE): arrive **SGN ~9:40 AM Sat Apr 10**, leave **SGN ~5:30 PM Sun Apr 18**.
+Older Hanoi benchmarks (for reference only): SEA–HAN ~$2,360; BSL–HAN Turkish ~$3,016 / $4,121.
 
-BSL SGN pattern (Turkish via IST): BSL ~7:10 PM Fri Apr 9 → **SGN ~4:10 PM Sat Apr 10** (~16h). Longer cheaper BA+Qatar exists (~27h) — mention but don’t default.
+SEA SGN pattern (China Airlines via TPE): arrive **SGN ~9:40 AM Sat Apr 10**, leave **SGN ~5:30 PM Sun Apr 18** (~18h25 out / ~15h45 back).
+
+BSL SGN Turkish (Sep 9): morning BSL out → **SGN ~4:10 PM Sat** but **~24h30** outbound (IST); return ~16h40. Earlier Sep quote had a shorter ~16h evening BSL pattern — re-check schedule.
 
 ## Phu Quoc (shared)
 
 - Hotel: **InterContinental Phu Quoc Long Beach Resort** (IHG `PQCCP`), Long Beach / Marina, ~10–15 min from PQC.
-- Dinh/Ansia: prefer **2 Single Junior Suite Ocean View Balcony** (twins, sleeps 3, breakfast). Last member-sale ballpark ~$368/night → ~$1,472 / 4 nights **before tax** — re-check IHG.
-- Maxime alone: room for 3; OTA ~$1,164 / 4n seen — **confirm ocean view on IHG**.
-- Maxime+Julien: **2-Bedroom Residence** (~$1,828 / 4n) beats two rooms (~$2,328) by ~$500.
-- Domestic **SGN ↔ PQC**: Vietjet nonstop **~1h**. Prefer morning out (~11:00; no exact 10:30) and afternoon back (~16:25) so they keep hotel day. Last quotes: ~$252 / $247 / $332 for the three party sizes.
+- Dinh/Ansia / Maxime (3 pax): **King Classic Ocean View Balcony** ~$297/night → **~$1,188 / 4 nights** before tax (Sep 9). Twin Jr Suite was ~$1,472 earlier — re-check both.
+- Maxime+Julien: **2-Bedroom Residence Ocean View** ~$541/night → **~$2,164 / 4 nights** before tax (up vs ~$1,828 earlier).
+- Domestic **SGN ↔ PQC**: Vietjet nonstop **~1h**. Prefer **11:00→12:00** out / **16:25→17:30** back. Sep 9: ~$246 / $246 / $328 for the three party sizes.
 - Earlier HAN domestic (if ever revived): VJ 441 10:30 + VJ 456 15:40; ~$239 / $235 / $366.
 
 ## Optional Hoi An
