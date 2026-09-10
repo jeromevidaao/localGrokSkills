@@ -146,6 +146,14 @@ restarted for an idle auto-update around 9:16am PT (caught up ~9:22).
 2026-09-04 Friday run **failed** `[resource_exhausted]` — no payment
 attempted that morning.
 
+## Zelle — Miss Cleo / cleaning
+
+Saved recipient: **Cleo - Cleaners Bellevue** (CLEONES FONSECA DE MELO), phone
+ending **5137**. On 2026-09-10 Jerome paid **$150** from Family Checkin
+(...6022), memo **Cleaning**, conf **JPM99cw3helz** (Funded). Prefer this
+recipient when he says Miss Cleo / Cleo cleaning Zelle. Confirm on review
+before Send money.
+
 ## Debit card replacement
 
 Jerome Checkin (...6803) has Disney Debit (...1688). On 2026-09-09 he ordered a
