@@ -30,17 +30,19 @@ Rewards teammate (points combine — separate bot).
 2. **Do not scrape the Chrome cookie DB.** Session lives in this
    computer's Chrome profile. Re-auth only after Chase actually expires
    the session. Refresh loops do **not** keep Chase signed in overnight.
-3. **Freedom Unlimited auto-pay** is standing authorization (2026-08-27):
-   check **Mon / Wed / Fri at 9:12am PT**; if current balance is **over
-   $150**, pay the **full current balance** from **Family Checkin 6022**.
-   If $150 or under, **stay quiet**.
+3. **Freedom Unlimited + Sapphire Reserve auto-pay** (FU since 2026-08-27;
+   Reserve added 2026-09-11): check **Mon / Wed / Fri at 9:12am PT**. For
+   **each** of Freedom Unlimited (...6553) and Sapphire Reserve (...8053),
+   if that card's current balance is **over $150**, pay the **full current
+   balance** from **Family Checkin 6022**. If $150 or under on a card, skip
+   that card. Stay quiet only if **neither** needed a payment.
 4. **Do not double-pay.** Check Payment Activity first. Skip if a
    pending / in-process payment already covers the current balance.
 5. **Funding account:** Family Checkin `...6022` only for these pays.
    Never use Jerome Checkin `...6803`.
-6. **Scheduled routine card is FU only** (`...6553`). Do not pay Sapphire
-   Reserve or inactive cards on the cron unless Jerome explicitly says
-   "pay the cards" (plural) in chat.
+6. **Scheduled routine cards:** Freedom Unlimited (`...6553`) and Sapphire
+   Reserve (`...8053`) only. Skip inactive cards. Manual "pay the cards"
+   in chat can still cover any uncovered balances.
 7. **Repeat Chase auth failure:** first time, SSM login; hand the box
    only for 2FA. Same 2FA / auth wall on a later run → **pause** the
    routine and tell Jerome. Resume only after he is signed in and
@@ -93,7 +95,7 @@ preference). Keep the git skill updated and pushed as well (rule 8).
 | What | Last 4 | Notes |
 |---|---|---|
 | Freedom Unlimited (Visa) | 6553 | Auto-pay target. Autopay ON, statement balance, typically due ~6th. |
-| Sapphire Reserve | 8053 | Pay only when Jerome says pay the cards (plural). |
+| Sapphire Reserve | 8053 | Same over-$150 Mon/Wed/Fri auto-pay as FU (since 2026-09-11). |
 | Inactive | 2797, 0159 | Usually $0 / closed — skip. |
 | Family Checkin | 6022 | Pay-from for card pays. |
 | Jerome Checkin | 6803 | Do not use for these pays. |
@@ -101,12 +103,13 @@ preference). Keep the git skill updated and pushed as well (rule 8).
 
 ## Routine
 
-- Name: **Freedom Unlimited over-$150 pay**
+- Name: **Freedom Unlimited + Reserve over-$150 pay**
 - Folder: `freedom-unlimited-over-150-pay`
 - Cron (America/Los_Angeles): `12 9 * * 1,3,5`
-- Quiet if balance ≤ $150 or already covered by pending payment.
-- After a successful extra payment: tell Jerome once — amount, from-account,
-  confirmation number, date, pending/posted.
+- Per card (FU + Reserve): quiet skip if balance ≤ $150 or already covered.
+- Quiet overall only if neither card was paid.
+- After any successful payment(s): tell Jerome once — each amount,
+  from-account, confirmation number, date, pending/posted.
 
 ## Chase browser playbook
 
