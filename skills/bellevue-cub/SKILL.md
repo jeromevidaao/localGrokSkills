@@ -8,7 +8,8 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-12):** Sat Sep 12 10:30 indoor **never booked** (browser resume miss Sun Sep 6; Lambda not live yet). Browser auto-book remains **PAUSED** — stay out of Sunday opens so we do **not** double-book. **Lambda is the standing booker.** Fix **shipped** `jeromevidaao/bellevue-club-tennis` **main `652173b`**: login on the ~7:44 invoke, wait until **7:45:00**, then refresh+book (was wait-then-login). Grok CLI CLI-verifies ~7:50 PT Sundays and pings Jerome. EventBridge `bellevueClubTennis-sunday-745` ENABLED still unconfirmed from Titan. Pre-open Sep 19 sheet can look all-RESERVED — not proof sold out before Sun Sep 13 7:45.
+**STATUS (2026-09-12 harden):** Jerome wants **both** Sat+Sun 10:30 indoor. Lambda `2db74f6` deployed: login-before-745, ~55s poll, save retries, SES always to jerome.ans@gmail.com with why on miss. Schedules intended: `bellevueClubTennis-sunday-745` (Sun 7:44→next Sat) input `{"targetWeekday":"sat"}` and `bellevueClubTennis-monday-745` (Mon 7:44→next Sun) input `{"targetWeekday":"sun"}` — ensure via Mac `bash scripts/ensure-schedules.sh` (Titan AccessDenied on scheduler). Browser auto-book stays PAUSED. Next: Sun Sep 13→Sat Sep 19; Mon Sep 14→Sun Sep 20.
+
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
@@ -173,6 +174,14 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 
 
 ## Timeline & Root Cause for Sep 12 2026 miss (investigated 2026-09-12)
+
+## Hardening 2026-09-12 (Grok CLI)
+
+- Code: `resolveTargetDay` / `nextSunday`; save retries; richer SES detail/open list.
+- Deployed main `2db74f6` (CI green).
+- Live canary from box OK (cfPassed).
+- AWS schedules: run on Mac identity `bash /path/to/bellevue-club-tennis/scripts/ensure-schedules.sh` (or checkout) to FORCE ENABLED sunday-745 + monday-745.
+- Verify routines: Sun 7:50 + Mon 7:50 PT CLI my/canary ping.
 
 ## Investigation 2026-09-12 (Grok CLI)
 
