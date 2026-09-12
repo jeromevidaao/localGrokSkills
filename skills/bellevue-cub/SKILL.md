@@ -8,11 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-06): auto-booking PAUSED.** Jerome cancelled standing Saturday
-grabs and the Mon Sep 7 one-off for now — different path. Do **not** book or
-run the Sunday/Monday open unless he explicitly restarts. Weekly Saturday
-routine is paused; one-off was deleted; Sunday login-check calendar event
-removed.
+**STATUS (2026-09-12): auto-booking PAUSED.** No reservation for Sat Sep 12 2026 10:30–11:45 indoor (confirmed via CLI: my-reservations empty; that date's grid has no 10:30 open, only a late afternoon slot). Next standing target Sep 19 also has zero open at 10:30. Do **not** book or run the open unless Jerome explicitly restarts. Weekly Saturday routine remains paused.
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
