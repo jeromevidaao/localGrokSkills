@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-12, Grok CLI RCA):** Sat Sep 12 10:30 indoor **never booked**. Root cause: Bellevue Cub **browser** path on **Sun Sep 6 7:45 PT** parked then **Task-resumed** across the open; resume failed and book launched ~7:46 — ITC already gone. Lambda `bellevueClubTennis` was **not live yet** (first deploy ~8:46–9:11 AM PT that day). Browser auto-book remains **PAUSED**; **Lambda is the standing booker**. Live 2026-09-12 box check: HTTP canary **ok**, `my-reservations` **empty**. Pre-open Sep 19 sheet can look all-RESERVED/open=0 — not proof sold out before Sun Sep 13 7:45. Lambda fix shipping: **login before** 7:45, then refresh+book. Do **not** run browser+Lambda together / unpause browser unless Jerome asks.
+**STATUS (2026-09-12):** Sat Sep 12 10:30 indoor **never booked** (browser resume miss Sun Sep 6; Lambda not live yet). Browser auto-book remains **PAUSED** — stay out of Sunday opens so we do **not** double-book. **Lambda is the standing booker.** Fix **shipped** `jeromevidaao/bellevue-club-tennis` **main `652173b`**: login on the ~7:44 invoke, wait until **7:45:00**, then refresh+book (was wait-then-login). Grok CLI CLI-verifies ~7:50 PT Sundays and pings Jerome. EventBridge `bellevueClubTennis-sunday-745` ENABLED still unconfirmed from Titan. Pre-open Sep 19 sheet can look all-RESERVED — not proof sold out before Sun Sep 13 7:45.
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
@@ -44,8 +44,9 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. If the session is
    fine, stay quiet and wait on the grid.
 6. **Weekly book is Lambda `bellevueClubTennis`** (`jeromevidaao/bellevue-club-tennis`):
-   EventBridge Scheduler Sunday **7:44 a.m. PT**, handler waits until **7:45:00.000 PT**,
-   then books next Saturday **10:30–11:45 indoor** (first open ITC). Emails
+   EventBridge Scheduler Sunday **7:44 a.m. PT**. Handler **logs in on that invoke**,
+   waits until **7:45:00.000 PT**, then refresh+books next Saturday **10:30–11:45 indoor**
+   (first open ITC). Shipped `652173b` (was wait-then-login). Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
    **Cloudflare:** in front of **every** `members.bellevueclub.com` request
