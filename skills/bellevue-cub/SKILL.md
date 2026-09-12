@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-12): auto-booking PAUSED.** No reservation for Sat Sep 12 2026 10:30–11:45 indoor (confirmed via CLI `node scripts/cli.js my` + `list-indoor`: my-reservations empty; that date's grid had zero open at 10:30, only late-afternoon slots; Sep 19 grid also fully booked at 10:30). Do **not** book or unpause unless Jerome explicitly restarts. Weekly routine remains paused.
+**STATUS (2026-09-12, Grok CLI RCA):** Sat Sep 12 10:30 indoor **never booked**. Root cause: Bellevue Cub **browser** path on **Sun Sep 6 7:45 PT** parked then **Task-resumed** across the open; resume failed and book launched ~7:46 — ITC already gone. Lambda `bellevueClubTennis` was **not live yet** (first deploy ~8:46–9:11 AM PT that day). Browser auto-book remains **PAUSED**; **Lambda is the standing booker**. Live 2026-09-12 box check: HTTP canary **ok**, `my-reservations` **empty**. Pre-open Sep 19 sheet can look all-RESERVED/open=0 — not proof sold out before Sun Sep 13 7:45. Lambda fix shipping: **login before** 7:45, then refresh+book. Do **not** run browser+Lambda together / unpause browser unless Jerome asks.
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
@@ -172,6 +172,14 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 
 
 ## Timeline & Root Cause for Sep 12 2026 miss (investigated 2026-09-12)
+
+## Investigation 2026-09-12 (Grok CLI)
+
+- Confirmed via club HTTP CLI on the box: canary ok; my-reservations empty.
+- Miss was browser resume on Sep 6; Lambda shipped after that open.
+- Code fix: `bellevue-club-tennis` logs in on invoke (~7:44), waits to 7:45, then refresh+book (was wait-then-login).
+- Titan cannot read scheduler/Lambda/CW; bootstrap leaves Sunday schedule ENABLED.
+- Routine: Sunday 7:50 PT verify via CLI and ping Jerome.
 
 **Sep 6:** First live Sunday run (outdoor test succeeded). Browser-agent resume-across-7:45 bug noted (fixed in playbook: keep live agent or in-process sleep).
 
