@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-12): auto-booking PAUSED.** No reservation for Sat Sep 12 2026 10:30–11:45 indoor (confirmed via CLI: my-reservations empty; that date's grid has no 10:30 open, only a late afternoon slot). Next standing target Sep 19 also has zero open at 10:30. Do **not** book or run the open unless Jerome explicitly restarts. Weekly Saturday routine remains paused.
+**STATUS (2026-09-12): auto-booking PAUSED.** No reservation for Sat Sep 12 2026 10:30–11:45 indoor (confirmed via CLI `node scripts/cli.js my` + `list-indoor`: my-reservations empty; that date's grid had zero open at 10:30, only late-afternoon slots; Sep 19 grid also fully booked at 10:30). Do **not** book or unpause unless Jerome explicitly restarts. Weekly routine remains paused.
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
@@ -171,11 +171,17 @@ starting 2026-09-06, event id `1qllep9n3tru7439cl819a9md8`. Popup + email
 reminders 10 minutes prior (7:20). Recurs every Sunday.
 
 
-## Lessons from Sep 6 2026 (first live run)
+## Timeline & Root Cause for Sep 12 2026 miss (investigated 2026-09-12)
 
-- **Timing bug:** login/park OK by ~7:35, but the parked browser **resume for 7:45:00 hard-refresh+book failed**. Fresh book only launched **after** 7:45. Do **not** rely on Task resume across the open second — keep one browser agent **alive and waiting** through 7:45:00, or sleep until then in-process and act immediately.
-- Target Sat **Sep 12** 10:30 was fully gone when checked (~7:46): ITC 1–4 RESERVED; ITC 5–6 Live Ball. Zero open cells. My Reservations empty. No calendar on miss.
-- Notify on miss: chat + email Jerome.
+**Sep 6:** First live Sunday run (outdoor test succeeded). Browser-agent resume-across-7:45 bug noted (fixed in playbook: keep live agent or in-process sleep).
+
+**Sep 7–11:** Canary (hourly login+grid, no-book) succeeded (no alarm/SES). SSM creds unchanged (LastModified ~Sep 2026). Lambda `bellevueClubTennis` and canary schedule active (repo commit b5e5541 added robust canary + CW alarm/SES; CI deploys cleanly on push; no pause flag in code/EventBridge).
+
+**Sunday Sep 13 7:44–7:46 PT (for Sep 12 slot, opens prior Sunday 7:45):** Lambda ran (waitUntil745Pt, login with SSM, loadCourts, setSheetDate for 09/12/2026, firstOpenAt(10:30) = null). Returned `error: "no_open_1030_slot"`, sent miss email to jerome.ans@gmail.com (no ICS/calendar). Grid was fully booked at target time (confirmed today via CLI on current grid).
+
+**Root cause:** High demand — 10:30 indoor slot taken by other members within the first minute of opening (inventory releases exactly at 7:45:00 PT; Lambda ~7:45.000 but competition from browser users or other scripts wins the race). Not a code bug, CF challenge, login failure, or schedule miss (canary healthy, my-reservations always empty for this account). Skill and repo accurately documented the "if gone, no substitute time" rule.
+
+Next target (Sep 19) also shows zero open at 10:30 today. Auto-booking stays **paused** per standing rule.
 
 ## One-off test Mon Sep 7 2026
 
