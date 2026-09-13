@@ -31,6 +31,9 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    `GrokBotTitanAccess` **v6** can `ssm:PutParameter` (granted 2026-09-13).
    `/bellevue-club/*` is Bellevue Club — never use it for Gorin.
    Never put the CourtReserve password in this skill or in chat.
+   Owner monitor: **More → Tennis Ops** on Android (OTA 1.3.78) and website
+   `#!/tennis-ops` (`act=tennis_ops_status`) lists Julie U6 upcoming/past from
+   CourtReserve. Do not invent lessons if that section is unavailable.
 4. **No Sunday lock-in.** Winter Sundays are for skiing. Book Sunday only when
    Jerome asks for a specific date (week-ahead is usually enough).
 5. **Drop-in, not packages.** Single date only unless he asks for a full-event

@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 09:20 PT):** Sat 10:30: fire **7:40**, wait to **7:45**, then **race hardcoded ITC 1–6 (area 20–25) in parallel**. First confirmed save wins; other workers abort (no second book). Timeout 420s. Next Sat **Sep 26** opens Sun Sep 20. Sun **Sep 20 6:00–7:15 PM ITC 1** already booked. Browser auto-book still PAUSED.
+**STATUS (2026-09-13 14:10 PT):** Sat 10:30: fire **7:40**, wait to **7:45**, then **race hardcoded ITC 1–6 (area 20–25) in parallel**. First confirmed save wins; other workers abort (no second book). Timeout 420s. Next Sat **Sep 26** opens Sun Sep 20. Sun **Sep 20 6:00–7:15 PM ITC 1** already booked. Browser auto-book still PAUSED. Owner monitor: **More → Tennis Ops** on Android (OTA 1.3.78) and website `#!/tennis-ops` (`act=tennis_ops_status`).
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
