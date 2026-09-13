@@ -42,11 +42,12 @@ def main() -> int:
         return 1
 
     dirs = sorted(p for p in SKILLS.iterdir() if p.is_dir() and not p.name.startswith("."))
-    if not dirs:
+    user_dirs = [d for d in dirs if not d.is_symlink()]
+    if not user_dirs:
         print("FAIL: no skills")
         return 1
 
-    for d in dirs:
+    for d in user_dirs:
         md = d / "SKILL.md"
         if not md.is_file():
             errors.append(f"{d.name}: missing SKILL.md")
@@ -103,7 +104,7 @@ def main() -> int:
             print(f" - {item}")
         return 1
 
-    print(f"OK {len(dirs)} user skills")
+    print(f"OK {len(user_dirs)} user skills")
     return 0
 
 

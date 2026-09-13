@@ -9,7 +9,11 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "skills" / "r2-memory" / "scripts"))
 
-from health_skills import upsert_skills_ignore  # noqa: E402
+from health_skills import (  # noqa: E402
+    ensure_bundled_aliases,
+    upsert_skills_disabled,
+    upsert_skills_ignore,
+)
 from resolve_skill import bundled_missing_skill_md, resolve  # noqa: E402
 from topic_catalog import needs_retrieval, skills_for_message, match_topics  # noqa: E402
 
@@ -27,14 +31,18 @@ def main() -> int:
     check(resolve("this-skill-does-not-exist-xyz") is None, "missing skill")
 
     missing = bundled_missing_skill_md()
-    if (Path.home() / ".grok" / "bundled" / "skills").is_dir():
-        check("remove-wall-of-text" in missing, f"empty bundled dir detected: {missing}")
-        check("shared" in missing, f"shared lib dir detected: {missing}")
+    bundled_root = Path.home() / ".grok" / "bundled" / "skills"
+    if bundled_root.is_dir():
+        for n in ("remove-wall-of-text", "shared"):
+            d = bundled_root / n
+            if d.is_dir() and not (d / "SKILL.md").is_file():
+                check(n in missing, f"empty bundled dir detected: {missing}")
         bundled = resolve("skill-design-principles")
-        check(bundled is not None and bundled["kind"] == "bundled", "resolve bundled skill")
+        check(bundled is not None, "resolve skill-design-principles")
+        real = str(Path(bundled["path"]).resolve())
         check(
-            bundled["path"].endswith("bundled/skills/skill-design-principles/SKILL.md"),
-            bundled["path"],
+            real.endswith("bundled/skills/skill-design-principles/SKILL.md"),
+            real,
         )
     else:
         check(resolve("skill-design-principles") is None, "no bundled skills on CI")
@@ -54,6 +62,28 @@ def main() -> int:
     again, added2 = upsert_skills_ignore(updated, ["~/.grok/bundled/skills/shared"])
     check(added2 == [], f"idempotent ignore: {added2}")
     check(again == updated, "second upsert is a no-op")
+
+    dis_sample = '[skills]\ndisabled = []\nignore = []\n'
+    dis_updated, dis_added = upsert_skills_disabled(
+        dis_sample, ["shared", "remove-wall-of-text", "ai-context"]
+    )
+    check("shared" in dis_added, f"disabled adds shared: {dis_added}")
+    check('disabled = [\n  "shared",' in dis_updated, dis_updated)
+
+    if (Path.home() / ".grok" / "bundled" / "skills" / "long-running-background-tasks" / "SKILL.md").is_file():
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            fake_user = Path(td) / "skills"
+            fake_user.mkdir()
+            created = ensure_bundled_aliases(user_skills=fake_user)
+            check(
+                "long-running-background-tasks" in created,
+                f"alias long-running-background-tasks: {created}",
+            )
+            alias = fake_user / "long-running-background-tasks" / "SKILL.md"
+            check(alias.is_file(), f"alias SKILL.md missing: {alias}")
+            gi = (fake_user / ".gitignore").read_text(encoding="utf-8")
+            check("long-running-background-tasks" in gi, gi)
 
     check(needs_retrieval("hi") is False, "chitchat skip")
     check(needs_retrieval("is unit 2 occupied?") is True, "occupancy retrieves")

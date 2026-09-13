@@ -1,0 +1,26 @@
+# Bundled skill aliases created by scripts/health_skills.py.
+# Do not commit these symlinks — CI has no ~/.grok/bundled tree.
+build-with-ai
+code-review
+create-skill
+create-workflow
+design
+docx
+execute-plan
+game-animation-frames
+game-asset-core
+game-character-consistency
+game-tilesets
+game-ui-icons
+imagine
+implement
+long-running-background-tasks
+pdf
+pptx
+pr-babysit
+resume-claude
+resume-codex
+resume-cursor
+review
+skill-design-principles
+statusline
