@@ -8,7 +8,9 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-12 harden):** Jerome wants **both** Sat+Sun 10:30 indoor. Lambda `2db74f6` deployed: login-before-745, ~55s poll, save retries, SES always to jerome.ans@gmail.com with why on miss. Schedules intended: `bellevueClubTennis-sunday-745` (Sun 7:44→next Sat) input `{"targetWeekday":"sat"}` and `bellevueClubTennis-monday-745` (Mon 7:44→next Sun) input `{"targetWeekday":"sun"}` — ensure via Mac `bash scripts/ensure-schedules.sh` (Titan AccessDenied on scheduler). Browser auto-book stays PAUSED. Next: Sun Sep 13→Sat Sep 19; Mon Sep 14→Sun Sep 20.
+**STATUS (2026-09-13 07:30 PT):** Ready for today's open. Live canary 07:25 `cfPassed`. Timeout **180s**. `bellevueClubTennis-sunday-745` ENABLED → **Sat Sep 19 10:30** (today 7:44). `bellevueClubTennis-monday-745` created ENABLED `cron(44 7 ? * MON *)` input `{"targetWeekday":"sun"}` → **Sun Sep 20 10:30** (Mon 7:44). Browser auto-book still PAUSED.
+
+**Live probe 07:29 (look, no save):** Sun **Sep 20** is past the 7-day strip. Overlay `advance-booking-overlay` / `timer advance-booking-timer`: **Booking Starts At 07:45 AM** (raw HTML `display:none`; browser JS shows the ticking countdown). 10:30 ITC 1–4 parse as `open:true` but **no booking form** — cannot book now. Sat **Sep 19** has no overlay (already in-window); 10:30 ITC 1–4 are **RESERVED** until the 7:45 flip.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
