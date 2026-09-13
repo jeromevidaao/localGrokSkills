@@ -8,9 +8,9 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 07:46 PT MISS):** Sun 7:44 run **did fire**, **did not book** Sat Sep 19 10:30. RequestId `376aa6b6-b095-4628-b312-061d08aa3e65` START 07:44:50 (cold start ~50s after 7:44:00) END 07:45:57 Duration **66800 ms** Errors 0. SES `Bellevue Club NOT booked (2026-09-19): no_open_1030_slot` — grid had **zero** open slots; 10:30 row area 20–23 all **RESERVED**. My Reservations has no 09/19 10:30. Same demand miss as Sep 12; do **not** substitute another time. Next: **Mon Sep 14 7:44** `bellevueClubTennis-monday-745` → Sun Sep 20 10:30. Browser auto-book still PAUSED.
+**STATUS (2026-09-13 07:50 PT):** Jerome asked to **book Sun Sep 20 10:30 now**. Tried Lambda (`targetYmd=2026-09-20`, skipWait) + box HTTP Save. **No book.** 10:30 ITC 1–4 **RESERVED**, ITC 5–6 Pro Lesson Brady/Trav. Click: **Can not make Reservation in selected time slot.** Overlay gone. Did **not** take 2:15p/6:00p (standing: no substitute). SES miss emailed. `monday-745` still armed Mon 7:44 but this row is already taken so that run will likely miss too unless a cancel appears.
 
-**Live probe 07:29 (look, no save):** Sun **Sep 20** overlay **Booking Starts At 07:45 AM**. Sat **Sep 19** 10:30 already RESERVED before the 7:45 flip.
+Sat Sep 19 10:30 earlier miss stands. Browser auto-book still PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
