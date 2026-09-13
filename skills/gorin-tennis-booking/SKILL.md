@@ -43,8 +43,10 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    7–8 can join U8 with no experience. Still Bellevue only, drop-in only.
    **Sunday is better than Saturday** when both work (this overrides the
    “no Sunday lock-in” rule only for a date Jerome names).
-7. **Calendar every booking:** timed event on `jerome.ans@gmail.com`, invite
-   **ngoc.h.dinh@gmail.com** (and Jerome). No Google Meet.
+7. **Always calendar + invite both:** after every confirmed booking, create a
+   timed Google Calendar event on `jerome.ans@gmail.com` and **always invite
+   Jerome (`jerome.ans@gmail.com`) and Ngoc / his wife
+   (`ngoc.h.dinh@gmail.com`)**. Never skip the invite. No Google Meet.
 8. **Always commit + push this skill** after any edit (public → `git push`
    `main` → CI green → private). Never ask “want me to push?”. Do not add a
    GitHub connector or MCP for this repo.
@@ -213,6 +215,6 @@ After each book, cancel, schedule change, or correction:
 - Buy a 4-week package unless asked
 - Lock every Sunday (skiing)
 - Sign the waiver or type card numbers
-- Skip Ngoc on the calendar invite
+- Skip the calendar event, or skip inviting Jerome or Ngoc
 - Add a GitHub connector just to update this repo
 - Book **BTA Half** or any half-court (full court only: BTA 1–4)
