@@ -27,18 +27,23 @@ Enforced by `~/.grok/rules/00-always-commit-push.md` + Stop hook `always-commit-
 | File sync | `~/R2Lambda/scripts/r2memory-sync.py` |
 | Titan scripts | `~/.grok/skills/r2-memory/scripts/` (= `~/R2Lambda/scripts/r2-memory/`) |
 
-### Grok Bot IAM (Titan only)
+### Grok Bot IAM (`GrokBotTitanAccess` v5)
 
-IAM user **`grok-bot-titan`** / policy **`GrokBotTitanAccess`**. Fetch keys from SSM at use — never commit, never paste the secret into chat or R2Memory.
+IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, never paste the secret into chat or R2Memory.
 
 | | |
 |---|---|
 | Access key ID | SSM `/grok/titan-iam-access-key-id` |
 | Secret | SSM `/grok/titan-iam-secret-access-key` |
-| S3 | `context/*` on `cleaningbutton-ai-context-us-east-1` — Get/Put/Delete + ListBucket prefix `context/` |
+| Lambda | `lambda:*` (invoke, update code/config, create/delete, event-source mappings) + `iam:PassRole`/`GetRole` onto `lambda.amazonaws.com` |
+| DynamoDB | `dynamodb:*` |
+| SQS | `sqs:*` |
+| S3 | `s3:*` (all buckets, not only `context/`) |
+| CloudWatch | `cloudwatch:*` + `logs:*` (alarms, metrics, log groups) |
+| CloudFront | `cloudfront:*` (including CreateInvalidation / UpdateDistribution) |
 | Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
 | SSM | Read all parameters (`GetParameter` / `GetParameters` / `GetParametersByPath` / `DescribeParameters`) + `kms:Decrypt` via `ssm.us-east-1` (`alias/aws/ssm`). No Put/Delete. |
-| Denied | Hospitable, Lambda, S3 outside `context/` (`data/`, `workspaces/`, …) |
+| Denied | SSM write, IAM user/key admin, Cost Explorer, Hospitable API |
 
 ```bash
 aws ssm get-parameter --name /grok/titan-iam-access-key-id --with-decryption --query Parameter.Value --output text
