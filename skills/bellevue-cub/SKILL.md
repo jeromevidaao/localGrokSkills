@@ -8,9 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 07:50 PT):** Jerome asked to **book Sun Sep 20 10:30 now**. Tried Lambda (`targetYmd=2026-09-20`, skipWait) + box HTTP Save. **No book.** 10:30 ITC 1–4 **RESERVED**, ITC 5–6 Pro Lesson Brady/Trav. Click: **Can not make Reservation in selected time slot.** Overlay gone. Did **not** take 2:15p/6:00p (standing: no substitute). SES miss emailed. `monday-745` still armed Mon 7:44 but this row is already taken so that run will likely miss too unless a cancel appears.
-
-Sat Sep 19 10:30 earlier miss stands. Browser auto-book still PAUSED.
+**STATUS (2026-09-13 07:57 PT BOOKED):** Sun **Sep 20 6:00–7:15 PM ITC 1** indoor is on the account (hold dropped; `scripts/grab-held-slot.js` loop 1). Confirmed My Reservations: `Activities (ITC 1 | Indoor Tennis Courts) 09/20/2026 06:00 PM - 07:15 PM`. Calendar [Bellevue Club indoor tennis](https://www.google.com/calendar/event?eid=cjBzNGxjNXY2aTBvZW1ubTJ0aW1tdjQxZjAgamVyb21lLmFuc0Bt) on jerome.ans@gmail.com, Ngoc invited, no Meet. Fee ~$18.50. **4:45 PM was not open** (did not substitute a third time). Sat Sep 19 10:30 still a miss. `monday-745` still tries Sun 10:30 — leave it (won’t clash with 6:00). Browser auto-book still PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
