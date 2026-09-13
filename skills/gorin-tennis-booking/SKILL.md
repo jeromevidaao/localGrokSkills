@@ -35,9 +35,12 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    Jerome asks for a specific date (week-ahead is usually enough).
 5. **Drop-in, not packages.** Single date only unless he asks for a full-event
    block. Do not click “Register for Full Event”.
-6. **Beginner 6yo → Tiny Tigers / U6 (101)** (60 min, $40 + tax). Future Stars /
-   U8 (201) is 90 min, $57; Gorin wants ~6 months of tennis for a 6-year-old.
-   Ages 7–8 can join U8 with no experience.
+6. **Julie is 6** (DOB 3 Dec 2019). Default first choice is **Tiny Tigers /
+   U6 (101)** (ages 4–6, 60 min, $40 + tax). Jerome is **flexible on class
+   type** at Bellevue: if U6 is full, offer other age-appropriate junior
+   classes (Future Stars / U8 (201) 90 min $57, Coach Davi mini-group, etc.).
+   Gorin prefers ~6 months of tennis before U8 at age 6; ages 7–8 can join
+   U8 with no experience. Still Bellevue only, drop-in only.
 7. **Calendar every booking:** timed event on `jerome.ans@gmail.com`, invite
    **ngoc.h.dinh@gmail.com** (and Jerome). No Google Meet.
 8. **Always commit + push this skill** after any edit (public → `git push`
