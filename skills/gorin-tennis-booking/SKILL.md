@@ -133,6 +133,14 @@ Guest court window is ~7 days; group drop-ins are listed weeks out.
 
 Optional junior membership $100/year: 12% off a monthly series. Not required.
 
+## Court rentals (Bellevue / BTA)
+
+As of 13 Sep 2026: **\$47.25 + \$4.87 tax = \$52.12** per hour. Same-day hold
+must be paid within **15 minutes**. Courts: BTA 1–4, BTA Half, BTA Kids.
+Junior classes often block Kids + other courts Sunday 2:30. Book via
+Reservations, not Events. Do not book Bellevue Club.
+
+
 ## Book a drop-in (CourtReserve)
 
 1. Sign in as Ruby Dinh on portal 7306 (browser; no CourtReserve connector).
