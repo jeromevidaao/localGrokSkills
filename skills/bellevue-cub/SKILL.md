@@ -8,9 +8,9 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 07:30 PT):** Ready for today's open. Live canary 07:25 `cfPassed`. Timeout **180s**. `bellevueClubTennis-sunday-745` ENABLED → **Sat Sep 19 10:30** (today 7:44). `bellevueClubTennis-monday-745` created ENABLED `cron(44 7 ? * MON *)` input `{"targetWeekday":"sun"}` → **Sun Sep 20 10:30** (Mon 7:44). Browser auto-book still PAUSED.
+**STATUS (2026-09-13 07:46 PT MISS):** Sun 7:44 run **did fire**, **did not book** Sat Sep 19 10:30. RequestId `376aa6b6-b095-4628-b312-061d08aa3e65` START 07:44:50 (cold start ~50s after 7:44:00) END 07:45:57 Duration **66800 ms** Errors 0. SES `Bellevue Club NOT booked (2026-09-19): no_open_1030_slot` — grid had **zero** open slots; 10:30 row area 20–23 all **RESERVED**. My Reservations has no 09/19 10:30. Same demand miss as Sep 12; do **not** substitute another time. Next: **Mon Sep 14 7:44** `bellevueClubTennis-monday-745` → Sun Sep 20 10:30. Browser auto-book still PAUSED.
 
-**Live probe 07:29 (look, no save):** Sun **Sep 20** is past the 7-day strip. Overlay `advance-booking-overlay` / `timer advance-booking-timer`: **Booking Starts At 07:45 AM** (raw HTML `display:none`; browser JS shows the ticking countdown). 10:30 ITC 1–4 parse as `open:true` but **no booking form** — cannot book now. Sat **Sep 19** has no overlay (already in-window); 10:30 ITC 1–4 are **RESERVED** until the 7:45 flip.
+**Live probe 07:29 (look, no save):** Sun **Sep 20** overlay **Booking Starts At 07:45 AM**. Sat **Sep 19** 10:30 already RESERVED before the 7:45 flip.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
