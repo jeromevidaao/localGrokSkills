@@ -26,6 +26,8 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
 3. **Account:** Gorin Sports Washington CourtReserve club **7306**, signed in as
    **Ruby Dinh** (guest / non-member). Portal:
    https://app.courtreserve.com/Online/Portal/Index/7306
+   SSM has **no** CourtReserve/Gorin login. `/bellevue-club/username` and
+   `/bellevue-club/password` are Bellevue Club, not Gorin — never use them.
 4. **No Sunday lock-in.** Winter Sundays are for skiing. Book Sunday only when
    Jerome asks for a specific date (week-ahead is usually enough).
 5. **Drop-in, not packages.** Single date only unless he asks for a full-event
