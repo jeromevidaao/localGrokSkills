@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 14:10 PT):** Sat 10:30: fire **7:40**, wait to **7:45**, then **race hardcoded ITC 1–6 (area 20–25) in parallel**. First confirmed save wins; other workers abort (no second book). Timeout 420s. Next Sat **Sep 26** opens Sun Sep 20. Sun **Sep 20 6:00–7:15 PM ITC 1** already booked. Browser auto-book still PAUSED. Owner monitor: **More → Tennis Ops** on Android (OTA 1.3.78) and website `#!/tennis-ops` (`act=tennis_ops_status`).
+**STATUS (2026-09-13):** Always **indoor** unless Jerome explicitly asks outdoor. Cancelled **Outdoor Court 7 Wed Sep 16 5:30–6:45 AM**. Kept **Sun Sep 20 6:00–7:15 PM ITC 1**. Sat 10:30: fire **7:40**, wait to **7:45**, race ITC 1–6 in parallel. Next Sat **Sep 26** opens Sun Sep 20. Browser auto-book still PAUSED. Owner monitor: **More → Tennis Ops** (OTA 1.3.78) / `#!/tennis-ops`.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -23,9 +23,11 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 
 ## Hard rules
 
-1. **Standing book (PAUSED):** when Jerome restarts, grab **Saturday 10:30–11:45 a.m.**
-   indoor tennis until he says stop. Sep 12 2026 was missed; next standing
-   targets are following Saturdays (e.g. Sep 19). Any ITC 1–6. Do not substitute
+1. **Always indoor unless Jerome says outdoor.** Book **Indoor Tennis Courts**
+   (ITC 1–6) only. Never book outdoor as a fallback, alternate, or “something
+   is open.” If an outdoor reservation appears without him asking, **cancel it**.
+   Standing target (PAUSED): **Saturday 10:30–11:45 a.m.** indoor until he
+   restarts. Sep 12 missed; next Saturday 10:30 is **Sep 26**. Do not substitute
    another time if 10:30 is gone.
 2. **Window:** courts book **7 days out**, new day opens **7:45 a.m. PT**.
    Saturday inventory opens the **prior Sunday at 7:45 a.m.**
@@ -122,10 +124,11 @@ Booking For on the club form: **Ansia, Jerome**.
   Weekdays: first 5:30 a.m., last start 8:30 p.m. (ends 9:45).
   Saturday: first 6:45 a.m., last start 8:30 p.m.
   Sunday: first 6:45 a.m., last start 7:15 p.m.
-- **Cancel policy:** member site (as of Sep 2026) has no published cutoff or
-  late-cancel/no-show fee. FAQ only: cancel via Reservations → My Reservations.
-  Athletic Services: 425.688.3177 / athleticservices@bellevueclub.com.
-  Do not invent a 24-hour rule.
+- **Cancel policy:** club confirmation emails (Sep 2026) say cancel via
+  My Reservations. Cancel **< 6 hours** ahead and the court fee is still
+  charged; no-show may be **$50**. Outdoor rainouts are auto-cancelled by
+  the Athletic Desk. Athletic Services: 425.688.3177 /
+  athleticservices@bellevueclub.com.
 
 ## How the grid actually works
 
