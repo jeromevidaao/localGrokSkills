@@ -48,7 +48,7 @@ Jerome wants the Overlake MyChart session kept for the **longest** the portal al
    If SSM params are missing, open the login page and use `request_user_form`
    (auth) so Jerome types once into the live page — never ask him to paste
    credentials in chat. After a successful form login, tell him to store the
-   pair in SSM under those paths (Titan IAM cannot write SSM).
+   pair in SSM under those paths (`GrokBotTitanAccess` v6 can PutParameter).
 2. **Never screenshot password fields** after a secret fill. Use structured
    snapshots only; then click Sign in via the browser subagent.
 3. **2FA / passkey / captcha:** hand the box with `request_box_help` — do not

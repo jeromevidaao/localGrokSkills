@@ -27,7 +27,7 @@ Enforced by `~/.grok/rules/00-always-commit-push.md` + Stop hook `always-commit-
 | File sync | `~/R2Lambda/scripts/r2memory-sync.py` |
 | Titan scripts | `~/.grok/skills/r2-memory/scripts/` (= `~/R2Lambda/scripts/r2-memory/`) |
 
-### Grok Bot IAM (`GrokBotTitanAccess` v5)
+### Grok Bot IAM (`GrokBotTitanAccess` v6)
 
 IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, never paste the secret into chat or R2Memory.
 
@@ -42,8 +42,8 @@ IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, neve
 | CloudWatch | `cloudwatch:*` + `logs:*` (alarms, metrics, log groups) |
 | CloudFront | `cloudfront:*` (including CreateInvalidation / UpdateDistribution) |
 | Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
-| SSM | Read all parameters (`GetParameter` / `GetParameters` / `GetParametersByPath` / `DescribeParameters`) + `kms:Decrypt` via `ssm.us-east-1` (`alias/aws/ssm`). No Put/Delete. |
-| Denied | SSM write, IAM user/key admin, Cost Explorer, Hospitable API |
+| SSM | `ssm:*` (all parameters, including Put/Delete/Get) + `kms:Encrypt`/`Decrypt`/`GenerateDataKey` via `ssm.us-east-1` (`alias/aws/ssm`) |
+| Denied | IAM user/key admin, Cost Explorer, Hospitable API |
 
 ```bash
 aws ssm get-parameter --name /grok/titan-iam-access-key-id --with-decryption --query Parameter.Value --output text
