@@ -52,6 +52,10 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
     **retrieve first**, then **append/update after the turn** so Titan stays
     current. Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook:
     skill `r2-memory`.
+12. **Never half court.** Jerome never wants **BTA Half** or any half-court.
+    Only book a **full court** (BTA 1–4). If the only open slot is half-court,
+    skip it and say so. Do not hold or pay for a half-court “to save money.”
+    The cheaper ~$23 quote is typically a half-court, not a week-ahead discount.
 
 ## Titan R2Memory (every turn)
 
@@ -135,10 +139,15 @@ Optional junior membership $100/year: 12% off a monthly series. Not required.
 
 ## Court rentals (Bellevue / BTA)
 
-As of 13 Sep 2026: **\$47.25 + \$4.87 tax = \$52.12** per hour. Same-day hold
-must be paid within **15 minutes**. Courts: BTA 1–4, BTA Half, BTA Kids.
-Junior classes often block Kids + other courts Sunday 2:30. Book via
-Reservations, not Events. Do not book Bellevue Club.
+As of 13 Sep 2026: full court **\$47.25 + \$4.87 tax = \$52.12** per hour
+(same-day 13 Sep quote). Same-day hold must be paid within **15 minutes**.
+Courts: BTA 1–4 (full — **these only**), BTA Half (**never book**), BTA Kids
+(class court). Junior classes often block Kids + other courts Sunday 2:30.
+Book via Reservations, not Events. Do not book Bellevue Club.
+
+A ~$23–$26 quote is usually **BTA Half** (exactly half of $47.25), not a
+week-ahead sale. Confirm duration and court type before treating any quote
+as a discount.
 
 
 ## Book a drop-in (CourtReserve)
@@ -195,3 +204,4 @@ After each book, cancel, schedule change, or correction:
 - Sign the waiver or type card numbers
 - Skip Ngoc on the calendar invite
 - Add a GitHub connector just to update this repo
+- Book **BTA Half** or any half-court (full court only: BTA 1–4)
