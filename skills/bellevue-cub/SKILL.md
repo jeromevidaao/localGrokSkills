@@ -8,9 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13 09:12 PT):** Sat 10:30 going forward: **yes, race fix shipping.** Sep 13 miss was INIT at **7:44:50** (cold start). Code now logs in at **7:40 PT**, waits until **7:45:00** (5 min cap; timeout **420s**). Next Sat **Sep 26** opens **Sun Sep 20 7:40→7:45**. EventBridge cron moves to 7:40 **only after** that deploy (old 120s cap would book at 7:40 before open).
-
-Sun **Sep 20 6:00–7:15 PM ITC 1** already booked. Calendar [event](https://www.google.com/calendar/event?eid=cjBzNGxjNXY2aTBvZW1ubTJ0aW1tdjQxZjAgamVyb21lLmFuc0Bt). Browser auto-book still PAUSED.
+**STATUS (2026-09-13 09:20 PT):** Sat 10:30: fire **7:40**, wait to **7:45**, then **race hardcoded ITC 1–6 (area 20–25) in parallel**. First confirmed save wins; other workers abort (no second book). Timeout 420s. Next Sat **Sep 26** opens Sun Sep 20. Sun **Sep 20 6:00–7:15 PM ITC 1** already booked. Browser auto-book still PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -49,8 +47,8 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 6. **Weekly book is Lambda `bellevueClubTennis`** (`jeromevidaao/bellevue-club-tennis`):
    EventBridge Scheduler Sunday **7:40 a.m. PT** (was 7:44; Sep 13 cold start INIT 7:44:50
    ate the open). Handler **logs in on that invoke**, waits until **7:45:00.000 PT**,
-   then refresh+books next Saturday **10:30–11:45 indoor**
-   (first open ITC). Timeout 420s. Emails
+   then **races ITC 1–6 in parallel** for Saturday **10:30–11:45 indoor**
+   (hardcoded area ids 20–25). First save wins; siblings abort. Timeout 420s. Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
    **Cloudflare:** in front of **every** `members.bellevueclub.com` request
