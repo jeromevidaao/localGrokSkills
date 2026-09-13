@@ -106,7 +106,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 | Ruby / Ngoc email | ngoc.h.dinh@gmail.com |
 | Jerome calendar | jerome.ans@gmail.com |
 | Front desk | (425) 274-2969 · WashingtonCustomerCare@GorinTennis.com |
-| Door code | **2894#** (CourtReserve event Pin Code; re-check on the booking if it changes) |
+| Door pin | **Per booking**, not static. CourtReserve event field **Pin Code**. Confirmed 13 Sep 2026: that day’s U6 was `2894#`; Julie’s Sun 20 Sep U8 is `7675#`. Unregistered events show no pin. Always read it from My Bookings for that date. |
 
 ## Club & location
 
