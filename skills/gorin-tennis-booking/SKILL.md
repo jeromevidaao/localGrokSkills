@@ -46,10 +46,14 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    7–8 can join U8 with no experience. Still Bellevue only, drop-in only.
    **Sunday is better than Saturday** when both work (this overrides the
    “no Sunday lock-in” rule only for a date Jerome names).
-7. **Always calendar + invite both:** after every confirmed booking, create a
-   timed Google Calendar event on `jerome.ans@gmail.com` and **always invite
-   Jerome (`jerome.ans@gmail.com`) and Ngoc / his wife
-   (`ngoc.h.dinh@gmail.com`)**. Never skip the invite. No Google Meet.
+7. **Always calendar + invite both + pin:** after every confirmed booking,
+   create a timed Google Calendar event on `jerome.ans@gmail.com` and
+   **always invite Jerome and Ngoc** (`jerome.ans@gmail.com`,
+   `ngoc.h.dinh@gmail.com`). Never skip the invite. No Google Meet.
+   **Always put that booking’s CourtReserve Pin Code in the event
+   description** (e.g. `Door pin for this class: 7675#`). Pins are
+   per-class; never copy an old pin onto a new date. If a pin is found
+   later, update that event.
 8. **Always commit + push this skill** after any edit (public → `git push`
    `main` → CI green → private). Never ask “want me to push?”. Do not add a
    GitHub connector or MCP for this repo.
@@ -182,8 +186,8 @@ the class is open, say so and do not book a half-court as a substitute.
 7. Pay with the card on file if that is what he asked. Stop for a new card.
 8. Capture receipt #, who, date/time, amount.
 9. Add Google Calendar (rule 7). Title like `Julie — Tiny Tigers tennis`.
-   Location: Bellevue Tennis Academy address. Note coaches + receipt + 24h
-   cancel in the description.
+   Location: Bellevue Tennis Academy address. Description must include
+   coaches, receipt, 24h cancel, and **this booking’s Pin Code**.
 
 ## Cancel / refund
 
