@@ -188,14 +188,17 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Current booking
+## Current bookings
 
 - **Sun 13 Sep 2026, 2:30–3:30pm** Bellevue U6 (101) / Tiny Tigers
-- Julie Ansia · coaches Gulcin Odemis, Fatma Tapan
-- Receipt **LJON17306** · $45.66 · card …8431 · booked 30 Aug 2026
-- Calendar: [Julie — Tiny Tigers tennis](https://www.google.com/calendar/event?eid=bjdvMmtrbzU2NWc1NDc1MDZjZGZiamZrZzQgamVyb21lLmFuc0Bt)
-  on jerome.ans@gmail.com, Ngoc invited
-- Jerome said **keep it** (30 Aug)
+  Julie Ansia · Gulcin Odemis, Fatma Tapan
+  Receipt **LJON17306** · $45.66 · card …8431 · booked 30 Aug 2026
+  Calendar: https://www.google.com/calendar/event?eid=bjdvMmtrbzU2NWc1NDc1MDZjZGZiamZrZzQgamVyb21lLmFuc0Bt
+- **Sun 20 Sep 2026, 1:00–2:30pm** Bellevue U8 (201) / Future Stars
+  Julie Ansia · Fatma Tapan, Gulcin Odemis
+  Receipt **ISFVM7306** · $65.07 · booked 13 Sep 2026
+  Calendar (Jerome + Ngoc invited): https://www.google.com/calendar/event?eid=cnVtcTcxaGNodDYxczN1OHVrMW4yY3FvazQgamVyb21lLmFuc0Bt
+  Free cancel until Sat 19 Sep 1:00pm PT
 
 ## Continuous improvement
 
