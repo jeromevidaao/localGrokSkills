@@ -26,8 +26,12 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
 3. **Account:** Gorin Sports Washington CourtReserve club **7306**, signed in as
    **Ruby Dinh** (guest / non-member). Portal:
    https://app.courtreserve.com/Online/Portal/Index/7306
-   SSM has **no** CourtReserve/Gorin login. `/bellevue-club/username` and
-   `/bellevue-club/password` are Bellevue Club, not Gorin — never use them.
+   Login email: `ngoc.h.dinh@gmail.com`. Intended SSM:
+   `/gorin/courtreserve/username` and `/gorin/courtreserve/password` (SecureString).
+   `grok-bot-titan` can describe/get many params but **cannot** `ssm:PutParameter`
+   (AccessDenied 2026-09-13). Ask for that write or store via an IAM user that
+   can put. `/bellevue-club/*` is Bellevue Club — never use it for Gorin.
+   Never put the CourtReserve password in this skill or in chat.
 4. **No Sunday lock-in.** Winter Sundays are for skiing. Book Sunday only when
    Jerome asks for a specific date (week-ahead is usually enough).
 5. **Drop-in, not packages.** Single date only unless he asks for a full-event
