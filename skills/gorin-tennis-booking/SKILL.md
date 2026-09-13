@@ -41,6 +41,8 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    matching full court, then **Tiny Tigers / U6 (101)** (ages 4–6, 60 min,
    $40 + tax). Gorin prefers ~6 months of tennis before U8 at age 6; ages
    7–8 can join U8 with no experience. Still Bellevue only, drop-in only.
+   **Sunday is better than Saturday** when both work (this overrides the
+   “no Sunday lock-in” rule only for a date Jerome names).
 7. **Calendar every booking:** timed event on `jerome.ans@gmail.com`, invite
    **ngoc.h.dinh@gmail.com** (and Jerome). No Google Meet.
 8. **Always commit + push this skill** after any edit (public → `git push`
