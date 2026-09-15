@@ -6,8 +6,10 @@ This script:
 
 1. Writes a tiny placeholder SKILL.md into those bundled dirs so a scan
    cannot fail even if ignore is skipped.
-2. Unions those paths (tilde + absolute) plus deprecated aliases into
-   ~/.grok/config.toml [skills] ignore, and their names into disabled.
+2. Unions library dirs (`shared`, `remove-wall-of-text`) plus deprecated
+   aliases into ~/.grok/config.toml [skills] ignore + disabled. Always —
+   not only when SKILL.md is missing (placeholders would otherwise drop
+   them from the required list on the next SessionStart).
 3. Symlinks bundled skills into ~/localGrokSkills/skills (gitignored) so
    ~/.grok/skills/<bundled-name>/SKILL.md resolves. Agents that assume the
    user-skills path (e.g. long-running-background-tasks) no longer 1-fail.
@@ -34,6 +36,12 @@ CONFIG_TOML = GROK_HOME / "config.toml"
 DEPRECATED_IGNORE = ["~/.grok/skills/ai-context"]
 DEPRECATED_NAMES = ["ai-context"]
 
+# Bundled library folders. Placeholders make them loadable, so they drop out of
+# bundled_missing_skill_md() on later runs — but they must stay ignored/disabled
+# forever. If a Grok upgrade rewrites [skills] ignore, SessionStart has to put
+# these back or the TUI shows "Read N skill · 1 failed".
+LIBRARY_BUNDLED = ["remove-wall-of-text", "shared"]
+
 PLACEHOLDER_SKILL = """\
 ---
 name: {name}
@@ -52,27 +60,39 @@ GITIGNORE_HEADER = """\
 """
 
 
+def _unique(seq: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            out.append(item)
+    return out
+
+
 def required_ignore_paths(missing: list[str] | None = None) -> list[str]:
-    names = bundled_missing_skill_md() if missing is None else missing
+    names = bundled_missing_skill_md() if missing is None else list(missing)
+    for n in LIBRARY_BUNDLED:
+        if n not in names:
+            names.append(n)
     paths: list[str] = []
     for n in names:
         paths.append(f"~/.grok/bundled/skills/{n}")
         paths.append(str((GROK_HOME / "bundled" / "skills" / n).expanduser().resolve()))
+        # Accidental user-tree copies (aliases health_skills itself must not create).
+        paths.append(f"~/.grok/skills/{n}")
+        paths.append(str((GROK_HOME / "skills" / n).expanduser().resolve()))
     paths.extend(DEPRECATED_IGNORE)
     ai = (Path.home() / ".grok" / "skills" / "ai-context").resolve()
     paths.append(str(ai))
-    # stable unique, keep first-seen order
-    seen: set[str] = set()
-    out: list[str] = []
-    for p in paths:
-        if p not in seen:
-            seen.add(p)
-            out.append(p)
-    return out
+    return _unique(paths)
 
 
 def required_disabled_names(missing: list[str] | None = None) -> list[str]:
     names = bundled_missing_skill_md() if missing is None else list(missing)
+    for n in LIBRARY_BUNDLED:
+        if n not in names:
+            names.append(n)
     for n in DEPRECATED_NAMES:
         if n not in names:
             names.append(n)
@@ -181,7 +201,26 @@ def ensure_bundled_placeholders(missing: list[str] | None = None) -> list[str]:
 
 # Library folders that must never be aliased into ~/.grok/skills (TUI would
 # then load them as user skills even when [skills] ignore lists the bundled path).
-NEVER_ALIAS = {"shared", "remove-wall-of-text"} | set(DEPRECATED_NAMES)
+NEVER_ALIAS = set(LIBRARY_BUNDLED) | set(DEPRECATED_NAMES)
+
+
+def unreadable_skills() -> list[str]:
+    """SKILL.md paths list_skills() returns that cannot be read as a skill."""
+    bad: list[str] = []
+    for row in list_skills():
+        path = Path(row["path"])
+        if not path.is_file():
+            bad.append(f"{row['name']}: missing {path}")
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError as exc:
+            bad.append(f"{row['name']}: unreadable {path}: {exc}")
+            continue
+        head = text[:800]
+        if not text.startswith("---") or "description:" not in head:
+            bad.append(f"{row['name']}: invalid SKILL.md {path}")
+    return bad
 
 
 def bundled_alias_names(skip: set[str] | None = None) -> list[str]:
@@ -277,6 +316,13 @@ def main() -> int:
         disabled_added = sync_config_disabled(required_disabled_names(missing))
         if disabled_added:
             print("updated ~/.grok/config.toml [skills] disabled: " + ", ".join(disabled_added))
+        bad = unreadable_skills()
+        if bad:
+            print("WARN unreadable skills (TUI Read N skill · M failed):")
+            for item in bad:
+                print(" - " + item)
+        else:
+            print("all listed SKILL.md files are readable")
     except OSError as exc:
         print(f"WARN could not update skill health: {exc}")
         return 0

@@ -11,6 +11,8 @@ sys.path.insert(0, str(ROOT / "skills" / "r2-memory" / "scripts"))
 
 from health_skills import (  # noqa: E402
     ensure_bundled_aliases,
+    required_disabled_names,
+    required_ignore_paths,
     upsert_skills_disabled,
     upsert_skills_ignore,
 )
@@ -69,6 +71,23 @@ def main() -> int:
     )
     check("shared" in dis_added, f"disabled adds shared: {dis_added}")
     check('disabled = [\n  "shared",' in dis_updated, dis_updated)
+
+    # Placeholders make bundled_missing_skill_md() empty; ignore/disable must
+    # still pin library dirs so a config rewrite cannot un-hide them.
+    always_ignore = required_ignore_paths([])
+    check(
+        "~/.grok/bundled/skills/shared" in always_ignore,
+        f"tilde shared stay ignored after placeholders: {always_ignore}",
+    )
+    check(
+        "~/.grok/bundled/skills/remove-wall-of-text" in always_ignore,
+        f"remove-wall-of-text stay ignored: {always_ignore}",
+    )
+    check("~/.grok/skills/ai-context" in always_ignore, f"ai-context stay ignored: {always_ignore}")
+    always_disabled = required_disabled_names([])
+    check("shared" in always_disabled, f"empty-missing still disables shared: {always_disabled}")
+    check("remove-wall-of-text" in always_disabled, f"disable remove-wall-of-text: {always_disabled}")
+    check("ai-context" in always_disabled, f"disable ai-context: {always_disabled}")
 
     if (Path.home() / ".grok" / "bundled" / "skills" / "long-running-background-tasks" / "SKILL.md").is_file():
         import tempfile
