@@ -276,6 +276,11 @@ def cosine_similarity(a: list[float], b: list[float]) -> float:
 
 
 def embed_text(text: str, *, dimensions: int = EMBED_DIMS) -> list[float] | None:
+    """Invoke Titan Embed via Bedrock.
+
+    AWS CLI v1 on this box rejects base64 --body (ValidationException /
+    Malformed input). Use fileb:// for the JSON body instead.
+    """
     input_text = (text or "").strip()[:8000]
     if not input_text:
         return None
@@ -284,9 +289,11 @@ def embed_text(text: str, *, dimensions: int = EMBED_DIMS) -> list[float] | None
         "dimensions": 1024 if dimensions == 1024 else 512,
         "normalize": True,
     }
-    body_b64 = base64.b64encode(json.dumps(body).encode("utf-8")).decode("ascii")
-    out_path = Path(f"/tmp/r2-titan-embed-{uuid.uuid4().hex[:10]}.json")
+    tag = uuid.uuid4().hex[:10]
+    body_path = Path(f"/tmp/r2-titan-embed-body-{tag}.json")
+    out_path = Path(f"/tmp/r2-titan-embed-{tag}.json")
     try:
+        body_path.write_text(json.dumps(body), encoding="utf-8")
         r = _aws(
             [
                 "bedrock-runtime",
@@ -298,7 +305,7 @@ def embed_text(text: str, *, dimensions: int = EMBED_DIMS) -> list[float] | None
                 "--accept",
                 "application/json",
                 "--body",
-                body_b64,
+                f"fileb://{body_path}",
                 str(out_path),
             ],
             timeout=60,
@@ -318,10 +325,11 @@ def embed_text(text: str, *, dimensions: int = EMBED_DIMS) -> list[float] | None
         print(f"embed_text failed: {e}", file=sys.stderr)
         return None
     finally:
-        try:
-            out_path.unlink(missing_ok=True)
-        except Exception:
-            pass
+        for p in (body_path, out_path):
+            try:
+                p.unlink(missing_ok=True)
+            except Exception:
+                pass
 
 
 # ── (1)(3) retrieval heuristics ──────────────────────────────────────
