@@ -143,7 +143,7 @@ Loyalty defaults when the airline allows a partner:
   Note: Saver / some one-ways may lock Atmos and block self-serve FF edits — tell
   Jerome (call Alaska or add at check-in).
 - **Delta:** SkyMiles 9214639644.
-- **Southwest:** Rapid Rewards if on file; otherwise guest OK. Atmos does not apply.
+- **Southwest:** Always Rapid Rewards **20346160763** (SSM `/southwest/*`); never guest if login works. Atmos does not apply.
 
 ## Default work-week pattern (SEA ↔ SJC)
 
@@ -221,9 +221,14 @@ Do all of these before saying done:
 
 ### Southwest (southwest.com)
 
-- Guest checkout is common; no Atmos.
-- Fill full name **Jerome Lionel Ansia**, DOB, gender, email **jerome.ans@gmail.com**, phone, KTN, and billing **3099 125th Ave NE, Bellevue, WA 98005** when asked.
-- Seats: skip when solo; with others auto-pick adjacent + away from lavatory only if free, else Jerome picks. Stop for card if no saved method / Apple Pay.
+- **Always sign in** with Rapid Rewards **20346160763** before search/book/claim (never guest if login is available).
+- Credentials (SecureString SSM, fetch at use — never paste into chat):
+  - `/southwest/username` (same as RR #)
+  - `/southwest/password`
+  - `/southwest/rapid-rewards-number`
+- Fill full name **Jerome Lionel Ansia**, DOB, gender, email **jerome.ans@gmail.com**, phone, KTN **992626698**, Rapid Rewards **20346160763**, and billing **3099 125th Ave NE, Bellevue, WA 98005** when asked.
+- After any Southwest booking (direct or Chase): **Add / retrieve the confirmation** into the Rapid Rewards account so miles credit.
+- Seats: skip when solo; with others auto-pick adjacent + away from lavatory only if free, else Jerome picks. Stop for card if no saved method / Apple Pay; still wait for Jerome’s OK before pay.
 - Calendar + Santa Clara week still apply for SJC work returns.
 
 ### Chase Ultimate Rewards
