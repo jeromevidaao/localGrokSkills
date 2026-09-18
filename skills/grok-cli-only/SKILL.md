@@ -1,5 +1,5 @@
 ---
-name: Grok CLI only
+name: grok-cli-only
 description: >-
   Use for any Grok CLI agent work: every real ask → r2_retrieve/gate first
   (Titan), then grok headless on this computer only; append to R2Memory after.
