@@ -122,6 +122,11 @@ Pine St / West End Victorian WiFi in replies and goldens: **Pineland** / **lobst
 
 Sarah-style "I love your WiFi password" + early check-in → **EARLY_CHECKIN** classic (message when cleaning finishes / unit ready). Compliment ≠ password ask; do not dump credentials.
 
+
+## Judge common sense (Sarah 2026-09-17)
+
+If history shows the host already sent WiFi (or the guest **complimented** the password), the conversation judge + `checkDraftClaims` **must REJECT/REVISE** any draft that re-sends SSID/password. Answer the real ask (early check-in classic). Never APPROVE a credential dump after "I love your WiFi password."
+
 ## Related
 
 - Harness `AGENTS.md` (product rules + incidents)
