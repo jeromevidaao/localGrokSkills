@@ -25,8 +25,11 @@ Rewards teammate (points combine — separate bot).
    type them at https://secure.chase.com/. Never write those values to
    disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. **Never
    type 2FA.** If Chase asks "Let's make sure it's you" / mobile-app
-   confirm, hand the box with `request_box_help` (reason `auth`, domain
-   `chase.com`). Do not ask Jerome to paste credentials in chat.
+   confirm: click **Confirm using our mobile app** to send the push, then
+   **ping Jerome once in chat** to open his **Android Chase app** and
+   approve. Prefer that chat ping over a long desktop handoff. Still use
+   `request_box_help` (reason `auth`, domain `chase.com`) if he needs the
+   box screen. Do not ask him to paste credentials or codes in chat.
 2. **Do not scrape the Chrome cookie DB.** Session lives in this
    computer's Chrome profile. Re-auth only after Chase actually expires
    the session. Refresh loops do **not** keep Chase signed in overnight.
@@ -43,8 +46,9 @@ Rewards teammate (points combine — separate bot).
 6. **Scheduled routine cards:** Freedom Unlimited (`...6553`) and Sapphire
    Reserve (`...8053`) only. Skip inactive cards. Manual "pay the cards"
    in chat can still cover any uncovered balances.
-7. **Repeat Chase auth failure:** first time, SSM login; hand the box
-   only for 2FA. Same 2FA / auth wall on a later run → **pause** the
+7. **Repeat Chase auth failure:** first time, SSM login + mobile-app
+   push, then chat-ping Jerome to open **Android Chase app**. Same 2FA /
+   auth wall still blocking on a later scheduled run → **pause** the
    routine and tell Jerome. Resume only after he is signed in and
    today's check is done.
 8. **Always commit + push this skill:** any edit to
@@ -89,6 +93,15 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_memory_turn.py ap
 
 Do this for every meaningful Chase-pay turn (check, pay, auth handoff,
 preference). Keep the git skill updated and pushed as well (rule 8).
+
+
+## Chase mobile 2FA (Android)
+
+Standing preference (2026-09-18): when Chase needs identity confirm,
+**SendToUser once** — ask Jerome to open his **Android Chase app** and
+approve the push. Trigger the push first (Confirm using our mobile app).
+Do not invent balances while waiting. After he confirms in chat (or the
+dashboard appears), finish the pay check.
 
 ## Accounts (last-4 only)
 
