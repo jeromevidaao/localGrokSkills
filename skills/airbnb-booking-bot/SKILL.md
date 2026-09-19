@@ -45,6 +45,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 4. Typical party: **1 adult** (Jerome alone on work weeks).
 5. Typical stay pattern: arrive with Monday SEA→SJC, depart Friday SJC→SEA —
    Airbnb often **Mon check-in / Fri check-out** (sometimes Sat checkout if needed).
+6. **Prefer Morse St** (`47225331`, Stephen & Sylvia, 985 Morse St) when available for Santa Clara / NVIDIA work weeks — Jerome’s favorite reuse; confirm private bath still applies.
 
 ## Bot-wall / rate limit (critical)
 
@@ -71,7 +72,7 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 
 | Listing | Room id | Notes |
 |---|---|---|
-| Private Guest Suite Near Airport & Downtown SJ (Morse St / UNIT B 985 Morse St, San Jose) | `47225331` | Host Stephen & Sylvia. Reused often. **Not available** Sep 28–Oct 2 2026 when last checked. |
+| Private Guest Suite Near Airport & Downtown SJ (Morse St / UNIT B 985 Morse St, San Jose) | `47225331` | Host Stephen & Sylvia. **Jerome’s preferred** Santa Clara work stay (stated 2026-09-19: “I very much like this place”). Prefer Morse first when available for NVIDIA weeks; private bath, quiet, Guest favorite. Booked Dec 14–18 2026 conf **HM4M5WXE5P** \$476.30. |
 | Private Room in Central Santa Clara Home (Alice, Nobili area) | `669571746980081639` | Oct 5–8 2026 stay candidate / calendar booking path. |
 | Private Bedroom in Santa Clara Home (Alice, 1680 Nobili Ave) | `668070218598431754` | Nov 2–6 2026 booking conf **HMSFMZFXPH**; often blocked midweek Oct. |
 | Earlier quiet private-bath shortlist samples | `4660686`, `1199416477879750788`, `1429362818141964294` | From Sep 14–18 search era — re-verify dates/bath. |
