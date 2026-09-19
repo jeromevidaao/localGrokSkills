@@ -95,8 +95,9 @@ As of early Sep 2026:
 | Oct 19–22 | OXSCPB / Chase | **Booked** Alice Nobili conf **HMZHKX2R2K** (Jerome) |
 | Nov 2–6 | MMQIZO | Booked (trips; through Nov 7) |
 | Nov 16–20 | NZIZXV + WN | **Booked** Morse `47225331` conf **HMNH8YP2HW** \$476.30 |
+| Dec 14–18 | WN 3105 SEA→SJC conf **AMTLQS** (outbound; Fri checkout assumed) | **Gap** — Morse `47225331` available ~\$433 private bath (checked 2026-09-19); Clean room / Simply comfy N/A; Alice open but shared bath. Awaiting Jerome book OK. |
 
-Open jobs: none on the known SEA↔SJC list (as of 2026-09-06).
+Open jobs: Dec 14–18 Airbnb (as of 2026-09-19). Airbnb box access OK again (no 503/429 on listing deep-links).
 
 ## Search workflow
 
