@@ -22,9 +22,13 @@ conflicts — ping on out-of-WA trips).
 
 ## Hard rules (never skip)
 
-1. **Legal name:** passenger is always **Jerome Lionel Ansia** (first / middle / last).
+1. **Legal name (every airline, every channel):** passenger is always
+   **Jerome Lionel Ansia** (first / middle / last) — Alaska, Southwest, Delta,
+   Chase Travel, Google Flights handoffs, agency PNRs, and any other booker.
    Never omit **Lionel**. Prefer forms that accept full middle name; if only middle
-   initial is allowed, use **L**. Fix typos like JEEROME if prefilled.
+   initial is allowed, use **L**. Fix typos like JEEROME if prefilled. After booking
+   or claiming a trip, **verify the confirmation shows Lionel** (or **L**); if it
+   does not and the site allows name edit, fix it before saying done.
 2. **Purchase gate:** stop at Review & pay / payment. Get Jerome’s **explicit OK**
    in chat before charging. Do not auto-book even under an old price threshold.
 3. **Alaska login:** on alaskaair.com always sign in as Atmos **325534370**
@@ -296,7 +300,7 @@ After each booking, correction, or any skill tweak Jerome asks for:
 ## Do not
 
 - Book without explicit OK
-- Omit middle name Lionel
+- Omit middle name Lionel (hard fail — always book + verify Jerome Lionel Ansia)
 - Skip billing address or contact email on forms
 - Proceed as Alaska guest when login works
 - Skip Ngoc on flight or Santa Clara calendar events
