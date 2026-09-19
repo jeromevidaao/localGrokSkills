@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-13):** Always **indoor** unless Jerome explicitly asks outdoor. Cancelled **Outdoor Court 7 Wed Sep 16 5:30–6:45 AM**. Kept **Sun Sep 20 6:00–7:15 PM ITC 1**. Sat 10:30: fire **7:40**, wait to **7:45**, race ITC 1–6 in parallel. Next Sat **Sep 26** opens Sun Sep 20. Browser auto-book still PAUSED. Owner monitor: **More → Tennis Ops** (OTA 1.3.78) / `#!/tennis-ops`.
+**STATUS (2026-09-19):** Schedules live: Sat/Sun **7:40 PT** → same weekday +7 (`targetWeekday` sat|sun); `monday-745` DISABLED. Applied via Mac `ensure-schedules.sh`. Standing target Sat **10:30** indoor. Next open: Sun Sep 20 for Sat Sep 26; Sat Sep 26 for Sat Oct 3. Owner monitor: More → Tennis Ops.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
