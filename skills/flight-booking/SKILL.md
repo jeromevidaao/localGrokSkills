@@ -9,11 +9,13 @@ description: >
 
 # Flight booking (Jerome Lionel Ansia)
 
-This is the standing playbook for the **Flight Booking** bot. On every Jerome
-message: **Titan retrieve first**, then read this skill. Pull TSA / frequent-flyer
-numbers from the **DINH ANSIA PERSONAL WIKI** sheet. After every completed booking
-(or any correction Jerome gives), **update this skill**, **append the turn to Titan**,
-and **commit + push immediately** — keep improving it.
+This is the standing playbook for the **Flight Booking** bot. **Before any
+flight search, hold, book, claim, check-in, or change:** read this skill in full
+(and any related skills below). On every Jerome message: **Titan retrieve first**,
+then **read this skill**. Pull TSA / frequent-flyer numbers from the **DINH ANSIA
+PERSONAL WIKI** sheet. After every completed booking (or any correction Jerome
+gives), **update this skill**, **append the turn to Titan**, and **commit + push
+immediately** — keep improving it.
 
 Related: `r2-memory` (Titan retrieve/append), `always-push`,
 `santa-clara-stay-from-alaska-flights` (calendar week blocks), `family-travel`
@@ -22,56 +24,61 @@ conflicts — ping on out-of-WA trips).
 
 ## Hard rules (never skip)
 
-1. **Legal name (every airline, every channel):** passenger is always
+1. **Read skills before any booking work:** before searching, holding, booking,
+   claiming a PNR, checking in, or changing a flight, **Read this `SKILL.md` first**
+   (and related skills as needed: `r2-memory`, `always-push`,
+   `santa-clara-stay-from-alaska-flights`, `family-travel`, `efgs`). Do not rely on
+   memory alone for hard rules (name, TSA Pre, purchase gate, Southwest RR, etc.).
+2. **Legal name (every airline, every channel):** passenger is always
    **Jerome Lionel Ansia** (first / middle / last) — Alaska, Southwest, Delta,
    Chase Travel, Google Flights handoffs, agency PNRs, and any other booker.
    Never omit **Lionel**. Prefer forms that accept full middle name; if only middle
    initial is allowed, use **L**. Fix typos like JEEROME if prefilled. After booking
    or claiming a trip, **verify the confirmation shows Lionel** (or **L**); if it
    does not and the site allows name edit, fix it before saying done.
-2. **TSA Pre / KTN (every airline, every channel):** always enter Known Traveler
+3. **TSA Pre / KTN (every airline, every channel):** always enter Known Traveler
    Number **992626698** (TSA PreCheck) on passenger forms — Alaska, Southwest,
    Delta, Chase Travel, agency PNRs, and any other booker. Never leave blank.
    Confirm against the DINH ANSIA PERSONAL WIKI sheet when filling. After booking
    or claiming a trip, **verify TSA Pre / KTN is on the reservation**; if missing
    and editable, add it before saying done.
-3. **Purchase gate:** stop at Review & pay / payment. Get Jerome’s **explicit OK**
+4. **Purchase gate:** stop at Review & pay / payment. Get Jerome’s **explicit OK**
    in chat before charging. Do not auto-book even under an old price threshold.
-4. **Alaska login:** on alaskaair.com always sign in as Atmos **325534370**
+5. **Alaska login:** on alaskaair.com always sign in as Atmos **325534370**
    (Jerome Ansia) before search/book — never guest if login is available.
-5. **Contact email:** always fill **jerome.ans@gmail.com** on passenger / contact /
+6. **Contact email:** always fill **jerome.ans@gmail.com** on passenger / contact /
    receipt fields. Never leave blank or use a different address.
-6. **Billing address:** always fill the full home/billing address on payment forms:
+7. **Billing address:** always fill the full home/billing address on payment forms:
    **3099 125th Ave NE, Bellevue, WA 98005** (street, city, state, ZIP). Never skip.
-7. **Seats:**
+8. **Seats:**
    - **Alone:** skip paid/optional seat selection — he does not care.
    - **With others:** pick seats for the party when all of these are true:
      (a) seats are **next to each other**, (b) **away from the bathroom/lavatory**,
      and (c) **no additional seat fee**. If any of those cannot be met for free,
      stop and let **Jerome pick** (hand the box). Never pay for seats without OK.
-8. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
+9. **Wiki before FF/TSA fields:** before filling Known Traveler / frequent-flyer
    numbers, open the **DINH ANSIA PERSONAL WIKI** Google Sheet and use the values
    there (do not invent or reuse stale guesses). Sheet:
    https://docs.google.com/spreadsheets/d/1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo/edit
    Drive file id: `1agABcM6hBCmzPXXy3o2D8XtJClu34paWT358l56KzUo`
-9. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
+10. **Always commit + push this skill:** any edit to `skills/flight-booking/` (or
    related flight playbook) must be committed and pushed to
    `jeromevidaao/localGrokSkills` **immediately** — never leave skill changes only
    on disk. Follow **always-push** (public → `git push` `main` → CI green → private).
    Do not ask “want me to push?”.
-10. **Refine after book:** when a booking finishes (or Jerome corrects a field),
+11. **Refine after book:** when a booking finishes (or Jerome corrects a field),
    update this `SKILL.md` with the learning, then commit + push (rule 5), and
    mirror durable facts into agent memory.
-11. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
+12. **Titan R2Memory (read + write):** every time Jerome talks to this bot,
    **retrieve first**, then **append/update after the turn** so Titan stays current.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
-12. **EFGS / Julie class conflict:** if the trip puts anyone **outside Washington
+13. **EFGS / Julie class conflict:** if the trip puts anyone **outside Washington
    state** (destination or overnight not in WA — includes SEA↔SJC), **ping the
    EFGS agent** (`00e87ed1-d005-4527-b29b-bfe7cccb59c2`) via SendToAgent with
    route, dates, travelers, and conf code **before** saying the booking is done.
    Prefer also flagging when presenting options if a Saturday conflict is clear.
    EFGS owns the warning to Jerome. In-WA-only itineraries: no ping. Skill: `efgs`.
-13. **Flight calendar guests:** on every timed flight-duration calendar event,
+14. **Flight calendar guests:** on every timed flight-duration calendar event,
    invite **ngoc.h.dinh@gmail.com** and **jansia@nvidia.com** (on top of Jerome).
    Do this for every future booking. Santa Clara all-day week blocks stay
    Ngoc (+ Jerome) unless he says otherwise.
