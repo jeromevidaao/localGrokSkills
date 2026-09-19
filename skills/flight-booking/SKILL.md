@@ -92,7 +92,7 @@ When booking for Ngoc and/or Julie (companion fare, family trips), always use:
 |---|---|---|
 | Full legal name | **Ngoc Hong Dinh** (GE card: NGOC HONG / DINH) | **Julie M Ansia** (GE card: JULIE M / ANSIA; middle is letter M only) |
 | DOB | **March 20, 1988** | **December 3, 2019** |
-| Gender | Female (confirm if form requires) | Female (confirm if form requires) |
+| Gender | **Female** | **Female** |
 | TSA Pre / KTN | **156430198** | **160219687** |
 | AA AAdvantage | **630DYM2** | — |
 | Delta SkyMiles | **9354872468** | — |
