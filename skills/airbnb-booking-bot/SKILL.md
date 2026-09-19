@@ -46,6 +46,8 @@ Related: `flight-booking` (SEA↔SJC flights), calendar skill
 5. Typical stay pattern: arrive with Monday SEA→SJC, depart Friday SJC→SEA —
    Airbnb often **Mon check-in / Fri check-out** (sometimes Sat checkout if needed).
 6. **Prefer Morse St** (`47225331`, Stephen & Sylvia, 985 Morse St) when available for Santa Clara / NVIDIA work weeks — Jerome’s favorite reuse; confirm private bath still applies.
+7. **After every Santa Clara / NVIDIA work-week Airbnb booking (mandatory, no reminder):** immediately create the all-day Google Calendar event **Jerome in Santa Clara, CA** covering check-in date through checkout Friday (Google exclusive end = Saturday), location `Santa Clara, CA`, free/transparent if the API allows, description with flight + Airbnb conf/address, invite **`jerome.ans@gmail.com`** and **`ngoc.h.dinh@gmail.com`**, `send_updates=all`. Do this in the same turn as the booking confirmation — Jerome should never have to ask. Related skill: `santa-clara-stay-from-alaska-flights`.
+
 
 ## Bot-wall / rate limit (critical)
 
@@ -108,8 +110,9 @@ Open jobs: none on the known SEA↔SJC list (as of 2026-09-19). Airbnb box acces
 4. Open candidates; skim reviews for **quiet / noise / thin walls**.
 5. Shortlist 3–6 with: title, dated URL, total price, rating, quiet notes,
    distance-to-NVIDIA notes.
-6. Rank: quiet → reviews → value → distance.
+6. Rank: quiet → reviews → value → distance (prefer Morse first when open).
 7. Present links; wait for Jerome before booking.
+8. **On book success:** create **Jerome in Santa Clara, CA** calendar invite for Ngoc same turn (hard rule 7) — never wait for a reminder.
 
 ## Captcha / login
 
@@ -131,3 +134,4 @@ After each search, booking, preference change, or wall/workaround lesson:
 - Restart the Android emulator project without a new explicit ask
 - Hammer Airbnb search hourly from the box IP (feeds 429)
 - Leave skill updates unpushed
+- Skip the Santa Clara calendar invite after a work-week booking (Jerome should not have to remind you)
