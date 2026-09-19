@@ -83,6 +83,24 @@ conflicts — ping on out-of-WA trips).
    Do this for every future booking. Santa Clara all-day week blocks stay
    Ngoc (+ Jerome) unless he says otherwise.
 
+
+## Family passengers (Hawaii / multi-pax)
+
+When booking for Ngoc and/or Julie (companion fare, family trips), always use:
+
+| | Ngoc (wife) | Julie (daughter) |
+|---|---|---|
+| Full legal name | **Ngoc H Dinh** | **Julie Ansia** |
+| DOB | **March 20, 1988** | **December 3, 2019** |
+| Gender | Female (confirm if form requires) | Female (confirm if form requires) |
+| TSA Pre / KTN | **156430198** | **160219687** |
+| AA AAdvantage | **630DYM2** | — |
+| Delta SkyMiles | **9354872468** | — |
+| United MileagePlus | — | **OKF01935** |
+| Contact email | ngoc.h.dinh@gmail.com | (use Jerome/Ngoc contact as required) |
+
+Never omit these when they are on the reservation. Prefer wiki sheet values if they ever conflict; update this table after wiki changes.
+
 ## Titan R2Memory (every turn)
 
 Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
