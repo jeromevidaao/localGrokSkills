@@ -31,13 +31,36 @@ Last verified: **2026-09-19** from the personal Dropbox web UI.
 - `/Archive/`
 - `/Picture/`
 
-### Confirmed nested path
+### Confirmed nested paths
 
+Verified 2026-09-19:
+
+- `/0 ID/Belgian ID/`
+- `/0 ID/BIRTH/`
+- `/0 ID/Certification Of Immunization Status (CIS)/`
+- `/0 ID/driver license/`
 - `/0 ID/global entry/`
+- `/0 ID/greencard/`
+- `/0 ID/marriage license/`
+- `/0 ID/naturalization certificate/`
+- `/0 ID/passport/`
+- `/0 ID/profile picture/`
+- `/0 ID/social security/`
+- `/0 ID/Visa/`
 
-This nested folder is shared with another Dropbox user. Keep this map at the
-folder-path level; do not copy identity-document filenames, numbers, dates, or
-other document contents into the skill.
+This nested folder tree is shared with another Dropbox user. Keep this map at
+the folder-path level; do not copy identity-document filenames, numbers, dates,
+or other document contents into the skill.
+
+### Quick lookups
+
+| Need | Location |
+| --- | --- |
+| IDs/passports/Global Entry/SSN/licenses | `/0 ID/` |
+| Immigration | `/4 Immigration/` (also `/0 ID/Visa/`, `/0 ID/greencard/`) |
+| Medical | `/03 Medical/` and `/0 ID/Certification Of Immunization Status (CIS)/` |
+| Taxes | `/02 Taxes/` |
+| School | `/6 School/` |
 
 ### Suggested or recently surfaced locations
 
