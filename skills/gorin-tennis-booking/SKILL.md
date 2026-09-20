@@ -71,6 +71,11 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
     skip it and say so. Do not hold or pay for a half-court “to save money.”
     The cheaper ~$23 quote is typically a half-court, not a week-ahead discount.
 
+13. **Travel skip.** Before booking any class date, check Jerome’s Google Calendar
+    for flights, Hawaii, or out-of-town blocks that overlap that Sunday. Skip
+    those dates (example: end-of-year Hawaii Dec 21–31 2026). Do not book tennis
+    while the family is away.
+
 ## Titan R2Memory (every turn)
 
 Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
