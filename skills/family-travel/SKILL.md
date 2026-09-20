@@ -23,6 +23,12 @@ No 3-bedroom minimum for this party. (Manhattan 5 people / 3 kids is the 3BR sta
 
 ## Cherry Crest / BSD405 (not Bellevue NE)
 
+**Canonical school calendar** now lives in skill **`cherry-crest`**
+(`skills/cherry-crest/SKILL.md`, Cherry Crest - Julie's Cool bot). Prefer that
+file (or the live BSD405 PDF) over duplicating dates here. Snapshot below kept
+for quick Hawaii trip planning.
+
+
 Official [BSD405 2026–27 staff calendar](https://resources.finalsite.net/images/v1770322933/bsd405org/bsd405org/kdzrn6mn0roqufznmld0/2026-2027-Staff-District-Calendar.pdf):
 
 | | |
