@@ -144,6 +144,34 @@ Prefer the live PDF above if this cache disagrees; then patch this skill + push.
 `family-travel` (Hawaii) and `april-vacation` **must** read these dates from
 **this** skill (or the live PDF), not invent them.
 
+
+## Excel With Chess (standing)
+
+Vendor: **Excel With Chess** via **6crickets.com** (not a separate PTSA form once registration is live).
+Contact: schools@excelwithchess.com · Coach Lane (chesscoachlane@gmail.com) · PTSA afterschool@cherrycrest-ptsa.org
+PTSA membership required for club participation (family membership under Ruby Dinh / unit historically OK — confirm each year).
+
+| | |
+|---|---|
+| Day / time | **Wednesdays 12:15–1:15pm** PT |
+| Where | Cherry Crest lobby → Rooms (often 105 & 106); address 12400 NE 32nd St |
+| Grades | K–5 |
+| Cost | **$220** per student per ~8-week session (confirm on 6crickets at checkout) |
+| Registration | Cherry Crest PTSA site / 6crickets; Fall 2026 window was **Sep 15 – Oct 7**, classes start week of Oct 14 / first chess **Oct 21** |
+
+### Fall 2026 (enrolled 2026-09-20 by Ruby / Ngoc)
+
+| | |
+|---|---|
+| Session | Wed **21 Oct 2026 → 16 Dec 2026** |
+| Skip | **11 Nov** and **18 Nov 2026** (invite still shows those Wednesdays — ignore) |
+| Student | Julie Ansia |
+| Booked by | Ruby Dinh (`ngoc.h.dinh@gmail.com`) on 6crickets; Jerome linked as co-parent same day |
+| Calendar | Series on Jerome’s calendar, organizer Ngoc, event id root `5iel04rkhcolc3pm7e2no94gj1`; Jerome RSVP **accepted** 2026-09-20 |
+| Pickup | Parents arrive by ~1:05pm and wait **outside** for dismissal |
+
+Do **not** double-enroll if this calendar series already exists. Prefer verifying on https://www.6crickets.com/schedule before paying again.
+
 ## Scope — what this bot owns
 
 - BSD405 / Cherry Crest **school calendar**, closures, early releases, conferences
