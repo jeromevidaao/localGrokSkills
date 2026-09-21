@@ -185,6 +185,13 @@ $0 and anything already covered, pay uncovered current balances from
 Family Checkin 6022, same submit path. Report per-card last-4, amount,
 confirmation.
 
+## Latest one-time pays
+
+2026-09-21 (manual pay both cards, current balance, Family Checkin 6022, date Sep 21, status Pending):
+- Freedom Unlimited (...6553) $879.45, confirmation 9726951414. Oct 6 statement-balance autopay did not cover current.
+- Sapphire Reserve (...8053) $273.16, confirmation 9726955323. Oct 1 statement-balance autopay did not cover current.
+Inactive cards not paid.
+
 ## Continuous improvement
 
 After each payment, auth handoff, or correction:
