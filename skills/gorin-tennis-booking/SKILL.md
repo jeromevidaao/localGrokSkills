@@ -201,13 +201,14 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Latest single-date watch (read-only 2026-09-21 ~8:41am PT)
+## Latest single-date watch (read-only 2026-09-21 ~12:33pm PT)
 
 - Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId 60796521). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm, Bellevue Kids Court. Coaches **Fatma Tapan, Gulcin Odemis**. Price **$57 single / $228 full**. **11 of 12 spots remaining**.
-- DATES tab exact text on Oct 4, 11, 18, and 25: **“Single date registration opens in 4 days and 20 h”**. Only **Register for Full Event** is clickable. Do not click it. List-card “Register” only opens this page.
+- DATES tab exact text on Oct 4, 11, 18, and 25: **“Single date registration opens in 4 days and 17 h”** (~Sat Sep 26 early morning). Only **Register for Full Event** is clickable. Do not click it.
 - Per-date list reservations (same series): Oct 4 T2M7CEQ7306110 / 60796521; Oct 11 J4BVP237306130 / 60796522; Oct 18 ML2PHM57306153 / 60796523; Oct 25 PX8U4Z17306174 / 60796524.
-- Full event list (1631, through mid-December): **no November U8 / Future Stars** at Bellevue (or any location). No Bellevue junior Sunday in November. Nov 1, 8, 15, 22, 29 not listed.
-- My Bookings custom 2026-09-21 through 2026-11-30 (Julie Ansia + Ruby): **No bookings found**. Nothing Oct/Nov U8 booked.
+- November U8 / Future Stars Sundays still **not listed**.
+- My Bookings (Sep 21–Nov 30, Julie + Ruby): **No bookings found**.
+- Travel gate: **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA Sun Oct 25 ~3:53pm overlaps class; Oct 4/11/18 and Nov Sundays still clear (SC midweek; Hawaii Dec 21–31).
 
 ## Current bookings
 
