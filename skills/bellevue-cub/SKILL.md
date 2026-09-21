@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-19):** Schedules live: Sat/Sun **7:40 PT** → same weekday +7 (`targetWeekday` sat|sun); `monday-745` DISABLED. Applied via Mac `ensure-schedules.sh`. Standing target Sat **10:30** indoor. Next open: Sun Sep 20 for Sat Sep 26; Sat Sep 26 for Sat Oct 3. Owner monitor: More → Tennis Ops.
+**STATUS (2026-09-20):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Fire **Sun 7:40 PT**, wait to 7:45, book next Sun. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Sat 10:30 path separate if still scheduled. Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -26,11 +26,15 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 1. **Always indoor unless Jerome says outdoor.** Book **Indoor Tennis Courts**
    (ITC 1–6) only. Never book outdoor as a fallback, alternate, or “something
    is open.” If an outdoor reservation appears without him asking, **cancel it**.
-   Standing target (PAUSED): **Saturday 10:30–11:45 a.m.** indoor until he
-   restarts. Sep 12 missed; next Saturday 10:30 is **Sep 26**. Do not substitute
-   another time if 10:30 is gone.
-2. **Window:** courts book **7 days out**, new day opens **7:45 a.m. PT**.
-   Saturday inventory opens the **prior Sunday at 7:45 a.m.**
+   Standing target: **every Sunday 6:00–7:15 p.m.** indoor. Skip any date Jerome
+   says skip (e.g. Sep 27 2026 6PM). Do not substitute another time if 6:00 is gone.
+
+2. **Window:** courts book **exactly 7 days out** (same weekday +7), new day
+   opens **7:45 a.m. PT**. Not 8 days / not “7+1”. Named slot → open = that
+   datetime minus 7 days at 7:45 PT; EventBridge fires ~5 min early (7:40),
+   handler waits to 7:45:00. Sunday 6PM inventory opens the **prior Sunday 7:45**.
+   Saturday inventory opens the **prior Sunday 7:45**.
+
 3. **ALWAYS refresh on the dot:** at **7:45:00 PT exactly**, **hard-refresh** the
    reservation page, then book immediately. Every booking run. No exceptions.
    Never wait for auto-update. Never start navigating at 7:45 — already be on
@@ -49,7 +53,7 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 6. **Weekly book is Lambda `bellevueClubTennis`** (`jeromevidaao/bellevue-club-tennis`):
    EventBridge Scheduler Sunday **7:40 a.m. PT** (was 7:44; Sep 13 cold start INIT 7:44:50
    ate the open). Handler **logs in on that invoke**, waits until **7:45:00.000 PT**,
-   then **races ITC 1–6 in parallel** for Saturday **10:30–11:45 indoor**
+   then **races ITC 1–6 in parallel** for the configured slot (standing: Sunday **6:00–7:15 indoor**; also Sat 10:30 if that schedule is enabled)
    (hardcoded area ids 20–25). First save wins; siblings abort. Timeout 420s. Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
