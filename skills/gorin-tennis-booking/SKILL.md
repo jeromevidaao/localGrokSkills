@@ -210,6 +210,14 @@ Confirm in chat before cancelling.
 - My Bookings (Sep 21–Nov 30, Julie + Ruby): **No bookings found**.
 - Travel gate: **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA Sun Oct 25 ~3:53pm overlaps class; Oct 4/11/18 and Nov Sundays still clear (SC midweek; Hawaii Dec 21–31).
 
+
+## Follow-up read-only watch (2026-09-21 ~4:13pm PT)
+
+- Bellevue U8 (201) Oct 4/11/18/25 DATES tab still showed exact text **“Single date registration opens in 4 days and 13 h”** for every date; single-date registration remains closed and **Register for Full Event** is still the only registration control.
+- Series still showed **11 of 12 spots remaining**; instructors **Fatma Tapan, Gulcin Odemis**.
+- Event List search for **U8 (201)** returned events only through Oct 31; no November Bellevue U8/Future Stars Sundays were listed.
+- My Bookings Active with Ruby Dinh and Julie Ansia selected, custom Sep 21–Nov 30, showed **No bookings found**.
+
 ## Current bookings
 
 - **Sun 13 Sep 2026, 2:30–3:30pm** Bellevue U6 (101) / Tiny Tigers
