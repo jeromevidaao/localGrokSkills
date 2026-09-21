@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-20):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Lambda schedule `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Keep `saturday-745` / `sunday-745` (10:30 AM) if still ENABLED — sunday-1800 is **additive** (two concurrent Sun 7:40 invokes OK). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
+**STATUS (2026-09-21):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Lambda schedule `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Keep `saturday-745` / `sunday-745` (10:30 AM) if still ENABLED — sunday-1800 is **additive** (two concurrent Sun 7:40 invokes OK). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -226,6 +226,23 @@ Jerome asked for a **one-off** grab of **Sunday Sep 13 2026 10:30–11:45 indoor
 when that day opens **Monday Sep 7 at 7:45**. Routine folder
 `one-off-sun-sep-13-10-30-indoor` — delete after that run. Same hard rules:
 live agent through open, refresh on the dot, no resume.
+
+## Reliability hardening 2026-09-21
+
+Additive Lambda improvements (do **not** change sunday-1800 `targetStart=06:00 PM`):
+- HTTP transient retries (429/5xx/network); **never** retry Cloudflare challenges.
+- Login retries (3x) per ITC session; skip retry on CF.
+- `waitUntil745Pt` spin window (~400ms) + 6 min max (tolerates 7:39 skew).
+- `{"warm":true}` mode + optional Sat/Sun **7:35 PT** warm schedules (ensure-schedules; needs Mac IAM to apply).
+- Skip race if My Reservations already has the target slot (duplicate-fire guard).
+- Richer miss email/detail: sessionsPrimed, failedLogins, parallel outcomes.
+- `ensure-schedules.sh` asserts sunday-1800 Input stays `06:00 PM`.
+
+**Verify routines (Grok Bot, 7:50 AM PT):**
+- Bellevue Lambda Sunday book verify — cron `50 7 * * 0`: after Sunday ~7:45, confirm CloudWatch `tennisOpsLog` for next Sunday (+7) **10:30** (sunday-745 if enabled) and/or **06:00 PM** (sunday-1800). Flag monday-745 drift. Ping Jerome.
+- Bellevue Lambda Saturday book verify — cron `50 7 * * 6`: confirm next Saturday 10:30 book/miss. Do not invent outcomes.
+
+Titan still AccessDenied on `scheduler:GetSchedule` / often logs — report gaps; apply schedules from Jerome Mac via `bash scripts/ensure-schedules.sh`.
 
 ## Continuous improvement
 
