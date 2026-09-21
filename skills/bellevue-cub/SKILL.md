@@ -8,7 +8,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-20):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Fire **Sun 7:40 PT**, wait to 7:45, book next Sun. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Sat 10:30 path separate if still scheduled. Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
+**STATUS (2026-09-20):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Lambda schedule `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Keep `saturday-745` / `sunday-745` (10:30 AM) if still ENABLED — sunday-1800 is **additive** (two concurrent Sun 7:40 invokes OK). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -93,7 +93,7 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
 8. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
-   - **Google Calendar** event for that booked slot (usually Sat 10:30–11:45 PT)
+   - **Google Calendar** event for that booked slot (standing Sun 6:00–7:15 PT; or Sat/Sun 10:30 if that path booked)
      at Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
      (ngoc.h.dinh@gmail.com)**. No Google Meet. She must actually get the invite.
 9. **Always commit + push this skill** after any change. Follow **always-push**:
@@ -104,6 +104,17 @@ On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
    On this shared computer, `~/.aws/credentials` is already **`grok-bot-titan`**
    (region `us-east-1`). No SSM fetch for Titan keys — just run the scripts.
+
+
+## Schedule math (work backward)
+
+Jerome names the **court day + start time** (e.g. Sunday 6:00 PM indoor). Work backward:
+
+1. Inventory for that slot opens **exactly 7 days earlier, same weekday, at 7:45:00 PT** (not 8 days / not “7+1” / not the prior Saturday for a Sunday evening).
+2. EventBridge therefore fires that **same weekday at 7:40 PT** with Input `{ "targetWeekday": "<sun|sat>", "targetStart": "<club start>" }` (end = start + 75 min unless overridden). Handler waits until 7:45:00 then races ITC 1–6.
+3. Weekend evening cells stay `restrict`/`override` until the open calendar day — do not treat a Saturday fire as unlocking Sunday 6PM (+1 nextSunday math is wrong for evening).
+4. Standing schedules: `sunday-1800` (6PM) **and** `sunday-745` / `saturday-745` (10:30) may share the 7:40 cron with different Inputs; concurrent invokes are OK.
+5. Always **verify live** on the club grid if unsure about a new slot’s open day.
 
 ## People
 
@@ -230,7 +241,7 @@ After any Jerome conversation that changes this job:
 
 - Miss the 7:45:00 hard-refresh (always on the dot)
 - Task-resume a parked browser across the open second
-- Book a different time if 10:30 is gone
+- Book a different time if the standing start (6:00 PM or 10:30) is gone
 - Store the club password on disk, in git, in chat, or in Titan (fetch SSM at login)
 - Assume Lambda holds a Cloudflare token that will expire — it does not; UA skip + hourly canary
 - Add a Google Meet link to tennis events
