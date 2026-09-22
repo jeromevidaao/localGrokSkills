@@ -137,7 +137,7 @@ From Sep 2026 the same slots are **U6 (101)** and **U8 (201)**.
 ## Tennis Ops / CourtReserve sync (2026-09-21 ~8pm PT)
 
 - **Upcoming Julie lessons on CourtReserve: none** (re-verified 2026-09-21 PT). Live Lambda `act=tennis_ops_status` + direct CourtReserve probe: login OK as `ngoc.h.dinh@gmail.com`, Julie #11433210 found, GetAllTransactions=2 past only (U6 9/13, U8 9/20), My Bookings `get-list` rawCount=0 for all DatesString/OrgMemberIds variants. Oct U8 catalog is not a registration. API now passes live family org Ids (`11427703,11433210`) into My Bookings (was stale `10788691/10785548`). Do not invent lessons.
-- Oct U8 (201) **T2M7CEQ7306110** / eventId **2269553** / resIds 60796521–60796524 is the **catalog** full-event (11/12 spots). Single-date opens ~Sat Sep 26 AM. Not on GetAllTransactions until paid/booked.
+- Oct U8 (201) **T2M7CEQ7306110** / eventId **2269553** / resIds 60796521–60796524 is the **catalog** full-event (11/12 spots). Re-checked **2026-09-21 ~9:54pm PT**: single-date still closed — SignUpToEvent_Get says opens in **4 days and 7 h** (~Sat Sep 26 AM). Not on GetAllTransactions until paid/booked.
 - History on tennis-ops comes from GetAllTransactions: U6 9/13 (LJON17306/XUIWA7306), U8 9/20 (ISFVM7306/C5T4Y7306).
 - API `act=tennis_ops_status` now merges GetAllTransactions + My Bookings (`sourcesChecked`). GCal has no upcoming Gorin events (only those two past).
 
@@ -209,22 +209,19 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Latest single-date watch (read-only 2026-09-21 ~4:13pm PT)
+## Latest single-date watch (live API 2026-09-21 ~9:54pm PT)
 
-- Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId 60796521). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm, Bellevue Kids Court. Coaches **Fatma Tapan, Gulcin Odemis**. Price **$57 single / $228 full**. **11 of 12 spots remaining**.
-- DATES tab exact text on Oct 4, 11, 18, and 25: **“Single date registration opens in 4 days and 13 h”** (~Sat Sep 26 early morning). Only **Register for Full Event** is clickable. Do not click it.
+- Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm, Bellevue Kids Court. Coaches **Fatma Tapan, Gulcin Odemis**. Price **$57 single / $228 full**. **11 of 12 spots remaining**.
+- **Oct 4 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`) returned exact message: **“Registration not yet open for this date. Registration opens in 4 days and 7 h .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event; Jerome asked Oct 4 drop-in only.
 - Per-date list reservations (same series): Oct 4 T2M7CEQ7306110 / 60796521; Oct 11 J4BVP237306130 / 60796522; Oct 18 ML2PHM57306153 / 60796523; Oct 25 PX8U4Z17306174 / 60796524.
-- November U8 / Future Stars Sundays still **not listed**.
-- My Bookings (Sep 21–Nov 30, Julie + Ruby): **No bookings found**.
-- Travel gate: **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA Sun Oct 25 ~3:53–6:44pm PT overlaps class; Oct 4/11/18 and Nov Sundays still clear (SC midweek; Hawaii Dec 21–31).
+- Travel gate: Oct 4 GCal clear (no events). **SKIP Oct 25** — Palm Springs return AS 759 overlaps; Oct 4/11/18 still clear.
+- CLI tip: after login + Details page for JWT/`requestData`, call  
+  `GET /Online/EventsApi/EventApi_SignUpToEvent_Get?id=7306&reservationId=60796521&eventId=2269553&isReactCall=true&ajaxCall=true&requestData=…&isApiCall=true`  
+  (works on app / events / api4 hosts). Book path when open: `EventApi_SignUpToEvent_DropIn_Post` (Julie #11433210 only).
 
+## Prior watch (read-only 2026-09-21 ~4:13pm PT)
 
-## Follow-up read-only watch (2026-09-21 ~4:13pm PT)
-
-- Bellevue U8 (201) Oct 4/11/18/25 DATES tab still showed exact text **“Single date registration opens in 4 days and 13 h”** for every date; single-date registration remains closed and **Register for Full Event** is still the only registration control.
-- Series still showed **11 of 12 spots remaining**; instructors **Fatma Tapan, Gulcin Odemis**.
-- Event List search for **U8 (201)** returned events only through Oct 31; no November Bellevue U8/Future Stars Sundays were listed.
-- My Bookings Active with Ruby Dinh and Julie Ansia selected, custom Sep 21–Nov 30, showed **No bookings found**.
+- DATES tab then: **“Single date registration opens in 4 days and 13 h”**; Full Event only; 11/12 spots; no November U8 Sundays listed; My Bookings empty.
 
 ## Current bookings
 
