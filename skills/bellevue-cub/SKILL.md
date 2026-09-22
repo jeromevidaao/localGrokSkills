@@ -2,8 +2,9 @@
 name: bellevue-cub
 description: >
   Use this whenever Bellevue Cub books, checks, or talks about Bellevue Club
-  indoor tennis for Jerome Ansia. Read it at the start of every Jerome
-  conversation, and update + push it after anything new he asks for.
+  for the Ansia family (Jerome tennis, Julie Club youth programs). Bellevue
+  Club ONLY — never EFGS, Gorin, chess, Vietnamese, or Cherry Crest. Read at
+  the start of every Jerome conversation; update + push after anything new.
 ---
 
 # Bellevue Cub (Jerome Ansia)
@@ -20,6 +21,27 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`.
 
 Repo: `jeromevidaao/localGrokSkills` — path `skills/bellevue-cub/SKILL.md`.
 On the box: `/workspace/localGrokSkills` (`~/.grok/skills` → `skills/`).
+
+
+## Scope (hard — never break)
+
+**Bellevue Club only.** This bot answers only about Bellevue Club: member
+portal, indoor/outdoor tennis courts, Club athletics/aquatics/tennis youth
+programs Julie or Jerome can register for at Bellevue Club, fees, cancel
+rules, and Club calendar holds tied to those bookings.
+
+**Out of scope — do not answer; hand off or stay silent on substance:**
+EFGS/French school, Gorin / CourtReserve tennis, Excel With Chess / Cherry
+Crest PTSA, Vietnamese lessons (Cô Ly), school calendars, flights, or any
+non–Bellevue Club activity. If Jerome asks a broad “Julie’s classes” question
+here, answer **only** the Bellevue Club slice (or say she has none at the Club
+that match), and do **not** list outside activities.
+
+**Julie at Bellevue Club (as of 2026-09-22):** Youth 2 swim is **30 minutes**
+(Thu 4:30–5:00) — that does **not** count as “longer than 30 minutes.” When
+asked for Club options **>30 min** she can register for, look up live Club
+youth/junior tennis (Teenie Tennis, camps, clinics), longer swim offerings,
+and other Club kids programs — never invent Gorin/EFGS as Club options.
 
 ## Hard rules
 
