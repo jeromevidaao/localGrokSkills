@@ -136,7 +136,7 @@ From Sep 2026 the same slots are **U6 (101)** and **U8 (201)**.
 
 ## Tennis Ops / CourtReserve sync (2026-09-21 ~8pm PT)
 
-- **Upcoming Julie lessons on CourtReserve: none.** My Bookings Active (custom date range, Julie+Ruby) and `backend.courtreserve.com/api/my-bookings-portal/get-list` both return empty. Do not invent Oct series as booked.
+- **Upcoming Julie lessons on CourtReserve: none** (re-verified 2026-09-21 PT). Live Lambda `act=tennis_ops_status` + direct CourtReserve probe: login OK as `ngoc.h.dinh@gmail.com`, Julie #11433210 found, GetAllTransactions=2 past only (U6 9/13, U8 9/20), My Bookings `get-list` rawCount=0 for all DatesString/OrgMemberIds variants. Oct U8 catalog is not a registration. API now passes live family org Ids (`11427703,11433210`) into My Bookings (was stale `10788691/10785548`). Do not invent lessons.
 - Oct U8 (201) **T2M7CEQ7306110** / eventId **2269553** / resIds 60796521–60796524 is the **catalog** full-event (11/12 spots). Single-date opens ~Sat Sep 26 AM. Not on GetAllTransactions until paid/booked.
 - History on tennis-ops comes from GetAllTransactions: U6 9/13 (LJON17306/XUIWA7306), U8 9/20 (ISFVM7306/C5T4Y7306).
 - API `act=tennis_ops_status` now merges GetAllTransactions + My Bookings (`sourcesChecked`). GCal has no upcoming Gorin events (only those two past).
