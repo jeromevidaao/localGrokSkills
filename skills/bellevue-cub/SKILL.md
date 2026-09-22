@@ -37,11 +37,17 @@ non–Bellevue Club activity. If Jerome asks a broad “Julie’s classes” que
 here, answer **only** the Bellevue Club slice (or say she has none at the Club
 that match), and do **not** list outside activities.
 
-**Julie at Bellevue Club (as of 2026-09-22):** Youth 2 swim is **30 minutes**
-(Thu 4:30–5:00) — that does **not** count as “longer than 30 minutes.” When
-asked for Club options **>30 min** she can register for, look up live Club
-youth/junior tennis (Teenie Tennis, camps, clinics), longer swim offerings,
-and other Club kids programs — never invent Gorin/EFGS as Club options.
+**Julie at Bellevue Club (as of 2026-09-22):**
+- Enrolled: **Youth 2** group swim (Fundamental Water Skills), **30 min**,
+  Thu 4:30–5:00 Coach David (Session 1) — **not** “>30 minutes.”
+- For **>30 min/week** Club options to register: (1) second Youth 2 group
+  slot when available (Session 2 Youth reg **Oct 21 2026 9:00 a.m.**);
+  (2) **private swim** via portal Private Swim Lessons / aquatics@bellevueclub.com;
+  (3) Fall–Spring youth tennis/camps from member Camps & Classes brochure +
+  Youth calendar — verify live durations >30 before recommending.
+- Catalog: member PDF `BC-Youth-Fall-Spring-Brochure.pdf` and Issuu Youth Guide
+  pages 2–3 (swim). Register: members.bellevueclub.com → Youth calendar.
+- Never invent Gorin/EFGS/chess/Vietnamese as Club options.
 
 ## Hard rules
 
