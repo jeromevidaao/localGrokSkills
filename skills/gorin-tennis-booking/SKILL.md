@@ -133,6 +133,14 @@ Junior pages:
 Naming: through Aug 31 2026 classes showed **TINY TIGERS U6** / **FUTURE STARS U8**.
 From Sep 2026 the same slots are **U6 (101)** and **U8 (201)**.
 
+
+## Tennis Ops / CourtReserve sync (2026-09-21 ~8pm PT)
+
+- **Upcoming Julie lessons on CourtReserve: none.** My Bookings Active (custom date range, Julie+Ruby) and `backend.courtreserve.com/api/my-bookings-portal/get-list` both return empty. Do not invent Oct series as booked.
+- Oct U8 (201) **T2M7CEQ7306110** / eventId **2269553** / resIds 60796521–60796524 is the **catalog** full-event (11/12 spots). Single-date opens ~Sat Sep 26 AM. Not on GetAllTransactions until paid/booked.
+- History on tennis-ops comes from GetAllTransactions: U6 9/13 (LJON17306/XUIWA7306), U8 9/20 (ISFVM7306/C5T4Y7306).
+- API `act=tennis_ops_status` now merges GetAllTransactions + My Bookings (`sourcesChecked`). GCal has no upcoming Gorin events (only those two past).
+
 ## Bellevue weekly pattern (as of 30 Aug 2026)
 
 **Tiny Tigers / U6 (101)** — 60 min, **$40** single / $160 for 4 dates (prices + tax)
