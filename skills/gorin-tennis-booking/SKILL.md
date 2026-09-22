@@ -72,9 +72,13 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
     The cheaper ~$23 quote is typically a half-court, not a week-ahead discount.
 
 13. **Travel skip.** Before booking any class date, check Jerome’s Google Calendar
-    for flights, Hawaii, or out-of-town blocks that overlap that Sunday. Skip
-    those dates (example: end-of-year Hawaii Dec 21–31 2026). Do not book tennis
-    while the family is away.
+    for flights or out-of-town blocks that overlap that Sunday. Skip those dates.
+    Do not book tennis while the family is away. Known skips:
+    - Hawaii Dec 21–31 2026 (AS 811 SFO→HNL / AS 940 HNL→SEA)
+    - Japan Bamboo-Hill Nozawa Onsen Feb 15–19 2027 (and flight days)
+    - Palm Springs Oct 23–25 2026 → **SKIP Oct 25** Future Stars (return AS 759
+      PSP→SEA ~3:53–6:44pm PT overlaps 1:00–2:30 class)
+    Re-check GCal before every pay; midweek Santa Clara alone does not block Sundays.
 
 ## Titan R2Memory (every turn)
 
