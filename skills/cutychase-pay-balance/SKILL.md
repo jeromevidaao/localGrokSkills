@@ -194,6 +194,7 @@ Inactive cards not paid.
 
 2026-09-23 (manual pay Freedom Unlimited, current balance, Family Checkin 6022, date Sep 23, status Pending):
 - Freedom Unlimited (...6553) $801.89, confirmation 9732509385. Oct 6 statement-balance autopay did not cover current.
+- Sapphire Reserve (...8053) $664.65, confirmation 9732515859, Pending. Oct 1 statement-balance autopay did not cover current.
 
 ## Continuous improvement
 
