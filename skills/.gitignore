@@ -9,6 +9,7 @@ docx
 execute-plan
 game-animation-frames
 game-asset-core
+game-assets
 game-character-consistency
 game-tilesets
 game-ui-icons
@@ -25,3 +26,4 @@ resume-cursor
 review
 skill-design-principles
 statusline
+threejs-frame-conventions
