@@ -187,6 +187,11 @@ confirmation.
 
 ## Latest one-time pays
 
+2026-09-23 (scheduled Mon/Wed/Fri over-$150, current balance, Family Checkin 6022, date Sep 23, status Pending):
+- Freedom Unlimited (...6553) $801.89, confirmation 9732509385. Oct 6 statement-balance autopay did not cover current.
+- Sapphire Reserve (...8053) $664.65, confirmation 9732515859. Oct 1 statement-balance autopay did not cover current.
+Inactive cards not paid.
+
 2026-09-21 (manual pay both cards, current balance, Family Checkin 6022, date Sep 21, status Pending):
 - Freedom Unlimited (...6553) $879.45, confirmation 9726951414. Oct 6 statement-balance autopay did not cover current.
 - Sapphire Reserve (...8053) $273.16, confirmation 9726955323. Oct 1 statement-balance autopay did not cover current.
@@ -212,7 +217,7 @@ After each payment, auth handoff, or correction:
 - Paste Chase password / 2FA in chat, git, disk, or Titan (fetch SSM at login)
 - Scrape Chrome cookies / Login Data
 - Pay from Jerome Checkin 6803
-- Pay Sapphire / inactive cards on the scheduled routine
+- Pay inactive cards (...2797, ...0159) on the scheduled routine
 - Double-pay a covered balance
 - Invent a balance when signed out
 - Leave the routine firing on a repeated auth wall — pause it
