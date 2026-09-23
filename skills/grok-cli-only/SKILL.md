@@ -64,3 +64,8 @@ python3 $S/r2_memory_turn.py append --user "check Bellevue Club canary" --assist
 
 ## Out of scope
 Desktop busywork, Mac-routed AWS by default, and non-CLI chores — decline or ask Jerome first.
+
+## Harness / Android push gate (HARD — 2026-09-22)
+Before pushing `auto-reply-sqs-harness`: always run skill `guest-messaging-harness` (`python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py`). Never push on only `npm test` or a single `--only=` eval when prompts/agent/handler/policy changed.
+
+Before pushing `R2PinelandAndroid`: ensure unit-test Kotlin compiles (no unescaped `"` inside double-quoted test strings). Prefer `./gradlew :app:testDebugUnitTest` when Java is available; otherwise at least open new/edited `*Test.kt` for illegal string literals. Watch `gh run` after push until green — do not stack further commits on a red Android CI.

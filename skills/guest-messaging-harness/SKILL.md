@@ -127,7 +127,29 @@ Sarah-style "I love your WiFi password" + early check-in → **EARLY_CHECKIN** c
 
 If history shows the host already sent WiFi (or the guest **complimented** the password), the conversation judge + `checkDraftClaims` **must REJECT/REVISE** any draft that re-sends SSID/password. Answer the real ask (early check-in classic). Never APPROVE a credential dump after "I love your WiFi password."
 
+## Never skip prepush (HARD — 2026-09-22 towel/image pile-up)
+
+**Incident:** Apt 2/3 towel copy (Ikea → chaise) and Hospitable `images[]` photo attach were pushed after only unit tests / `--only=kenneth-extra-towels-sofa`. Multiple CI runs stacked; Android Ring-live also failed compile on an unescaped test string in the same window.
+
+**Before every `git push` on this repo**, including changes that look "small":
+
+- `src/clients/HospitableClient.js` send path / `images` / attachments
+- `lambda/handler.js` send wiring / `replyImages`
+- guest-guide photo URLs / S3 CDN assets referenced by replies
+- prompts, agent policy, claimCheck, goldens, scenarios
+
+…you MUST run:
+
+```bash
+python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py
+```
+
+Do **not** treat those as "tooling/docs" skip cases. Do **not** push on green `--only=<one-id>` alone when agent/prompts/policy/handler changed — full live eval (no `--fail-fast`) is required.
+
+If CI is already red or stacked: fix tip, run full prepush locally to green, push once. Do not pile more "hopefully fixed" commits.
+
 ## Related
+
 
 - Harness `AGENTS.md` (product rules + incidents)
 - Skill `always-push` (public → push → CI → private)
