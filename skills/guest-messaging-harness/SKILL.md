@@ -148,6 +148,23 @@ Do **not** treat those as "tooling/docs" skip cases. Do **not** push on green `-
 
 If CI is already red or stacked: fix tip, run full prepush locally to green, push once. Do not pile more "hopefully fixed" commits.
 
+## Git pre-push approvals hook (HARD — 2026-09-22)
+
+Jerome: **run approvals before pushing** so CI is never the first place required-phrase / eval failures show up.
+
+Mechanical gate (do this once per clone, then leave it on):
+
+```bash
+cd /path/to/auto-reply-sqs-harness
+git config core.hooksPath scripts/git-hooks
+```
+
+`scripts/git-hooks/pre-push` blocks `git push` unless `.git/harness-prepush-ok` matches `HEAD`. A successful `npm run prepush` / `python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py` writes that stamp.
+
+Emergency bypass only: `HARNESS_ALLOW_PUSH_WITHOUT_PREPUSH=1 git push` (say why in the commit/PR notes — not for normal work).
+
+Agent rule: after any harness change, run full prepush to green, **then** push. Do not push on unit tests or a single `--only=` eval alone when agent/prompts/handler/policy changed.
+
 ## Related
 
 
