@@ -27,7 +27,7 @@ Enforced by `~/.grok/rules/00-always-commit-push.md` + Stop hook `always-commit-
 | File sync | `~/R2Lambda/scripts/r2memory-sync.py` |
 | Titan scripts | `~/.grok/skills/r2-memory/scripts/` (= `~/R2Lambda/scripts/r2-memory/`) |
 
-### Grok Bot IAM (`GrokBotTitanAccess` v6)
+### Grok Bot IAM (`GrokBotTitanAccess` v7)
 
 IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, never paste the secret into chat or R2Memory.
 
@@ -41,6 +41,7 @@ IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, neve
 | S3 | `s3:*` (all buckets, not only `context/`) |
 | CloudWatch | `cloudwatch:*` + `logs:*` (alarms, metrics, log groups) |
 | CloudFront | `cloudfront:*` (including CreateInvalidation / UpdateDistribution) |
+| EventBridge | `events:*` (PutRule / PutTargets / DescribeRule — e.g. `maine-property-tax-ach-watch`) |
 | Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
 | SSM | `ssm:*` (all parameters, including Put/Delete/Get) + `kms:Encrypt`/`Decrypt`/`GenerateDataKey` via `ssm.us-east-1` (`alias/aws/ssm`) |
 | Denied | IAM user/key admin, Cost Explorer, Hospitable API |
