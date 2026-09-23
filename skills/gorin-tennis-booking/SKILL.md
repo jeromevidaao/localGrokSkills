@@ -216,14 +216,18 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Latest single-date watch (live API 2026-09-23 ~12:36pm PT)
+## Latest single-date watch (live API 2026-09-23 ~4:30pm PT)
 
-- Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm, Bellevue Kids Court. Coaches **Fatma Tapan, Omer Dogu Sahin**. Price **$57 single / $228 full**. **10 of 12 spots remaining**.
-- **Oct 4/11/18/25 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`) returned exact message: **“Registration not yet open for this date. Registration opens in 2 days and 16 h .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event.
+- Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm, Bellevue Kids Court. Price **$57 single / $228 full**. Event cards show **12 spots remaining** on Oct 4/11/18/25 Sundays.
+- **Oct 4/11/18/25 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`) returned exact message: **“Registration not yet open for this date. Registration opens in 2 days and 12 h .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event.
 - Per-date list reservations (same series): Oct 4 T2M7CEQ7306110 / 60796521; Oct 11 J4BVP237306130 / 60796522; Oct 18 ML2PHM57306153 / 60796523; Oct 25 PX8U4Z17306174 / 60796524.
-- November U8 Sundays **not listed** (Oct series ends Oct 25; no separate Nov series found). GetAllTransactions still only past U6 9/13 + U8 9/20; My Bookings rawCount=0.
-- Travel gate (parent-verified this run): **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA ~3:53–6:44pm PT overlaps class. Oct 4/11/18 and Nov 1/8/15/22/29 clear of overnight family travel (Santa Clara midweek only).
-- Noon drop-in watch: **no book, silent**.
+- November U8 Sundays **not listed** (Events ApiLoadEvents Bellevue U8 cards end Oct 31; no Nov Sunday U8 series). My Bookings `get-list` Data empty for 9/21–12/1.
+- Travel gate (GCal jerome.ans@gmail.com live): **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA ~3:53–6:44pm PT overlaps class. Oct 4/11/18 and Nov 1/8/15/22/29 clear of overnight family travel (Santa Clara midweek only).
+- 4pm drop-in watch: **no book, silent**.
+
+## Prior watch (live API 2026-09-23 ~12:36pm PT)
+
+- Same series; message then **“opens in 2 days and 16 h”**; Full Event only; spots last known 10/12; coaches Fatma Tapan & Omer Dogu Sahin; Nov not listed; My Bookings empty.
 
 ## Prior watch (live API 2026-09-23 ~8:57am PT)
 
