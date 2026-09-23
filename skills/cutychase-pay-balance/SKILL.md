@@ -110,7 +110,7 @@ dashboard appears), finish the pay check.
 | Freedom Unlimited (Visa) | 6553 | Auto-pay target. Autopay ON, statement balance, typically due ~6th. |
 | Sapphire Reserve | 8053 | Same over-$150 Mon/Wed/Fri auto-pay as FU (since 2026-09-11). |
 | Inactive | 2797, 0159 | Usually $0 / closed — skip. |
-| Family Checkin | 6022 | Pay-from for card pays. |
+| Family Checkin | 6022 | Pay-from for card pays. ACH for Portland ME property tax is SSM `/chase/common-account-number` + `/chase/common-routing-number` (API `maine_property_tax_pay`). Never paste full account/routing in chat or git. |
 | Jerome Checkin | 6803 | Do not use for these pays. |
 | Chase username (prefilled) | jerome5080 | SSM `/chase/username`. Password is SSM `/chase/password` only. |
 
