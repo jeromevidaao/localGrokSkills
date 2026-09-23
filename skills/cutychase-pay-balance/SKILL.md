@@ -192,6 +192,9 @@ confirmation.
 - Sapphire Reserve (...8053) $273.16, confirmation 9726955323. Oct 1 statement-balance autopay did not cover current.
 Inactive cards not paid.
 
+2026-09-23 (manual pay Freedom Unlimited, current balance, Family Checkin 6022, date Sep 23, status Pending):
+- Freedom Unlimited (...6553) $801.89, confirmation 9732509385. Oct 6 statement-balance autopay did not cover current.
+
 ## Continuous improvement
 
 After each payment, auth handoff, or correction:
