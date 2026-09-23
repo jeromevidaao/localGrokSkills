@@ -116,6 +116,26 @@ Verified **2026-09-23**: SSM login reached Accounts Overview after SMS
   password or OTP may be visible.
 - Prefer existing session; re-auth only when BoA actually signed you out.
 
+## Accounts (last-4 only)
+
+| What | Last 4 | Notes |
+|---|---|---|
+| Atmos Rewards Ascent Visa Signature | 5741 | Primary BoA card seen 2026-09-23; Atmos Rewards wallet |
+| Common / joint checking | (pay-from) | Fund all card pays from this common account; pay UI may label it "common chase" |
+
+## Atmos Rewards (Ascent …5741)
+
+Verified **2026-09-23**:
+- Available: **88,547** Atmos points
+- Status: Atmos Member; 5,961 status pts YTD; 4,039 to next 10K; 14,039 to Silver
+- Redemption shown: Alaska award flights (`alaskaair.com` award search), Atmos Rewards Unlocked experiences (`unlocked.atmosrewards.com`) — buy-now and auctions by point bands
+- Not shown in UI that day: cash-back, statement credit, gift cards
+- Do not redeem without an explicit ask
+
+## Latest payment
+
+2026-09-23: paid Atmos Ascent …5741 **$4,209.78** current balance from common checking, confirmation `vb4sllga1`. Statement-balance recurring left unchanged.
+
 ## Continuous improvement
 
 After each login, payment, rewards lookup, or correction:
