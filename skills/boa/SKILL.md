@@ -127,10 +127,12 @@ Verified **2026-09-23**: SSM login reached Accounts Overview after SMS
 
 Verified **2026-09-23**:
 - Available: **88,547** Atmos points
+- Linked Alaska / Atmos Rewards number: **325534370** (BoA rewards opens Alaska Atmos account; same balance — no separate “transfer to Alaska” step)
 - Status: Atmos Member; 5,961 status pts YTD; 4,039 to next 10K; 14,039 to Silver
 - Redemption shown: Alaska award flights (`alaskaair.com` award search), Atmos Rewards Unlocked experiences (`unlocked.atmosrewards.com`) — buy-now and auctions by point bands
 - Not shown in UI that day: cash-back, statement credit, gift cards
 - Do not redeem without an explicit ask
+- If Jerome asks to “transfer points to Alaska”: check linked Atmos number first; if already 325534370 with the same balance, report already there (no transfer UI needed)
 
 ## Latest payment
 
