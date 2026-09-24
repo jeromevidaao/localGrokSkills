@@ -35,6 +35,7 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | MyChart / Overlake medical portal | **MyChart - Medical** |
 | Dropbox find / organize / share | **Dropbox** |
 | Global Entry / KTN / Trusted Traveler | **Global Entry** (confirm if profile still thin) |
+| American Family Insurance / AmFam policies, bills, claims | **American Family Insurance** |
 | CLI / AWS / logs / code / Pine–Hospitable–pricing–kumo skills | **Grok CLI** (box CLI only; never desktop/Chrome cleanup) |
 
 ## No dedicated bot
@@ -45,7 +46,7 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 1. **Prefer specialist** over managed generic commerce/travel skills when a teammate owns the domain.
 2. **Chase:** all Chase pay, Zelle, UR, and Chase Travel → **Chase** (merged; former CutyChase - Pay Balance is deprecated). **Venmo** is a separate bot — do not route Venmo asks to Chase.
-3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase** and **Charles Schwab** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
+3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase**, **Charles Schwab**, and **American Family Insurance** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
 4. **Amazon:** use the live preferred Amazon id from the teammates list; do not fan out to empty/stale Amazon duplicates.
 5. **Cross-cutting:** Titan retrieve→append and `always-push` stay aligned across specialists; secrets from SSM only.
 6. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
