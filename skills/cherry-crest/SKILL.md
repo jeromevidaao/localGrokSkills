@@ -98,12 +98,24 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming (as of skill create 2026-09-20)
+### Upcoming / recent (updated 2026-09-24)
 
-| When | What |
-|---|---|
-| Thu **1 Oct 2026** 5:30–6:30 PM | **Cherry Crest Elementary Curriculum Night** |
-| Sep–Oct 2026 | District curriculum nights across schools |
+| When | What | Calendar |
+|---|---|---|
+| Tue **22 Sep 2026** | **Picture Day** (Lifetouch code `EVTQMBF7Q`) | Already on calendar (all-day); past as of this update |
+| Thu **1 Oct 2026** 5:30–6:30 PM | **Curriculum Night / Open House** | Event id `of940159knkrl4mc7lgvrb6ra8`; Ngoc accepted |
+| Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
+
+### Family calendar-reminder scan (standing)
+
+When asked to scan school mail → calendar:
+
+1. Gmail `newer_than:3d` for Charger Chatter / Cherry Crest / PTSA / Classroom Newsletter / `from:bsd405.org` / Ngoc forwards.
+2. Extract dated upcoming events only; **skip kickball** unless Jerome overrides.
+3. Search calendar next 60 days for Cherry Crest / PTSA / Julie school titles — no duplicates.
+4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL.
+5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
+6. Last scan **2026-09-24**: only Picture Day mail (already past); **zero** new events created.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
