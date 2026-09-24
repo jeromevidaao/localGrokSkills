@@ -48,11 +48,10 @@ Idempotent: safe to re-run; mostly no-op when already healthy.
 | `PATH` | `~/.local/bin` + `~/.grok/bin` (session + `~/.bashrc`) |
 | AWS CLI | User venv `~/.local/awscli-venv` + symlink `~/.local/bin/aws` (pip `awscli`, matches this box) |
 | AWS profile | Reuse `~/.aws` if STS works; ensure profile **`grok-bot-titan`** (account `834917996497`, `us-east-1`); SSM `/grok/titan-iam-access-key-id` + `/grok/titan-iam-secret-access-key` **only** if no valid identity |
-| grok CLI | `curl -fsSL https://x.ai/cli/install.sh \| bash` or `grok update` | bash` or `grok update` | bash` or `grok update` |
-| Skills | Clone/pull `jeromevidaao/localGrokSkills` → `/workspace/localGrokSkills`; `install.sh` so `~/.grok/skills` → `…/skills` |
+| grok CLI | Official install script (`curl -fsSL https://x.ai/cli/install.sh` piped to bash) or `grok update` |
+| Skills | Clone/pull `jeromevidaao/localGrokSkills` → `/workspace/localGrokSkills`; `install.sh` so `~/.grok/skills` → that repo's `skills/` |
 | `gh` | Checks auth; if missing, notes `gh auth login` (no invented tokens) |
 
-Secrets never printed. Credentials file mode 600.
 
 ## Chicken-egg
 
