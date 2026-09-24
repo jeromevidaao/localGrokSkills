@@ -24,8 +24,8 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | EFGS / Bertschi French Saturdays / out-of-WA class conflicts | **EFGS** |
 | Gorin / CourtReserve Bellevue tennis | **Gorin Tennis Booking** (never Bellevue Club) |
 | Bellevue Club / ITC / Club youth | **Bellevue Cub** (never Gorin/EFGS/Cherry Crest) |
-| Chase card **pay**, Family Checkin funding, **Zelle** (e.g. cleaners) | **CutyChase - Pay Balance** |
-| Chase Ultimate Rewards / points / Chase Travel UR | **Chase Bank & Rewards** |
+| Chase pay, Zelle, Ultimate Rewards / points, Chase Travel UR | **Chase Bank & Rewards** |
+| Venmo payments / settle / transfer | **Venmo** (separate from Chase) |
 | Bank of America / Preferred Rewards | **BoA** |
 | Amazon shop / reorder / track / account | **Amazon** (prefer live preferred id; ignore stale duplicate Amazon if present) |
 | Airbnb **guest** stays | **Airbnb - Booking Bot** |
@@ -43,8 +43,8 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 ## Hard rules
 
 1. **Prefer specialist** over managed generic commerce/travel skills when a teammate owns the domain.
-2. **Chase split:** pay/Zelle → CutyChase Pay; points/UR → Chase Bank & Rewards. If Jerome only says “Chase,” ask which lane or infer from pay vs points wording.
-3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, CutyChase Pay while Chrome stays closed, obsolete **New Bot**. Stay silent on FYI “already clean” replies (no ack tools).
+2. **Chase:** all Chase pay, Zelle, UR, and Chase Travel → **Chase Bank & Rewards** (merged; former CutyChase - Pay Balance is deprecated). **Venmo** is a separate bot — do not route Venmo asks to Chase.
+3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase Bank & Rewards** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
 4. **Amazon:** use the live preferred Amazon id from the teammates list; do not fan out to empty/stale Amazon duplicates.
 5. **Cross-cutting:** Titan retrieve→append and `always-push` stay aligned across specialists; secrets from SSM only.
 6. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
@@ -54,8 +54,8 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 - Family Hawaii / travel: HE guest stay vs flight ticket vs Cherry Crest school calendar — split across HE Verification, Flight Booking, Cherry Crest as needed.
 - April 2027 dates: April Vacation vs Cherry Crest calendar for school.
-- “Chase” alone: pay vs rewards (see hard rule 2).
+- “Chase” alone: route to **Chase Bank & Rewards** (pay + rewards merged). Venmo stays separate.
 
 ## Related skills
 
-`always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, etc.).
+`always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, `venmo`, etc.). Playbooks `cutychase-pay-balance` and `cutychase-rewards` both remain; both are owned by **Chase Bank & Rewards**.

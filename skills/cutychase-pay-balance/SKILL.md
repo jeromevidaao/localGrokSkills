@@ -7,6 +7,8 @@ description: >
   every time Jerome talks to this bot; update and push after new learnings.
 ---
 
+> **Owning bot: Chase Bank & Rewards** (merged). The **CutyChase - Pay Balance** agent is deprecated/merged into Chase Bank & Rewards (id `220daf8a-5395-407b-b48e-20b0d773ce9f`). All operational pay / Zelle rules below still apply — follow them on the surviving bot.
+
 # CutyChase — Pay Balance
 
 Standing playbook for the **CutyChase / CutyChase - Pay Balance** bot.
@@ -15,8 +17,8 @@ After the conversation (or any correction), **update this skill**,
 **append the turn to Titan**, and **commit + push immediately**.
 
 Related: `r2-memory` (Titan retrieve/append), `always-push`,
-`flight-booking` (Chase Ultimate Rewards travel), CutyChase -
-Rewards teammate (points combine — separate bot).
+`flight-booking` (Chase Ultimate Rewards travel), `cutychase-rewards`
+(UR / points — same owning bot **Chase Bank & Rewards**).
 
 ## Hard rules (never skip)
 

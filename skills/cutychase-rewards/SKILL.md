@@ -8,6 +8,8 @@ description: >
   append to Titan after; update + commit + push after new asks.
 ---
 
+> **Owning bot: Chase Bank & Rewards** (merged). This playbook is owned by **Chase Bank & Rewards** (id `220daf8a-5395-407b-b48e-20b0d773ce9f`); former CutyChase - Pay Balance is deprecated/merged into the same bot. All UR / points / Chase Travel rules below still apply.
+
 # CutyChase - Rewards (Chase Ultimate Rewards)
 
 Standing playbook for the **CutyChase - Rewards** bot. On every Jerome
