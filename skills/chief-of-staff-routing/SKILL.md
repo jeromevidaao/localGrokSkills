@@ -27,6 +27,7 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | Chase pay, Zelle, Ultimate Rewards / points, Chase Travel UR | **Chase** |
 | Venmo payments / settle / transfer | **Venmo** (separate from Chase) |
 | Bank of America / Preferred Rewards | **BoA** |
+| Charles Schwab brokerage/banking | **Charles Schwab** |
 | Amazon shop / reorder / track / account | **Amazon** (prefer live preferred id; ignore stale duplicate Amazon if present) |
 | Airbnb **guest** stays | **Airbnb - Booking Bot** |
 | Home Exchange verify / GuestPoints guest stays / host outreach | **Home Exchange Verification** (fare research in-chat; do not ping Flight Booking for prices) |
@@ -44,7 +45,7 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 1. **Prefer specialist** over managed generic commerce/travel skills when a teammate owns the domain.
 2. **Chase:** all Chase pay, Zelle, UR, and Chase Travel → **Chase** (merged; former CutyChase - Pay Balance is deprecated). **Venmo** is a separate bot — do not route Venmo asks to Chase.
-3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
+3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase** and **Charles Schwab** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
 4. **Amazon:** use the live preferred Amazon id from the teammates list; do not fan out to empty/stale Amazon duplicates.
 5. **Cross-cutting:** Titan retrieve→append and `always-push` stay aligned across specialists; secrets from SSM only.
 6. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
