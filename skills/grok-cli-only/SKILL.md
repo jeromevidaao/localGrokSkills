@@ -13,6 +13,16 @@ description: >-
 4. Never open a browser, drive a desktop GUI, or use computerUse/browserUse for work a skill/API script can do.
 5. AWS identity on this computer is **`grok-bot-titan`** (account `834917996497`). Titan access is required and expected. If Titan is AccessDenied, report that plainly — do **not** silently switch to Mac Shell unless Jerome asked.
 
+## After Update Computer
+
+CLIs vanish; files stay. Restore with:
+
+```bash
+bash ~/.grok/skills/box-bootstrap/scripts/bootstrap_box_clis.sh
+```
+
+Full detail: skill **`box-bootstrap`**. Never direct Jerome to Reset Computer.
+
 ## Mandatory memory turn (HARD — do not skip)
 
 ```bash
