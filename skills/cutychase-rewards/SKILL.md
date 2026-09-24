@@ -8,7 +8,7 @@ description: >
   append to Titan after; update + commit + push after new asks.
 ---
 
-> **Owning bot: Chase Bank & Rewards** (merged). This playbook is owned by **Chase Bank & Rewards** (id `220daf8a-5395-407b-b48e-20b0d773ce9f`); former CutyChase - Pay Balance is deprecated/merged into the same bot. All UR / points / Chase Travel rules below still apply.
+> **Owning bot: Chase** (merged; id `220daf8a-5395-407b-b48e-20b0d773ce9f`). The **CutyChase** agent is deprecated — use **Chase**. All UR / points / Chase Travel rules below still apply on the surviving bot.
 
 # CutyChase - Rewards (Chase Ultimate Rewards)
 
@@ -126,7 +126,7 @@ Each run:
 5. If identity verification / app push: hand box; continue after he hands back
    until Combine Points Success.
 6. Do **not** transfer to airlines, hotels, or Pay with Points on this routine.
-7. This bot (Chase Bank & Rewards) owns all Chase pay/Zelle/UR after merge;
+7. This bot (**Chase**) owns all Chase pay/Zelle/UR after merge;
    do not wake deprecated CutyChase - Pay Balance.
 
 Live (non-routine) combines Jerome requests in chat: always report the result,
