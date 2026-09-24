@@ -1,23 +1,42 @@
 ---
 name: box-bootstrap
 description: >
-  After Update Grok Bot's Computer, restore AWS CLI, grok CLI, localGrokSkills
-  symlink, and PATH. Use when CLIs vanished post-update, box bootstrap, or
-  "reinstall aws/grok on the shared computer".
+  AUTO-RUN when aws, grok, PATH, or ~/.grok/skills is missing/broken on the shared
+  box (including after Update Grok Bot's Computer). Restores AWS CLI, grok CLI,
+  localGrokSkills symlink, and PATH. Also use for explicit "bootstrap the box" asks.
 ---
 
-# Box bootstrap (post–Update Computer)
+# Box bootstrap (auto when tooling is missing)
 
-## When
+## Standing rule (Jerome — HARD)
 
-[Update Grok Bot's Computer](grokbot://app/v1/settings?id=update-computer) keeps
-**files and logins** but **does not** keep installed software (apt/npm/pip, CLIs).
-Never tell Jerome to use Reset Computer.
+**Do not ask Jerome before restoring.** If any of these fail on the shared Linux box,
+**immediately** run the bootstrap script (idempotent), then continue the original task:
+
+- `aws` missing from PATH, or `aws --version` fails
+- `grok` missing from PATH, or `grok --version` fails
+- `~/.local/bin` / `~/.grok/bin` not on PATH when those binaries live there
+- `~/.grok/skills` missing, not a symlink, or not pointing at `localGrokSkills/skills`
+- `aws sts get-caller-identity` fails after a fresh Update Computer (try bootstrap once; if still failing, report chicken-egg)
+
+Triggers include: post–[Update Grok Bot's Computer](grokbot://app/v1/settings?id=update-computer),
+command-not-found, AccessDenied that looks like no CLI, or Titan/r2-memory scripts
+unreachable because skills link is broken.
+
+Never tell Jerome to use **Reset Computer**. Prefer Update + this bootstrap.
+
+Mention in chat only briefly if you actually ran it (“restored CLIs via box-bootstrap”).
 
 ## One command
 
 ```bash
 bash ~/.grok/skills/box-bootstrap/scripts/bootstrap_box_clis.sh
+```
+
+If `~/.grok/skills` is broken and that path is gone, use the workspace copy:
+
+```bash
+bash /workspace/localGrokSkills/skills/box-bootstrap/scripts/bootstrap_box_clis.sh
 ```
 
 Idempotent: safe to re-run; mostly no-op when already healthy.
@@ -49,6 +68,6 @@ skills symlink, and `gh` auth.
 
 ## Related
 
-- Skill `grok-cli-only` (Titan retrieve → grok headless → append)
+- Skill `grok-cli-only` (auto-bootstrap + Titan retrieve → grok headless → append)
 - `/home/box/reference/debugging-the-box.md` (Update vs Reset)
 - `/home/box/reference/post-update-bootstrap.md` (short pointer)

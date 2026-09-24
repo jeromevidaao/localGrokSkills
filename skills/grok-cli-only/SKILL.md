@@ -1,8 +1,9 @@
 ---
 name: grok-cli-only
 description: >-
-  Use for any Grok CLI agent work: every real ask → r2_retrieve/gate first
-  (Titan), then grok headless on this computer only; append to R2Memory after.
+  Use for any Grok CLI agent work: every real ask → Titan/r2 gate first, then
+  grok headless on this computer only; append after. AUTO-bootstrap via
+  box-bootstrap when aws/grok/skills PATH is missing (e.g. after Update Computer).
 ---
 # Grok CLI only
 
@@ -13,15 +14,19 @@ description: >-
 4. Never open a browser, drive a desktop GUI, or use computerUse/browserUse for work a skill/API script can do.
 5. AWS identity on this computer is **`grok-bot-titan`** (account `834917996497`). Titan access is required and expected. If Titan is AccessDenied, report that plainly — do **not** silently switch to Mac Shell unless Jerome asked.
 
-## After Update Computer
+## Auto box bootstrap when tooling is missing (HARD — Jerome)
 
-CLIs vanish; files stay. Restore with:
+**Do not ask.** If `aws`, `grok`, PATH (`~/.local/bin` / `~/.grok/bin`), or
+`~/.grok/skills` is missing/broken (common after Update Computer), **immediately** run:
 
 ```bash
 bash ~/.grok/skills/box-bootstrap/scripts/bootstrap_box_clis.sh
+# fallback if skills link is already broken:
+# bash /workspace/localGrokSkills/skills/box-bootstrap/scripts/bootstrap_box_clis.sh
 ```
 
-Full detail: skill **`box-bootstrap`**. Never direct Jerome to Reset Computer.
+Then continue the original task. Full detail: skill **`box-bootstrap`**. Never
+direct Jerome to Reset Computer. Brief note in chat only if you actually ran it.
 
 ## Mandatory memory turn (HARD — do not skip)
 
