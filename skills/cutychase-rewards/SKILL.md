@@ -110,8 +110,9 @@ Verified **2026-09-06**: SSM login reached Accounts overview.
 
 ## Standing routine — Freedom → Reserve combine
 
-Folder: `combine-freedom-unlimited-points-onto-reserve`  
-Schedule: **1st and 16th, 9:00 AM America/Los_Angeles** (`0 9 1,16 * *`)
+Folder: `32e25744-7bc8-58bb-a51e-80d178e1d741` (Combine Freedom Unlimited points onto Reserve)  
+Schedule: **Weekly Monday 9:28 AM America/Los_Angeles** (`CRON_TZ=America/Los_Angeles 28 9 * * 1`)  
+Changed 2026-09-24 from 1st+16th ~9am to weekly Monday (Jerome via Chief of staff).
 
 Each run:
 
@@ -125,6 +126,8 @@ Each run:
 5. If identity verification / app push: hand box; continue after he hands back
    until Combine Points Success.
 6. Do **not** transfer to airlines, hotels, or Pay with Points on this routine.
+7. This bot (Chase Bank & Rewards) owns all Chase pay/Zelle/UR after merge;
+   do not wake deprecated CutyChase - Pay Balance.
 
 Live (non-routine) combines Jerome requests in chat: always report the result,
 including zero available + pending if nothing moved.
