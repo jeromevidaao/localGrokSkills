@@ -200,19 +200,10 @@ confirmation.
 
 ## Latest one-time pays
 
-2026-09-23 (scheduled Mon/Wed/Fri over-$150, current balance, Family Checkin 6022, date Sep 23, status Pending):
-- Freedom Unlimited (...6553) $801.89, confirmation 9732509385. Oct 6 statement-balance autopay did not cover current.
-- Sapphire Reserve (...8053) $664.65, confirmation 9732515859. Oct 1 statement-balance autopay did not cover current.
+2026-09-25 (scheduled Mon/Wed/Fri over-$150, current balance, Family Checkin 6022, date Sep 25, status Pending):
+- Freedom Unlimited (...6553) $258.86, confirmation 9738526921. Oct 6 statement-balance autopay did not cover current.
+- Sapphire Reserve (...8053) skipped — current $6.98 ≤ $150.
 Inactive cards not paid.
-
-2026-09-21 (manual pay both cards, current balance, Family Checkin 6022, date Sep 21, status Pending):
-- Freedom Unlimited (...6553) $879.45, confirmation 9726951414. Oct 6 statement-balance autopay did not cover current.
-- Sapphire Reserve (...8053) $273.16, confirmation 9726955323. Oct 1 statement-balance autopay did not cover current.
-Inactive cards not paid.
-
-2026-09-23 (manual pay Freedom Unlimited, current balance, Family Checkin 6022, date Sep 23, status Pending):
-- Freedom Unlimited (...6553) $801.89, confirmation 9732509385. Oct 6 statement-balance autopay did not cover current.
-- Sapphire Reserve (...8053) $664.65, confirmation 9732515859, Pending. Oct 1 statement-balance autopay did not cover current.
 
 ## Continuous improvement
 
