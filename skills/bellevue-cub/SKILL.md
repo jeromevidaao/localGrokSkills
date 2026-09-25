@@ -11,6 +11,8 @@ description: >
 
 **STATUS (2026-09-25):** Standing Sunday book = **6:00–7:15 PM indoor (ITC)** — **instead of** 10:30 AM. Window = **exact +7 same weekday at 7:45 PT**. Lambda `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Skip Sep 27 6PM itself (that open already passed). `sunday-745` (Sun 10:30) is **DISABLED**. Keep `saturday-745` (Sat 10:30). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED. Tennis Ops (`act=tennis_ops_status`) Sunday card is 6:00–7:15 PM via sunday-1800.
 
+**Advance arms** (any weekday, one-off): skill `bellevue-court-arms`. Live list is Tennis / Swim → Advance books on the website and Android. Armed 2026-09-25: **Wed Oct 14 2026 6:00–7:15 PM indoor**, fires **Wed Oct 7 2026 7:40 a.m. PT** (`bellevueClubTennis-arm-20261014-1800`). Confirm with `get-schedule`; the row disappears after it fires.
+
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
 message: **Titan retrieve first**, then read this skill. After the conversation,
@@ -58,6 +60,8 @@ that match), and do **not** list outside activities.
 - Catalog: member PDF `BC-Youth-Fall-Spring-Brochure.pdf` and Issuu Youth Guide
   pages 2–3 (swim). Register: members.bellevueclub.com → Youth calendar.
 - Never invent Gorin/EFGS/chess/Vietnamese as Club options.
+
+**Julie swim Google Calendar links (2026-09-25):** Tennis / Swim Thursday dates open the existing Calendar event. DynamoDB `tennisOpsGcalEvents` pk `julie-swim-thu-1630` stores series event id `st7hcs00q4qkhst4fl1ekd20d4`, calendar id `jerome.ans@m` (the suffix in the working eventedit URL), local start `16:30` America/Los_Angeles. Each date’s instance id is `{eventId}_{UTC start}` (Oct 1 2026 4:30 PM PT → `…_20261001T233000Z`). `tennis_ops_status` puts the eventedit URL on `swim.gcalByDate`. A moved instance can be overridden with an `instances` map on that item.
 
 ## Hard rules
 
