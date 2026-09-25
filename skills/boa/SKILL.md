@@ -136,6 +136,8 @@ Verified **2026-09-23**:
 
 ## Latest payment
 
+2026-09-25 routine: Atmos Ascent …5741 **$0.00** due; no new pay. Prior $4,209.78 received 9/23 (conf `vb4sllga1`) still covering. Common checking untouched.
+
 2026-09-23: paid Atmos Ascent …5741 **$4,209.78** current balance from common checking, confirmation `vb4sllga1`. Statement-balance recurring left unchanged.
 
 ## Continuous improvement
