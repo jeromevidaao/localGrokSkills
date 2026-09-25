@@ -216,7 +216,16 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Latest single-date watch (live API 2026-09-25 ~12:15pm PT)
+## Latest single-date watch (live API 2026-09-25 ~4:19pm PT)
+
+- Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm.
+- **Oct 4/11/18/25 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`): **“Registration not yet open for this date. Registration opens in 13 h and 10 min .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event.
+- November Bellevue U8 Sundays scan inconclusive this run (`ApiLoadEvents`/`GetEvents` returned HTML 404); prior watches had Nov Sundays not listed. No Oct/Nov bookings made this run.
+- Travel gate (GCal jerome.ans@gmail.com live): **SKIP Oct 25** — Palm Springs return AS 759 PSP→SEA ~3:53–6:44pm PT overlaps class. Oct 4/11/18 and Nov 1/8/15/22/29 clear of overnight family travel (Santa Clara midweek only).
+- Note: Node `aws-sdk` LogInReact hit Cloudflare **403**; Python urllib login + EventsApi probe succeeded.
+- 4pm drop-in watch: **no book, silent**.
+
+## Prior watch (live API 2026-09-25 ~12:15pm PT)
 
 - Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm.
 - **Oct 4/11/18/25 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`): **“Registration not yet open for this date. Registration opens in 17 h and 14 min .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event.
