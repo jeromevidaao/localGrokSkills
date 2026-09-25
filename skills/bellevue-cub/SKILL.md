@@ -9,7 +9,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-21):** Standing book = **every Sunday 6:00–7:15 PM indoor (ITC)**. Window = **exact +7 same weekday at 7:45 PT** (not 8 / not 7+1). Lambda schedule `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. Skip Sep 27 6PM (open already passed). First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Keep `saturday-745` / `sunday-745` (10:30 AM) if still ENABLED — sunday-1800 is **additive** (two concurrent Sun 7:40 invokes OK). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED.
+**STATUS (2026-09-25):** Standing Sunday book = **6:00–7:15 PM indoor (ITC)** — **instead of** 10:30 AM. Window = **exact +7 same weekday at 7:45 PT**. Lambda `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Skip Sep 27 6PM itself (that open already passed). `sunday-745` (Sun 10:30) is **DISABLED**. Keep `saturday-745` (Sat 10:30). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED. Tennis Ops (`act=tennis_ops_status`) Sunday card is 6:00–7:15 PM via sunday-1800.
 
 
 Standing playbook for the **Bellevue Cub** Grok Bot. On every Jerome
@@ -81,7 +81,7 @@ that match), and do **not** list outside activities.
 6. **Weekly book is Lambda `bellevueClubTennis`** (`jeromevidaao/bellevue-club-tennis`):
    EventBridge Scheduler Sunday **7:40 a.m. PT** (was 7:44; Sep 13 cold start INIT 7:44:50
    ate the open). Handler **logs in on that invoke**, waits until **7:45:00.000 PT**,
-   then **races ITC 1–6 in parallel** for the configured slot (standing: Sunday **6:00–7:15 indoor**; also Sat 10:30 if that schedule is enabled)
+   then **races ITC 1–6 in parallel** for the configured slot (standing: Sunday **6:00–7:15 indoor**; Sat 10:30 if `saturday-745` is enabled)
    (hardcoded area ids 20–25). First save wins; siblings abort. Timeout 420s. Emails
    jerome.ans@gmail.com (ICS + Add to calendar if booked). SSM login. Do not
    double-book that slot from this bot if the Lambda already has it.
@@ -121,7 +121,7 @@ that match), and do **not** list outside activities.
 8. **After a successful book (same turn, immediately):**
    - **Chat ping** Jerome here with date, court, time, fee.
    - **Email** jerome.ans@gmail.com with the same details (authorized; do not ask).
-   - **Google Calendar** event for that booked slot (standing Sun 6:00–7:15 PT; or Sat/Sun 10:30 if that path booked)
+   - **Google Calendar** event for that booked slot (standing Sun 6:00–7:15 PT; or Sat 10:30 if that path booked)
      at Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
      (ngoc.h.dinh@gmail.com)**. No Google Meet. She must actually get the invite.
 9. **Always commit + push this skill** after any change. Follow **always-push**:
@@ -141,7 +141,7 @@ Jerome names the **court day + start time** (e.g. Sunday 6:00 PM indoor). Work b
 1. Inventory for that slot opens **exactly 7 days earlier, same weekday, at 7:45:00 PT** (not 8 days / not “7+1” / not the prior Saturday for a Sunday evening).
 2. EventBridge therefore fires that **same weekday at 7:40 PT** with Input `{ "targetWeekday": "<sun|sat>", "targetStart": "<club start>" }` (end = start + 75 min unless overridden). Handler waits until 7:45:00 then races ITC 1–6.
 3. Weekend evening cells stay `restrict`/`override` until the open calendar day — do not treat a Saturday fire as unlocking Sunday 6PM (+1 nextSunday math is wrong for evening).
-4. Standing schedules: `sunday-1800` (6PM) **and** `sunday-745` / `saturday-745` (10:30) may share the 7:40 cron with different Inputs; concurrent invokes are OK.
+4. Standing schedules: `sunday-1800` (6PM, **the** Sunday book) and `saturday-745` (10:30). `sunday-745` (Sun 10:30) is DISABLED — 6PM replaced it.
 5. Always **verify live** on the club grid if unsure about a new slot’s open day.
 
 ## People
@@ -227,7 +227,7 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 - Code: `resolveTargetDay` / `nextSunday`; save retries; richer SES detail/open list.
 - Deployed main `2db74f6` (CI green).
 - Live canary from box OK (cfPassed).
-- AWS schedules: run on Mac identity `bash /path/to/bellevue-club-tennis/scripts/ensure-schedules.sh` (or checkout) to FORCE ENABLED sunday-745 + monday-745.
+- AWS schedules: run on Mac identity `bash /path/to/bellevue-club-tennis/scripts/ensure-schedules.sh` (or checkout) to FORCE ENABLED sunday-1800 + saturday-745; keep sunday-745 and monday-745 DISABLED.
 - Verify routines: Sun 7:50 + Mon 7:50 PT CLI my/canary ping.
 
 ## Investigation 2026-09-12 (Grok CLI)
@@ -267,7 +267,7 @@ Additive Lambda improvements (do **not** change sunday-1800 `targetStart=06:00 P
 - `ensure-schedules.sh` asserts sunday-1800 Input stays `06:00 PM`.
 
 **Verify routines (Grok Bot, 7:50 AM PT):**
-- Bellevue Lambda Sunday book verify — cron `50 7 * * 0`: after Sunday ~7:45, confirm CloudWatch `tennisOpsLog` for next Sunday (+7) **10:30** (sunday-745 if enabled) and/or **06:00 PM** (sunday-1800). Flag monday-745 drift. Ping Jerome.
+- Bellevue Lambda Sunday book verify — cron `50 7 * * 0`: after Sunday ~7:45, confirm CloudWatch `tennisOpsLog` for next Sunday (+7) **06:00 PM** (sunday-1800). Flag sunday-745 or monday-745 if they re-enable. Ping Jerome.
 - Bellevue Lambda Saturday book verify — cron `50 7 * * 6`: confirm next Saturday 10:30 book/miss. Do not invent outcomes.
 
 Titan still AccessDenied on `scheduler:GetSchedule` / often logs — report gaps; apply schedules from Jerome Mac via `bash scripts/ensure-schedules.sh`.
@@ -286,7 +286,7 @@ After any Jerome conversation that changes this job:
 
 - Miss the 7:45:00 hard-refresh (always on the dot)
 - Task-resume a parked browser across the open second
-- Book a different time if the standing start (6:00 PM or 10:30) is gone
+- Book a different time if the standing start (Sunday 6:00 PM or Saturday 10:30) is gone
 - Store the club password on disk, in git, in chat, or in Titan (fetch SSM at login)
 - Assume Lambda holds a Cloudflare token that will expire — it does not; UA skip + hourly canary
 - Add a Google Meet link to tennis events
