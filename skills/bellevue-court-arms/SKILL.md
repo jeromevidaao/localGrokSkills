@@ -15,13 +15,21 @@ One-off indoor courts. Standing Sunday 6:00 PM (`sunday-1800`) and Saturday 10:3
 
 ## Window
 
-Jerome names the **court date and start**. Work backward:
+Jerome names the **court date and start**. The create/edit form on Tennis / Swim uses a date picker and the indoor slot list (not a typed time). Work backward:
 
 1. Inventory opens **7 days earlier, same weekday, 7:45:00 a.m. PT**.
 2. The schedule fires that morning at **7:40 a.m. PT**. The Lambda logs in, waits until 7:45:00, then races ITC 1–6.
 3. End is start **+ 75 minutes**. Indoor only. If that start is gone, do not book a different time.
 
 Example: Wed Oct 14 2026 6:00 PM → fire **Wed Oct 7 2026 7:40 a.m. PT**, book **6:00–7:15 PM**.
+
+Indoor starts are 75 minutes, back to back. The form only offers these:
+
+- Weekday: 5:30 AM through 8:30 PM (last slot ends 9:45 PM)
+- Saturday: 6:45 AM through 8:30 PM
+- Sunday: 6:45 AM through 7:15 PM
+
+`normalizeArmInput` rejects any other start. The list is also `advanceArms.slotCatalog` on `tennis_ops_status`.
 
 A custom run time is allowed. The booker waits for 7:45 only when the run is 7:40. Any other clock attempts as soon as the invoke starts.
 
