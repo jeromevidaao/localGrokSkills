@@ -37,9 +37,17 @@ non–Bellevue Club activity. If Jerome asks a broad “Julie’s classes” que
 here, answer **only** the Bellevue Club slice (or say she has none at the Club
 that match), and do **not** list outside activities.
 
-**Julie at Bellevue Club (as of 2026-09-22):**
-- Enrolled: **Youth 2** group swim (Fundamental Water Skills), **30 min**,
-  Thu 4:30–5:00 Coach David (Session 1) — **not** “>30 minutes.”
+**Julie at Bellevue Club (as of 2026-09-25):**
+- Enrolled now: **Youth 2** group swim (Fundamental Water Skills), **30 min**,
+  Thu 4:30–5:00 (Session 1, through Oct 29) — **not** “>30 minutes” yet.
+- **Armed auto-book (Session 2):** when Youth aquatics registration opens
+  **Wed Oct 21 2026 at 9:00 AM PT**, book **both** Thursday classes:
+  **4:30–5:00** and **5:00–5:30**. Then notify
+  “Julie has 30+30 mins class so 60 mins of swim class in total”.
+  Shown as Planned · Armed on cleaningbutton.com `#!/tennis-ops` and
+  R2android Tennis / Swim. Daily trigger: `bellevueClubTennis` payload
+  `swimRegistrationPoll` at 8:55 AM PT, waits until 9:00, then
+  `act=swim_registration_poll` (FCM `swim_registration_open`).
 - For **>30 min/week** Club options to register: (1) second Youth 2 group
   slot when available (Session 2 Youth reg **Oct 21 2026 9:00 a.m.**);
   (2) **private swim** via portal Private Swim Lessons / aquatics@bellevueclub.com;
