@@ -98,7 +98,7 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-09-25)
+### Upcoming / recent (updated 2026-09-26)
 
 | When | What | Calendar |
 |---|---|---|
@@ -115,7 +115,7 @@ When asked to scan school mail → calendar:
 3. Search calendar next 60 days for Cherry Crest / PTSA / Julie school titles — no duplicates.
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
-6. Last scan **2026-09-25**: Gmail after 2026/09/22 + newer_than:3d — **zero** school threads; Curriculum Night + chess already on calendar; **zero** new events created.
+6. Last scan **2026-09-26**: school/PTSA/bsd405 newer_than:3d — **zero** school threads; Ngoc Fred Meyer food-pickup invite skipped (not school); Curriculum Night + chess already on calendar; **zero** new events created.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
