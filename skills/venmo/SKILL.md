@@ -37,7 +37,7 @@ Jerome receives **rent from Richard** about once a month. When that lands (or an
 This standing permission covers **only** that sequence when rent/balance from Richard is present. Any other pay or transfer still needs an explicit ask.
 
 ## Balance watch (routine)
-Routine **venmo-rent-settle** checks Venmo every few hours (daytime, all week — rent can land any day). On each run:
+Routine **venmo-rent-settle** checks Venmo **once daily** (~9:02 AM PT, all week — rent can land any day). Kept infrequent to reduce captcha / session churn. On each run:
 - Open Venmo; if signed out, sign in via SSM.
 - Read balance and recent activity for a payment **from Richard** (rent).
 - If balance is **$0** (and no new actionable Richard credit to process): **stay quiet** — no status ping.
