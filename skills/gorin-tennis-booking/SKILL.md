@@ -216,6 +216,13 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
+## Latest booking (2026-09-26 ~9:03am PT)
+
+- **Julie** Bellevue **Future Stars Mini Group with Coach Davi** (Davi Sandes), **Sun Sep 27 2026 9:00–10:00am PT**, Bellevue Kids Court.
+- Drop-in Register (not Full Event). Receipt **JW7IF7306**, **$62.79** card …8431. Pin not shown at book time.
+- Calendar on jerome.ans@gmail.com with invites to Jerome + Ngoc.
+- Context: Bellevue U8 1:00–2:30 and U6 2:30–3:30 that Sunday were Registration Closed; this 60-min mini-group was the open Julie-fit option (1 of 3 spots).
+
 ## Latest single-date watch (live API 2026-09-26 ~8:30am PT)
 
 - Bellevue U8 (201) series eventId **2269553** / Oct resIds 60796521–24. Single-date **OPEN** this morning.
