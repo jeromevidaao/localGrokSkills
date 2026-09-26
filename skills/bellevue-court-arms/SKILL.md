@@ -62,6 +62,24 @@ aws scheduler get-schedule --name bellevueClubTennis-arm-<id> --region us-east-1
 
 Do not claim it is armed until that schedule exists and the Tennis / Swim row matches it.
 
+
+
+## Google Calendar links (court chips)
+
+Same pattern as Julie swim / Gorin: real **eventedit** URLs, never day-view alone.
+
+1. After a successful indoor book (arm or standing), create a timed Google Calendar event on `jerome.ans@gmail.com` (invite Jerome + Ngoc; no Meet). Title like `Bellevue Club indoor tennis`. Description includes court (e.g. ITC 4) and fee.
+2. Store the Google event id in DynamoDB `tennisOpsGcalEvents` pk `bellevue-club-court-events`:
+   - `calendarId`: `jerome.ans@m` (literal suffix, not the full mailbox)
+   - `instances["YYYY-MM-DD"]`: the event id
+3. `act=tennis_ops_status` attaches `gcalUrl` / `gcalByDate` on `bellevue.currentReservations`. Website and Android open:
+   `https://calendar.google.com/calendar/u/0/r/eventedit/{base64(eventId + " " + calendarId).replace(/=+$/,"")}?tab=mc`
+
+Example (Sat Oct 3 2026 10:30–11:45 ITC 4): event id `4n8hecuad8voq8b0i4pqsapik4` →
+`https://calendar.google.com/calendar/u/0/r/eventedit/NG44aGVjdWFkOHZvcThiMGk0cHFzYXBpazQgamVyb21lLmFuc0Bt?tab=mc`
+
+Do not leave the Tennis / Swim reservation chip on `/r/day/...` when an event id exists.
+
 ## After a change
 
 Update this skill if the schedule contract or the screen changes, then commit and push `localGrokSkills`. Append the turn to Titan. Leave standing Sunday/Saturday schedules alone.
