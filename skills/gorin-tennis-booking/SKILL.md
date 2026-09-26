@@ -83,6 +83,19 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
       AS 759 PSP→SEA ~3:53–6:44pm PT overlaps 1:00–2:30 class
     Midweek Santa Clara alone does not block a Sunday if they are home that day.
 
+
+14. **Tennis Ops series keys:** never merge **Mini Group** / “of 3” / Coach Davi
+    lessons into the U8 Future Stars card. Mini Group (e.g. Sep 27 9–10am with
+    Coach Davi) is its own series; U8/201 drop-ins (Oct 4/11/18 1:00–2:30pm) stay
+    on the U8 card. `buildGorinSeries` in cleaningbutton-api enforces this.
+
+15. **Calendar links = eventedit only.** When sharing or deep-linking a Google
+    Calendar event for Jerome, always use:
+    `https://calendar.google.com/calendar/u/0/r/eventedit/{base64(eventId + " " + calendarId).replace(/=+$/,"")}?tab=mc`
+    with `calendarId = "jerome.ans@m"` (not the full mailbox, not
+    `www.google.com/calendar/event?eid=`). Day-view URLs (`/r/day/...`) are
+    fallback-only on website/Android; prefer API `gcalByDate` / `gcalUrl`.
+
 ## Titan R2Memory (every turn)
 
 Scripts live at `/workspace/localGrokSkills/skills/r2-memory/scripts/`
@@ -147,6 +160,20 @@ From Sep 2026 the same slots are **U6 (101)** and **U8 (201)**.
 - Oct U8 (201) **T2M7CEQ7306110** / eventId **2269553** / resIds 60796521–60796524 is the **catalog** full-event (11/12 spots). Re-checked **2026-09-21 ~9:54pm PT**: single-date still closed — SignUpToEvent_Get says opens in **4 days and 7 h** (~Sat Sep 26 AM). Not on GetAllTransactions until paid/booked.
 - History on tennis-ops comes from GetAllTransactions: U6 9/13 (LJON17306/XUIWA7306), U8 9/20 (ISFVM7306/C5T4Y7306).
 - API `act=tennis_ops_status` now merges GetAllTransactions + My Bookings (`sourcesChecked`). GCal has no upcoming Gorin events (only those two past).
+
+
+## Google Calendar event IDs (Gorin one-shots, calendarId jerome.ans@m)
+
+Stored in DynamoDB `tennisOpsGcalEvents` pk `julie-gorin-events`. Verified:
+
+| Date (PT) | Program | eventId |
+|---|---|---|
+| 2026-09-27 | Future Stars Mini Group with Coach Davi 9–10am | `ttrorsojek4j6imeefejlq4b74` |
+| 2026-10-04 | U8 Future Stars 1:00–2:30pm | `o69pi2jc1al25hknnab3b2rm10` |
+| 2026-10-11 | U8 Future Stars 1:00–2:30pm | `p046fgch9injh8fd4299n01cs4` |
+| 2026-10-18 | U8 Future Stars 1:00–2:30pm | `ff101so6utpuria2rsq649cv8k` |
+
+Share links via eventedit (rule 15). Tennis Ops API attaches these as `gcalByDate` / `gcalUrl`.
 
 ## Bellevue weekly pattern (as of 30 Aug 2026)
 
@@ -220,7 +247,8 @@ Confirm in chat before cancelling.
 
 - **Julie** Bellevue **Future Stars Mini Group with Coach Davi** (Davi Sandes), **Sun Sep 27 2026 9:00–10:00am PT**, Bellevue Kids Court.
 - Drop-in Register (not Full Event). Receipt **JW7IF7306**, **$62.79** card …8431. Pin not shown at book time.
-- Calendar on jerome.ans@gmail.com with invites to Jerome + Ngoc.
+- Calendar on jerome.ans@gmail.com with invites to Jerome + Ngoc. GCal eventId `ttrorsojek4j6imeefejlq4b74` (eventedit via jerome.ans@m).
+- Tennis Ops: Mini Group must stay a separate card from U8 Oct drop-ins (not merged under Davi).
 - Context: Bellevue U8 1:00–2:30 and U6 2:30–3:30 that Sunday were Registration Closed; this 60-min mini-group was the open Julie-fit option (1 of 3 spots).
 
 ## Latest single-date watch (live API 2026-09-26 ~8:30am PT)
