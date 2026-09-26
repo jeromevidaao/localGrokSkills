@@ -108,14 +108,15 @@ cache when they disagree, then update this skill and push.
 
 ### Family calendar-reminder scan (standing)
 
-When asked to scan school mail → calendar:
+Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same rules when a GOAL/manual pass asks for a scan.
 
 1. Gmail `newer_than:3d` / `after:YYYY/MM/DD` for Charger Chatter / Cherry Crest / PTSA / Classroom Newsletter / `from:bsd405.org` / Ngoc forwards.
 2. Extract dated upcoming events only; **skip kickball** unless Jerome overrides (Julie kindergarten — never add kickball until 1st-grade override).
 3. Search calendar next 60 days for Cherry Crest / PTSA / Julie school titles — no duplicates.
-4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL.
+4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
-6. Last scan **2026-09-26**: school/PTSA/bsd405 newer_than:3d — **zero** school threads; Ngoc Fred Meyer food-pickup invite skipped (not school); Curriculum Night + chess already on calendar; **zero** new events created.
+6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
+7. Last scan **2026-09-26**: school/PTSA/bsd405 newer_than:3d — **zero** school threads; Ngoc Fred Meyer food-pickup invite skipped (not school); Curriculum Night + chess already on calendar; **zero** new events created. (That empty pass still notified — do not repeat; quiet rule now in force.)
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
