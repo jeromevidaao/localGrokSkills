@@ -201,7 +201,8 @@ Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (
 
 | Method | Path | Use |
 |---|---|---|
-| `GET` | `/v3/conversations/me?limit=` | Inbox (also `/v2/conversations/me`, `/v4/conversations`) |
+| `GET` | **BFF** `/exchange/conversations/me?first=` | **Inbox source of truth** (Jessica 2026-09-26). api `/v3/conversations/me` and `/v2` omit new 1e9+ conversation ids. |
+| `GET` | `/v3/conversations/me?limit=` | Legacy inbox (incomplete for new threads) |
 | `GET` | `/v3/conversations/me/{id}` | One thread |
 | `GET` | `/v1/conversations/stats/me` | Counts by status / preapproved |
 
@@ -230,8 +231,8 @@ Owner Android FCM (HE poll every 5m, `act=homeexchange_poll`): new guest chat is
 **Check-in instructions (3 days before arrival):** poller also enqueues `act=homeexchange_checkin_instructions` onto `grok_message` for finalized Pine stays when `daysUntilCheckIn <= 3` (same-day / 2-day accepts go out immediately). Conversation DETAIL `exchange.guest.phone` last-4 is the keypad PIN. Templates live in S3 `s3://cleaningbutton-ai-context-us-east-1/data/checkin-templates/apt-{1b,2,3}.json` (must match HE home `3285159` / `3285044` / `3202475`). Harness never defaults an unknown home to Apt #3. Owner FCM on every send (`HE check-in instructions sent`).
 | `GET` | `/v1/conversations/search` | Search threads |
 | `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
-| `GET` | `/v3/messages?conversation_id=` | Thread body |
-| `POST` | `/v1/messages` | `{content, conversation}` |
+| `GET` | **BFF** `/v4/messages?conversation_id=` | Thread body (api `/v3/messages` 500/403 on new ids) |
+| `POST` | **BFF** `/v1/messages` | `{content, conversation}` (api rejects new conversation entities) |
 | `GET` | `/v3/messages/config` | Allowed email/link lists |
 | `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
 | `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |

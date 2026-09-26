@@ -261,7 +261,8 @@ def cmd_conversations(args: argparse.Namespace, as_json: bool) -> int:
         self_id = me.get("id") or (me.get("user") or {}).get("id")
         if self_id is not None:
             self_id = str(self_id)
-    _, data = he_request("GET", f"/v3/conversations/me?limit={limit}")
+    # BFF inbox includes new 1e9+ conversation ids that api /v3 omits (Jessica 2026-09-26).
+    _, data = he_request("GET", f"/exchange/conversations/me?first={limit}", base=HE_BFF_BASE)
     conv = ((data or {}).get("data") or {}).get("conversations") or {}
     edges = conv.get("edges") or []
     rows = []
@@ -292,14 +293,19 @@ def cmd_conversations(args: argparse.Namespace, as_json: bool) -> int:
 
 def cmd_conversation(args: argparse.Namespace, as_json: bool) -> int:
     cid = args.conversation_id
-    _, data = he_request("GET", f"/v3/conversations/me/{urllib.parse.quote(cid, safe='')}")
+    q = urllib.parse.quote(cid, safe="")
+    try:
+        _, data = he_request("GET", f"/v3/conversations/me/{q}")
+    except RuntimeError:
+        # New threads 404 on api; BFF exchange/v2 still has the stay + meta.
+        _, data = he_request("GET", f"/exchange/v2/{q}", base=HE_BFF_BASE)
     emit(data, as_json or True)
     return 0
 
 
 def cmd_messages(args: argparse.Namespace, as_json: bool) -> int:
     cid = urllib.parse.quote(args.conversation_id, safe="")
-    _, data = he_request("GET", f"/v3/messages?conversation_id={cid}")
+    _, data = he_request("GET", f"/v4/messages?conversation_id={cid}&limit=100", base=HE_BFF_BASE)
     if as_json:
         emit(data, True)
         return 0
@@ -387,7 +393,12 @@ def cmd_send(args: argparse.Namespace, as_json: bool) -> int:
     if not text or not str(text).strip():
         raise RuntimeError("send requires --text")
     conv: Any = int(cid) if str(cid).isdigit() else cid
-    _, data = he_request("POST", "/v1/messages", {"content": text, "conversation": conv})
+    _, data = he_request(
+        "POST",
+        "/v1/messages",
+        {"content": text, "conversation": conv},
+        base=HE_BFF_BASE,
+    )
     emit(data if data is not None else {"ok": True}, as_json or True)
     return 0
 
