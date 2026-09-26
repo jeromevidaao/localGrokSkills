@@ -216,7 +216,19 @@ policy). Inside 24 hours: no refund on the guest plan (no protection pass).
 Cancel on CourtReserve (My Profile / the reservation), same Ruby account.
 Confirm in chat before cancelling.
 
-## Latest single-date watch (live API 2026-09-25 ~4:19pm PT)
+## Latest single-date watch (live API 2026-09-26 ~8:30am PT)
+
+- Bellevue U8 (201) series eventId **2269553** / Oct resIds 60796521–24. Single-date **OPEN** this morning.
+- **BOOKED drop-in** Julie Ansia #11433210 for **Oct 4, Oct 11, Oct 18** via `EventApi_SignUpToEvent_DropIn_Post` + ProcessPayment card …8431. **Did not** Full Event. **SKIP Oct 25** (Palm Springs AS 759).
+- Combined receipt **VGSWU7306** · Subtotal $171.00 + tax $17.61 + convenience $6.60 = **$195.21** (≈$62.87/date).
+- Spots after book: **9 of 12** remaining on each Oct Sunday.
+- Coaches: Oct 4 Fatma Tapan & Omer Dogu Sahin; Oct 11/18 Fatma Tapan & Gulcin Odemis.
+- Reservations: Oct4 T2M7CEQ7306110/60796521; Oct11 J4BVP237306130/60796522; Oct18 ML2PHM57306153/60796523. ReservationMemberIds 128684029/128684031/128684035.
+- Calendar events created on jerome.ans@gmail.com with invites to Jerome + Ngoc (no Meet). Door pins: My Bookings API returned rawCount=0 at book time — pin TBD in CourtReserve closer to class.
+- November Bellevue U8 Sundays **not listed** (embed/GetEvents/EventsList scan).
+- Travel: SKIP Oct 25 Palm Springs; Oct 4/11/18 bookable; Nov Sundays clear when series appears.
+
+## Prior watch (live API 2026-09-25 ~4:19pm PT)
 
 - Bellevue U8 (201) series still eventId **2269553** / reservation **T2M7CEQ7306110** (resId **60796521**). Range **Oct 4–Oct 25** (4 dates), 1:00–2:30pm.
 - **Oct 4/11/18/25 single-date still CLOSED.** Live `EventApi_SignUpToEvent_Get` (logged in as Ruby via SSM `/gorin/courtreserve/*`): **“Registration not yet open for this date. Registration opens in 13 h and 10 min .”** (~**Sat Sep 26 early morning PT**). Only **Register for Full Event** is available. **Did not** click full-event.
@@ -320,15 +332,19 @@ Confirm in chat before cancelling.
 
 ## Current bookings
 
-- **Sun 13 Sep 2026, 2:30–3:30pm** Bellevue U6 (101) / Tiny Tigers
-  Julie Ansia · Gulcin Odemis, Fatma Tapan
-  Receipt **LJON17306** · $45.66 · card …8431 · booked 30 Aug 2026
-  Calendar: https://www.google.com/calendar/event?eid=bjdvMmtrbzU2NWc1NDc1MDZjZGZiamZrZzQgamVyb21lLmFuc0Bt
-- **Sun 20 Sep 2026, 1:00–2:30pm** Bellevue U8 (201) / Future Stars
+- **Sun 4 Oct 2026, 1:00–2:30pm** Bellevue U8 (201) / Future Stars
+  Julie Ansia · Fatma Tapan, Omer Dogu Sahin
+  Receipt **VGSWU7306** (combined) · $62.87 this date · card …8431 · booked 26 Sep 2026
+  Calendar: https://www.google.com/calendar/event?eid=bzY5cGkyamMxYWwyNWhrbm5hYjNiMnJtMTAgamVyb21lLmFuc0Bt
+- **Sun 11 Oct 2026, 1:00–2:30pm** Bellevue U8 (201) / Future Stars
   Julie Ansia · Fatma Tapan, Gulcin Odemis
-  Receipt **ISFVM7306** · $65.07 · booked 13 Sep 2026
-  Calendar (Jerome + Ngoc invited): https://www.google.com/calendar/event?eid=cnVtcTcxaGNodDYxczN1OHVrMW4yY3FvazQgamVyb21lLmFuc0Bt
-  Free cancel until Sat 19 Sep 1:00pm PT
+  Receipt **VGSWU7306** (combined) · $62.87 · booked 26 Sep 2026
+  Calendar: https://www.google.com/calendar/event?eid=cDA0NmZnY2g5aW5qaDhmZDQyOTluMDFjczQgamVyb21lLmFuc0Bt
+- **Sun 18 Oct 2026, 1:00–2:30pm** Bellevue U8 (201) / Future Stars
+  Julie Ansia · Fatma Tapan, Gulcin Odemis
+  Receipt **VGSWU7306** (combined) · $62.87 · booked 26 Sep 2026
+  Calendar: https://www.google.com/calendar/event?eid=ZmYxMDFzbzZ1dHB1cmlhMnJzcTY0OWN2OGsgamVyb21lLmFuc0Bt
+- Past: Sun 13 Sep U6 LJON17306; Sun 20 Sep U8 ISFVM7306
 
 ## Continuous improvement
 
