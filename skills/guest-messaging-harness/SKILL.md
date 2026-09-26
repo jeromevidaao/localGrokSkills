@@ -171,3 +171,30 @@ Agent rule: after any harness change, run full prepush to green, **then** push. 
 - Harness `AGENTS.md` (product rules + incidents)
 - Skill `always-push` (public → push → CI → private)
 - SSM `/grok/api-key` (never commit; rule `02-ssm-api-credentials.md`)
+
+## Dirty-linen checkout disposition (HARD — Isabella 2026-09-26)
+
+Guest asks to change linens / where to put dirty ones at checkout → auto-reply **must** say both **strip** and **bathroom floor**. Distinct from EXTRA_LINENS (chaise find-more towels/sheets).
+
+- `draftHasDirtyLinenBathroomGuidance` requires **BOTH** phrases (CI flake: Conversation Judge rewrite can keep "bathroom floor" but drop "strip").
+- Policy / `claimCheck` force the canonical snippet when either phrase is missing.
+- Scenario `isabella-dirty-linens-bathroom` `requiredPhrases`: `bathroom floor`, `strip`.
+- `CleaningIssueTool` must **not** treat dirty-linen disposition as a cleaning complaint (bare "dirty" must not escalate / wipe CHECKOUT).
+
+## HE cleaning-fee gate (HARD — Katie / Caroline / Jessica)
+
+**Never** approve or pre-approve an HE stay until `cleaningFeeAccepted: true`. Ask the fee first. Cancel-after-wrong-approve is **not** recovery — do not use it as a fix path.
+
+## sendMessage junk guard (HARD — Jessica probe)
+
+`sendMessage` must refuse empty, 1-character, and literal `"x"` bodies (probe artefacts). Do not ship a send path that accepts those.
+
+## Push gate (unchanged)
+
+Full gate before any harness push:
+
+```bash
+python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py
+```
+
+Leave `git config core.hooksPath scripts/git-hooks` on. Do not touch harness push when another agent owns an in-flight Isabella prepush.

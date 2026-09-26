@@ -71,7 +71,7 @@ TOPICS: list[dict[str, Any]] = [
         "when": "parking, late checkout, auto-reply, harness, goldens, required phrases, Cassidy",
         "pattern": (
             r"\b(parking|late checkout|auto-?reply|harness|golden|required phrase|"
-            r"eval failed|cassidy|post-?checkout)\b"
+            r"eval failed|cassidy|post-?checkout|dirty[- ]?linen|isabella)\b"
         ),
     },
     {
@@ -97,6 +97,18 @@ TOPICS: list[dict[str, Any]] = [
         "skills": ["aws-account"],
         "when": "AWS bill, cost explorer, cloud spend, account id",
         "pattern": r"\b(aws (?:bill|cost|spend)|cost explorer|cloud spend)\b",
+    },
+    {
+        "id": "pine-cleaning-ical",
+        "title": "Pine cleaning iCal / cleaner calendars",
+        "retrieve": True,
+        "skills": ["pine-cleaning-ical"],
+        "when": "Pine cleaning calendar, .ics for Karen, pineCleaningIcal, HE Reserved on cleaning feed",
+        "pattern": (
+            r"\b(pine[- ]?cleaning[- ]?ical|pineCleaningIcal|"
+            r"cleaning (?:calendar|ical|iCal)|pine-apt-(?:1b|2|3)\.ics|"
+            r"karen (?:trask|calendar)|cleanforme207)\b"
+        ),
     },
     {
         "id": "live-ops",

@@ -60,8 +60,29 @@ def _load_grok_key() -> None:
     os.environ["GROK_API_KEY"] = key
 
 
+def _ensure_hooks_path(root: Path) -> None:
+    """Force git to use the repo pre-push gate (never discover CI failures first)."""
+    desired = "scripts/git-hooks"
+    proc = subprocess.run(
+        ["git", "config", "--get", "core.hooksPath"],
+        cwd=str(root),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    current = (proc.stdout or "").strip()
+    if current != desired:
+        subprocess.run(
+            ["git", "config", "core.hooksPath", desired],
+            cwd=str(root),
+            check=False,
+        )
+        print(f"Set core.hooksPath={desired} (was {current or 'unset'})")
+
+
 def main() -> int:
     root = _harness_root()
+    _ensure_hooks_path(root)
     prepush = root / "scripts" / "prepush.js"
     if not prepush.is_file():
         print(f"FAIL: harness prepush not found at {prepush}", file=sys.stderr)

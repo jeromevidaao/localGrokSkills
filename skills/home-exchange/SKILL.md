@@ -201,8 +201,8 @@ Calendar `type`: `NON_RECIPROCAL` (GuestPoints — Pine default), `RECIPROCAL` (
 
 | Method | Path | Use |
 |---|---|---|
-| `GET` | **BFF** `/exchange/conversations/me?first=` | **Inbox source of truth** (Jessica 2026-09-26). api `/v3/conversations/me` and `/v2` omit new 1e9+ conversation ids. |
-| `GET` | `/v3/conversations/me?limit=` | Legacy inbox (incomplete for new threads) |
+| `GET` | **BFF** `/exchange/conversations/me?first=` | **Inbox source of truth** (Jessica 2026-09-26, id `1000201434`). New ~1e9+ conversation ids are **missing** from api `/v3/conversations/me` and `/v2`. |
+| `GET` | `/v3/conversations/me?limit=` | Legacy inbox (incomplete for new threads — do not use alone) |
 | `GET` | `/v3/conversations/me/{id}` | One thread |
 | `GET` | `/v1/conversations/stats/me` | Counts by status / preapproved |
 
@@ -231,8 +231,8 @@ Owner Android FCM (HE poll every 5m, `act=homeexchange_poll`): new guest chat is
 **Check-in instructions (3 days before arrival):** poller also enqueues `act=homeexchange_checkin_instructions` onto `grok_message` for finalized Pine stays when `daysUntilCheckIn <= 3` (same-day / 2-day accepts go out immediately). Conversation DETAIL `exchange.guest.phone` last-4 is the keypad PIN. Templates live in S3 `s3://cleaningbutton-ai-context-us-east-1/data/checkin-templates/apt-{1b,2,3}.json` (must match HE home `3285159` / `3285044` / `3202475`). Harness never defaults an unknown home to Apt #3. Owner FCM on every send (`HE check-in instructions sent`).
 | `GET` | `/v1/conversations/search` | Search threads |
 | `POST` | `/v1/conversations/batch` / `…/archive` | Batch archive |
-| `GET` | **BFF** `/v4/messages?conversation_id=` | Thread body (api `/v3/messages` 500/403 on new ids) |
-| `POST` | **BFF** `/v1/messages` | `{content, conversation}` (api rejects new conversation entities) |
+| `GET` | **BFF** `/v4/messages?conversation_id=` | Thread body (api `/v3/messages` 404/403/500 on new ids) |
+| `POST` | **BFF** `/v1/messages` | `{content, conversation}` (api message routes reject new conversation entities) |
 | `GET` | `/v3/messages/config` | Allowed email/link lists |
 | `GET` | `/v1/exchanges/{conversationId}/get-exchanges` | Exchange array |
 | `PATCH` | `/v1/exchanges/{conversationId}/approve` | Body = that array. **Conversation id, not exchange id** |
@@ -425,25 +425,30 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 
 ## Pre-approve
 
+**HARD (2026-09-26):** **Never** approve / pre-approve until `cleaningFeeAccepted: true`. Fee-ask first (Katie / Caroline / Jessica). Cancel-after-wrong-approve is **not** recovery.
+
 1. Dates open on **both** Hospitable and `GET /v1/homes/{heHomeId}/calendar` for that unit.
 2. Recheck Hospitable calendar + reservations **immediately before** PATCH approve. If nights are no longer open, do not approve.
-3. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array.
-4. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
-5. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
+3. Confirm guest accepted the cleaning fee (`cleaningFeeAccepted` on reservation / DDB). If not, send fee-ask only — do not PATCH approve.
+4. `GET /v1/exchanges/{conversationId}/get-exchanges` then `PATCH …/approve` with that array.
+5. Hospitable `PUT calendar` `available:false` for `[checkIn, checkOut)`.
+6. Guest text: **I just sent you a pre-approval and blocked those dates for you.** Never “you’re booked.”
 
 **Cleaning fee is paid separately — never “included”.** Guests pay us after the stay. Do not say the fee is included in GuestPoints / the exchange / the reservation. Self-clean is never allowed.
 
+**Live Jessica Dec 18–20 Apt #3 $125 (2026-09-26):** fee-ask already sent — **do not re-spam**; leave the thread unless Jerome asks.
+
 **Cancel + extra night (Katie 2026-08-17 Apt #2):** guest cancels the pre-approval, adds a night, resubmits. Check Hospitable for the extra night. Prior nights we already blocked (no Airbnb reservation) are leftover USER/VENDOR blocks — treat as open for this guest. If the extra night is free, say so and pre-approve the new stay + block the full range again. Never ask for an Airbnb alteration. “Just submitted, thank you!” after a cancelled pre-approval is a re-approve turn, not shared “You’re welcome.”
 
-**Cleaning fee — thank once, keep it on the reservation:** Pull the **full** HE thread (`GET /v3/messages?conversation_id=&limit=100`) on every auto-reply. Guest yes (Caroline “the cleaning fee is fine” / Katie “We’re completely fine with the cleaning fee!” / Clara “Yes we accept paying $125 cleaning fee”) is stored as `reservation.cleaningFeeAccepted` on the SQS payload and `heReservation.cleaningFeeAccepted` in the harness (also on the DDB pre-approval block). Do **not** thank them for the fee again if a prior host message already said “thanks for confirming … cleaning fee” (the extra-night re-approve must not repeat it). Self-clean ask (Clara “clean the apartment ourselves”) is refused; they still pay the fee separately after the stay.
+**Cleaning fee — thank once, keep it on the reservation:** Pull the **full** HE thread (**BFF** `GET /v4/messages?conversation_id=` — api `/v3/messages` breaks on new ids) on every auto-reply. Guest yes (Caroline “the cleaning fee is fine” / Katie “We’re completely fine with the cleaning fee!” / Clara “Yes we accept paying $125 cleaning fee”) is stored as `reservation.cleaningFeeAccepted` on the SQS payload and `heReservation.cleaningFeeAccepted` in the harness (also on the DDB pre-approval block). Do **not** thank them for the fee again if a prior host message already said “thanks for confirming … cleaning fee” (the extra-night re-approve must not repeat it). Self-clean ask (Clara “clean the apartment ourselves”) is refused; they still pay the fee separately after the stay.
 
 ## Implementation map
 
 | Layer | Location |
 |---|---|
 | This CLI | `~/.grok/skills/home-exchange/scripts/he_api.py` |
-| API HE chat + poll | `~/cleaningbutton-api/index.js` |
-| Auto-reply / approve | `~/auto-reply-sqs-harness/src/clients/HomeExchangeClient.js` |
+| API HE chat + poll | `~/cleaningbutton-api/index.js` — BFF inbox/messages path shipped (`a7a37a9` era) |
+| Auto-reply / approve | `~/auto-reply-sqs-harness/src/clients/HomeExchangeClient.js` — same BFF list/messages/send |
 | Calendar sync | `~/home-exchange-cal-sync` (`HE_HOMES`) |
 | Token refresh | Lambda `he-token-refresh` |
 | Schlage door codes | `~/add-delete-code-wifi-pyschlage` — HE last-4 same window as Airbnb (**5:00 ET on CI day** → CO 11:00 ET). Verifier: `~/code_not_there_text_alert`. |
