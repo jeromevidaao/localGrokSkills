@@ -141,14 +141,29 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 
 EventBridge rule `gorin-door-ping` runs every minute and invokes Lambda `api`
 with `{ "mode": "gorin_door_ping" }`. Inside the last 5 minutes of a Julie
-Gorin class it sends one R2 Android FCM `type=gorin_door_code` whose title is
-that booking’s Pin Code (`Gorin door 7675#`). It does not invent a pin. If the
-pin is missing, the ping says so, and one later poll in that same window sends
+Gorin class it sends one R2 Android FCM `type=gorin_door_code`. When that
+booking’s CourtReserve Pin Code is present, the title is `Gorin door 7675#`
+(example of the shape, not a live pin). It does not invent a pin. If the pin
+is missing, the ping says so, and one later poll in that same window sends
 again when the pin appears. Dedupe is DynamoDB `homeexchangeMessageState` pk
 `gorin_door_ping`. CourtReserve is refreshed at most hourly from 7am–9pm PT,
-and every 6 hours overnight. Tap opens Tennis / Swim. Apply the rule with
-`bash scripts/ensure-gorin-door-ping.sh` in `cleaningbutton-api` (deploy does
-this too).
+and every 6 hours overnight. Tap opens Tennis / Swim on app 1.3.102+.
+
+Created 2026-09-27 by IAM user `jeromeans` with
+`bash scripts/ensure-gorin-door-ping.sh` in `cleaningbutton-api`. Confirmed
+ENABLED, `rate(1 minute)`, target Lambda `api`, input
+`{"mode":"gorin_door_ping"}`. The GitHub deploy role
+`github-actions-cleaningbutton-deploy` cannot `events:PutRule` on this rule.
+That deploy step runs under `set +e` and still prints a green check, which
+does not mean the rule exists. Re-apply with the script as `jeromeans` (or
+grok-bot-titan, which has `events:*`). Do not delete the rule.
+
+Live check 2026-09-27 afternoon PT: the ping’s CourtReserve fetch sees the
+Oct 4/11/18 U8 classes and no Pin Code. `GetAllTransactions` has no pin
+field, and `my-bookings-portal/get-list` returns an empty list, so the ping
+cannot repeat the pins that were on the My Bookings screen that morning. It
+says the code isn’t on the booking, then looks again during those five
+minutes.
 
 ## Club & location
 
