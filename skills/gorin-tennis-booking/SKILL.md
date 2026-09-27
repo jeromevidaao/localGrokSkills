@@ -279,6 +279,15 @@ Confirm in chat before cancelling.
 - Tennis Ops: Mini Group must stay a separate card from U8 Oct drop-ins (not merged under Davi).
 - Context: Bellevue U8 1:00–2:30 and U6 2:30–3:30 that Sunday were Registration Closed; this 60-min mini-group was the open Julie-fit option (1 of 3 spots).
 
+## Prior watch (live API 2026-09-27 ~12:18pm PT)
+
+- Bellevue U8 (201) series still eventId **2269553** / Oct resIds 60796521–24. Range **Oct 4–Oct 25** Sundays 1:00–2:30pm.
+- **Oct 4/11/18 still HELD** (Julie): `EventApi_SignUpToEvent_Get` → “already registered.” GetAllTransactions confirms tid **118181133** $195.21 plus per-date 118181135/136/137 $62.87 (Julie #11433210); prior receipt VGSWU7306.
+- **Oct 25 SKIP** unchanged — Palm Springs return AS 759 PSP→SEA ~3:53–6:44pm PT still on GCal. SignUp Get open (AllowDropIns=true, AvailablePlaces=9/12, coaches Fatma Tapan & Gulcin Odemis) but **did not book**.
+- November Bellevue U8 Sundays **still not listed** (nov_cards empty; Events `ApiLoadEvents` 404/empty; public embed hasNovU8=false; Bellevue U8 Sunday cards end Oct 25). Register N/A. My Bookings get-list rawCount=0.
+- Travel gate (GCal jerome.ans@gmail.com live): SKIP Oct 25 Palm Springs AS 759. Nov 1/8/15/22/29 clear (Santa Clara midweek only: Nov 2–7, 16–21, 30–Dec 5).
+- Noon drop-in watch: **no book, silent**.
+
 ## Prior watch (live API 2026-09-27 ~8:19am PT)
 
 - Bellevue U8 (201) series still eventId **2269553** / Oct resIds 60796521–24. Range **Oct 4–Oct 25** Sundays 1:00–2:30pm.
