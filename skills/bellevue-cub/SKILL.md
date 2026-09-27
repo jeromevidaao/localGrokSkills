@@ -9,7 +9,7 @@ description: >
 
 # Bellevue Cub (Jerome Ansia)
 
-**STATUS (2026-09-25):** Standing Sunday book = **6:00–7:15 PM indoor (ITC)** — **instead of** 10:30 AM. Window = **exact +7 same weekday at 7:45 PT**. Lambda `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. First target **Sun Oct 4**; first fire **Sun Sep 27 7:40**. Skip Sep 27 6PM itself (that open already passed). `sunday-745` (Sun 10:30) is **DISABLED**. Keep `saturday-745` (Sat 10:30). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED. Tennis Ops (`act=tennis_ops_status`) Sunday card is 6:00–7:15 PM via sunday-1800.
+**STATUS (2026-09-27):** Standing Sunday book = **6:00–7:15 PM indoor (ITC)** — **instead of** 10:30 AM. Window = **exact +7 same weekday at 7:45 PT**. Lambda `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. **Sunday earlier-slot waterfall (any Sunday book, standing or arm):** if primary start is `no_open_slot` / ITC `not_open`, race earlier Sunday indoor 75-min starts closest-first (e.g. 6:00 PM → **4:45 PM** → 3:30 PM → … → 6:45 AM); never later. Sat/weekday unchanged. SES shows actual booked start. First target **Sun Oct 4**; first fire **Sun Sep 27 7:40** (that morning 6PM was USTA-blocked; waterfall would have taken 4:45 if deployed). `sunday-745` (Sun 10:30) is **DISABLED**. Keep `saturday-745` (Sat 10:30). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED. Tennis Ops Sunday card is 6:00–7:15 PM via sunday-1800.
 
 **Advance arms** (any weekday, one-off): skill `bellevue-court-arms`. Live list is Tennis / Swim → Advance books on the website and Android. Armed 2026-09-25: **Wed Oct 14 2026 6:00–7:15 PM indoor**, fires **Wed Oct 7 2026 7:40 a.m. PT** (`bellevueClubTennis-arm-20261014-1800`). Confirm with `get-schedule`; the row disappears after it fires.
 
@@ -258,7 +258,7 @@ reminders 10 minutes prior (7:20). Recurs every Sunday.
 
 **Sunday Sep 13 7:44–7:46 PT (for Sep 12 slot, opens prior Sunday 7:45):** Lambda ran (waitUntil745Pt, login with SSM, loadCourts, setSheetDate for 09/12/2026, firstOpenAt(10:30) = null). Returned `error: "no_open_1030_slot"`, sent miss email to jerome.ans@gmail.com (no ICS/calendar). Grid was fully booked at target time (confirmed today via CLI on current grid).
 
-**Root cause:** High demand — 10:30 indoor slot taken by other members within the first minute of opening (inventory releases exactly at 7:45:00 PT; Lambda ~7:45.000 but competition from browser users or other scripts wins the race). Not a code bug, CF challenge, login failure, or schedule miss (canary healthy, my-reservations always empty for this account). Skill and repo accurately documented the "if gone, no substitute time" rule.
+**Root cause:** High demand — 10:30 indoor slot taken by other members within the first minute of opening (inventory releases exactly at 7:45:00 PT; Lambda ~7:45.000 but competition from browser users or other scripts wins the race). Not a code bug, CF challenge, login failure, or schedule miss (canary healthy, my-reservations always empty for this account). At the time, skill/repo documented "if gone, no substitute time" (Saturday still; Sunday now has earlier waterfall as of 2026-09-27).
 
 Next target (Sep 19) also shows zero open at 10:30 today. Auto-booking stays **paused** per standing rule.
 
@@ -279,6 +279,7 @@ Additive Lambda improvements (do **not** change sunday-1800 `targetStart=06:00 P
 - Skip race if My Reservations already has the target slot (duplicate-fire guard).
 - Richer miss email/detail: sessionsPrimed, failedLogins, parallel outcomes.
 - `ensure-schedules.sh` asserts sunday-1800 Input stays `06:00 PM`.
+- **2026-09-27 Sunday earlier waterfall:** on any Sunday court day, after primary `no_open_slot`, race earlier indoor starts (not later). No EventBridge change required.
 
 **Verify routines (Grok Bot, 7:50 AM PT):**
 - Bellevue Lambda Sunday book verify — cron `50 7 * * 0`: after Sunday ~7:45, confirm CloudWatch `tennisOpsLog` for next Sunday (+7) **06:00 PM** (sunday-1800). Flag sunday-745 or monday-745 if they re-enable. Ping Jerome.
@@ -300,7 +301,7 @@ After any Jerome conversation that changes this job:
 
 - Miss the 7:45:00 hard-refresh (always on the dot)
 - Task-resume a parked browser across the open second
-- Book a different time if the standing start (Sunday 6:00 PM or Saturday 10:30) is gone
+- Book a **later** time than requested, or any substitute on **Saturday/weekday**. Sunday may walk **earlier** indoor starts only (Lambda waterfall). Do not invent outdoor or off-grid times.
 - Store the club password on disk, in git, in chat, or in Titan (fetch SSM at login)
 - Assume Lambda holds a Cloudflare token that will expire — it does not; UA skip + hourly canary
 - Add a Google Meet link to tennis events

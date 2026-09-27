@@ -19,7 +19,7 @@ Jerome names the **court date and start**. The create/edit form on Tennis / Swim
 
 1. Inventory opens **7 days earlier, same weekday, 7:45:00 a.m. PT**.
 2. The schedule fires that morning at **7:40 a.m. PT**. The Lambda logs in, waits until 7:45:00, then races ITC 1–6.
-3. End is start **+ 75 minutes**. Indoor only. If that start is gone, do not book a different time.
+3. End is start **+ 75 minutes**. Indoor only. **Saturday / weekday:** if that start is gone, do not book a different time. **Sunday:** if the requested start is `no_open_slot`, Lambda walks **earlier** Sunday indoor starts (closest earlier first) until one books; never later than requested.
 
 Example: Wed Oct 14 2026 6:00 PM → fire **Wed Oct 7 2026 7:40 a.m. PT**, book **6:00–7:15 PM**.
 
