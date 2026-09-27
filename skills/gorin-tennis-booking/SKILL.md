@@ -137,6 +137,19 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 | Front desk | (425) 274-2969 · WashingtonCustomerCare@GorinTennis.com |
 | Door pin | **Per booking**, not static. CourtReserve event field **Pin Code**. Confirmed 13 Sep 2026: that day’s U6 was `2894#`; Julie’s Sun 20 Sep U8 is `7675#`. Unregistered events show no pin. Always read it from My Bookings for that date. |
 
+## Door-code ping (5 minutes before class ends)
+
+EventBridge rule `gorin-door-ping` runs every minute and invokes Lambda `api`
+with `{ "mode": "gorin_door_ping" }`. Inside the last 5 minutes of a Julie
+Gorin class it sends one R2 Android FCM `type=gorin_door_code` whose title is
+that booking’s Pin Code (`Gorin door 7675#`). It does not invent a pin. If the
+pin is missing, the ping says so, and one later poll in that same window sends
+again when the pin appears. Dedupe is DynamoDB `homeexchangeMessageState` pk
+`gorin_door_ping`. CourtReserve is refreshed at most hourly from 7am–9pm PT,
+and every 6 hours overnight. Tap opens Tennis / Swim. Apply the rule with
+`bash scripts/ensure-gorin-door-ping.sh` in `cleaningbutton-api` (deploy does
+this too).
+
 ## Club & location
 
 | | |
