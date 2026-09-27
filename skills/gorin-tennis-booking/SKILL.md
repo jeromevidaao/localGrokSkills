@@ -420,3 +420,11 @@ After each book, cancel, schedule change, or correction:
 - Skip the calendar event, or skip inviting Jerome or Ngoc
 - Add a GitHub connector just to update this repo
 - Book **BTA Half** or any half-court (full court only: BTA 1–4)
+
+## Door pins (as of Sun Sep 27 2026 AM PT)
+- Sep 27 Davi mini-group: **9086#**
+- Oct 4 U8: **7631#**
+- Oct 11 U8: **2375#**
+- Oct 18 U8: **8762#**
+(Source: CourtReserve My Bookings Active list; also written into GCal event descriptions.)
+
