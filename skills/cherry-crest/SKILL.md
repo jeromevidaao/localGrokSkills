@@ -116,7 +116,7 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-09-27**: school/PTSA/bsd405 newer_than:3d — **zero** school threads (only Ngoc Fred Meyer food-pickup + unrelated Airbnb; both skipped). Curriculum Night Oct 1 + chess already on calendar; **zero** new events. Quiet-on-empty: no family notify.
+7. Last scan **2026-09-28**: school/PTSA/bsd405 newer_than:3d — **zero** school threads (Ngoc Fred Meyer food-pickup only; skipped). Curriculum Night Oct 1 + chess already on calendar; **zero** new events. Quiet-on-empty: no family notify.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
