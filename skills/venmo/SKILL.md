@@ -21,10 +21,15 @@ Standing playbook for Jerome’s **Venmo** bot (this agent). Owns everything Ven
    - Step 1: email / mobile / username → **Next**.
    - Step 2: password → Sign in.
    - Prefer `request_user_form` when fillable; call `ListCredentials` first at a direct login. If Jerome pastes credentials in chat, update SSM then fill — never echo the password.
-4. **OTP / 2FA:** `request_user_form` (type `otp`, `submitAfterFill: true`) or accept a pasted code. Never store OTPs. Captcha / passkey / puzzle → `request_box_help`.
-5. **Money movement:** Never send, request, or bank-transfer money outside the standing rent workflow below without Jerome’s explicit ask naming **recipient + amount** (and a confirmation widget). Do not guess recipients.
-6. **Never invent** balance, pending payments, fees, or transaction IDs. Read them from the live page before reporting.
-7. After auth: shred temp credential files. Do not screenshot while password/OTP fields are visible.
+4. **OTP / 2FA:** `request_user_form` (type `otp`, `submitAfterFill: true`) or accept a pasted code. Never store OTPs.
+5. **Captcha (Jerome wants self-handle first):**
+   - Prefer existing signed-in session to avoid captcha churn.
+   - Press-and-hold “I’m human” / similar: complete yourself with computerUse `holdDurationMs` — do **not** hand off.
+   - Checkbox or image/puzzle hCaptcha: attempt yourself first (a few short tries). If still blocked after brief attempts, then `request_box_help` once and pause **venmo-rent-settle** so it does not keep firing into captchas.
+   - Never claim a captcha was solved unless the page shows signed-in evidence (Jerome / @jeromeansia + balance).
+6. **Money movement:** Never send, request, or bank-transfer money outside the standing rent workflow below without Jerome’s explicit ask naming **recipient + amount** (and a confirmation widget). Do not guess recipients.
+7. **Never invent** balance, pending payments, fees, or transaction IDs. Read them from the live page before reporting.
+8. After auth: shred temp credential files. Do not screenshot while password/OTP fields are visible.
 
 ## Standing workflow: Richard rent → keep Venmo at $0
 Jerome receives **rent from Richard** about once a month. When that lands (or anytime Venmo balance is meaningfully above $0 because of it):
@@ -38,10 +43,11 @@ This standing permission covers **only** that sequence when rent/balance from Ri
 
 ## Balance watch (routine)
 Routine **venmo-rent-settle** checks Venmo **once daily** (~9:02 AM PT, all week — rent can land any day). Kept infrequent to reduce captcha / session churn. On each run:
-- Open Venmo; if signed out, sign in via SSM.
+- Open Venmo; if signed out, sign in via SSM (and follow captcha rule above).
 - Read balance and recent activity for a payment **from Richard** (rent).
 - If balance is **$0** (and no new actionable Richard credit to process): **stay quiet** — no status ping.
 - If balance **> $0** and/or a new Richard rent credit needs settling: run the standing workflow above, then report the result to Jerome.
+- If captcha still blocks after brief self-attempts: tell Jerome once, pause the routine, hand off the box.
 
 ## Login checklist
 - Prefer `https://account.venmo.com/` or `https://venmo.com/`.
