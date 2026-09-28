@@ -185,9 +185,35 @@ Guest asks to change linens / where to put dirty ones at checkout → auto-reply
 
 **Never** approve or pre-approve an HE stay until `cleaningFeeAccepted: true`. Ask the fee first. Cancel-after-wrong-approve is **not** recovery — do not use it as a fix path.
 
-## sendMessage junk guard (HARD — Jessica probe)
+## sendMessage junk guard (HARD — Jessica probe + Gwynneth bare Name!)
 
-`sendMessage` must refuse empty, 1-character, and literal `"x"` bodies (probe artefacts). Do not ship a send path that accepts those.
+Shared util `src/utils/sendableMessageContent.js` (`isSendableMessageContent`) — used by **both** HomeExchange and Hospitable send paths.
+
+Refuse before POST:
+- empty / whitespace
+- 1-character
+- literal `"x"` / probe junk (`ok`, `?`, `.`)
+- **bare guest Name!** only: `/^\s*[A-Za-z][A-Za-z'’\-]{0,40}\s*[!?.…]*\s*$/` (Gwynneth 2026-09-27 shipped `Gwynneth!`)
+
+### Gwynneth arrival heads-up (2026-09-27)
+
+After unit-ready, guest "On our way! Be there soon." (no thank-you):
+1. Post-welcome thank-you must **require thank-you intent** — do not force `You're welcome, Name!` on arrival FYI.
+2. `_stripFalseYoureWelcome` must not leave bare `Name!` (comma must not match `[!.,]` and gut-threshold must reject Name!-only remainder).
+3. FYI heads-up acknowledgement policy → customize from history + guest wording (Jerome: "Thank you for letting us know, have a safe drive") — not only rigid "Sounds good".
+4. Scenario `gwynneth-unit-ready-on-our-way` + unit tests in `tests/sendableMessageContent.test.js` / `tests/gwynnethUnitReadyArrivalAck.test.js`.
+
+Do not re-message the live guest unless Jerome asks.
+
+
+## Apt 1B layout / TV / listing photo (HARD — Sc 2025-11; Jerome approved 2026-09-28)
+
+Downtown Studio / 53 Pine Apt 1B:
+- Kind of a **junior one-bedroom** — **two spaces**, not fully separated (**no door**). Bedroom area + living/kitchen side of the same open unit — not a true closed-off 1BR.
+- **TV is in the bedroom area.**
+- Never hedge ("I'm not sure which photo" / "get back to you") when these facts exist. Do not invent bath-across-hall / unstated floor details.
+
+Property file `prompts/properties/1b.md`. Category `UNIT_LAYOUT_QUESTION` in misc-questions. Deterministic `_applyApt1bLayoutPolicy` + claimCheck `force_apt1b_layout_tv`. Scenario `sc-apt1b-layout-tv-photo`. Do not re-message Sc unless Jerome asks.
 
 ## Push gate (unchanged)
 
