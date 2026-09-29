@@ -74,7 +74,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 | Child | **Julie Ansia** — DOB **3 Dec 2019** (girl; ~6–7 during 2026–27) |
 | BSD student ID | **3027502** (ParentVue/StudentVue; confirmed Ngoc forward of Lawlor newsletter 2025-10-05; i-Ready PDF filenames) |
 | School | **Cherry Crest Elementary** (Chargers), Bellevue School District **BSD405** |
-| Grade (2026–27) | **Kindergarten** (teacher **Emily Applegate** / applegatee@bsd405.org — classroom newsletter + AL email Sep 29 2026) |
+| Grade (2026–27) | **1st grade** (Jerome corrected 2026-09-29). Teacher **Emily Applegate** / applegatee@bsd405.org (confirm classroom if asked) |
 | Parent (calendar / ops) | Jerome — **jerome.ans@gmail.com** (also work `jansia@nvidia.com` for some invites) |
 | Wife (always invite on school events) | Ngoc Dinh / Ruby — **ngoc.h.dinh@gmail.com** (also `ngochdinh@gmail.com` on older events) |
 | Home | 3099 125th Ave NE, Bellevue, WA 98005 |
@@ -113,15 +113,15 @@ cache when they disagree, then update this skill and push.
 
 - **K and grade 2**: district screens automatically — **BSD parents do not apply** (https://www.bsd405.org/academics/advanced-learning/application-process).
 - Online winter testing application (deadline e.g. **6 Oct 2026 4pm**) is for grades **1 and 3–11** (and in-district private/home-school).
-- Julie is kindergarten — do **not** submit an AL application unless Jerome overrides after confirming grade status changed.
-- Classroom blast emails (e.g. Applegate Sep 29 2026) may still mention the deadline; ignore for K.
+- Julie is **1st grade** (Jerome 2026-09-29) — parent **should** submit the winter testing application by the published deadline (e.g. **6 Oct 2026 4pm**).
+- Applegate class email Sep 29 2026 reminded families of that deadline.
 
 ### Family calendar-reminder scan (standing)
 
 Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same rules when a GOAL/manual pass asks for a scan.
 
 1. Gmail `newer_than:3d` / `after:YYYY/MM/DD` for Charger Chatter / Cherry Crest / PTSA / Classroom Newsletter / `from:bsd405.org` / Ngoc forwards.
-2. Extract dated upcoming events only; **skip kickball** unless Jerome overrides (Julie kindergarten — never add kickball until 1st-grade override).
+2. Extract dated upcoming events only; **skip kickball** by default unless Jerome explicitly asks to include it (Julie now 1st grade as of 2026-09-29 — still skip until he says include kickball).
 3. Search calendar next 60 days for Cherry Crest / PTSA / Julie school titles — no duplicates.
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
