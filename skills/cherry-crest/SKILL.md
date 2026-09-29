@@ -116,6 +116,14 @@ cache when they disagree, then update this skill and push.
 - Julie is **1st grade** (Jerome 2026-09-29) — parent **should** submit the winter testing application by the published deadline (e.g. **6 Oct 2026 4pm**).
 - Applegate class email Sep 29 2026 reminded families of that deadline.
 
+
+### Advanced Learning application status
+
+- **Submitted 2026-09-29**: Winter testing application for Julie Ansia (BSD ID **3027502**).
+- Confirmation code **26122**. Portal: https://advancedlearning.bsd405.org/
+- Testing site: on-site at Cherry Crest during school day (late Nov–early Feb). CogAT audio: English.
+- No payment. Confirmations emailed to ngoc.h.dinh@gmail.com and jerome.ans@gmail.com.
+
 ### Family calendar-reminder scan (standing)
 
 Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same rules when a GOAL/manual pass asks for a scan.
