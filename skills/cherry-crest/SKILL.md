@@ -108,6 +108,14 @@ cache when they disagree, then update this skill and push.
 | Tue **6 Oct 2026** 3:30–4:00 PM | **Advanced Learning application deadline** (due 4pm) | Event id `dh14sous5qvtggcthhhm02ahgo`; optional AL test apply |
 | Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
 
+
+### Advanced Learning (BSD)
+
+- **K and grade 2**: district screens automatically — **BSD parents do not apply** (https://www.bsd405.org/academics/advanced-learning/application-process).
+- Online winter testing application (deadline e.g. **6 Oct 2026 4pm**) is for grades **1 and 3–11** (and in-district private/home-school).
+- Julie is kindergarten — do **not** submit an AL application unless Jerome overrides after confirming grade status changed.
+- Classroom blast emails (e.g. Applegate Sep 29 2026) may still mention the deadline; ignore for K.
+
 ### Family calendar-reminder scan (standing)
 
 Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same rules when a GOAL/manual pass asks for a scan.
