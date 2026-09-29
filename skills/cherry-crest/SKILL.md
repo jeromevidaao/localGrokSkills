@@ -118,7 +118,8 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-09-29**: Gmail newer_than:3d — Emily Applegate AL deadline email (created invite); Ngoc→BGC reading-time email (skipped, not a dated school event); Ngoc “claude suggested changes” (skipped, non-school); noreply@x.ai automation notify (skipped). Calendar already had Curriculum Night Oct 1 + chess series. **1 new event** created (`dh14sous5qvtggcthhhm02ahgo`). Kickball still skipped.
+7. Last scan **2026-09-29 ~9:21 AM PT** (second pass same day): Gmail newer_than:3d — Emily Applegate AL deadline email already handled earlier today (event `dh14sous5qvtggcthhhm02ahgo` present); Ngoc→BGC reading-time email (skipped); Ngoc “claude suggested changes” (skipped, non-school); noreply@x.ai automation notifies (skipped); Airbnb (skipped). Calendar already had Curriculum Night Oct 1 + AL deadline Oct 6 + chess series. **0 new events**. Quiet-on-empty. Kickball still skipped.
+   - Earlier same day (~9:14 AM PT): created AL deadline invite from Applegate email.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
