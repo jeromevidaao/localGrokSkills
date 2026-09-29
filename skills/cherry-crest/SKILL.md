@@ -72,6 +72,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 | | |
 |---|---|
 | Child | **Julie Ansia** — DOB **3 Dec 2019** (girl; ~6–7 during 2026–27) |
+| BSD student ID | **3027502** (ParentVue/StudentVue; confirmed Ngoc forward of Lawlor newsletter 2025-10-05; i-Ready PDF filenames) |
 | School | **Cherry Crest Elementary** (Chargers), Bellevue School District **BSD405** |
 | Grade (2026–27) | Likely **1st** (confirm with Jerome / portal — do not invent teacher or classroom) |
 | Parent (calendar / ops) | Jerome — **jerome.ans@gmail.com** (also work `jansia@nvidia.com` for some invites) |
