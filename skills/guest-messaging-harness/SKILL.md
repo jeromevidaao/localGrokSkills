@@ -15,6 +15,11 @@ Repo: `~/auto-reply-sqs-harness` (`jeromevidaao/auto-reply-sqs-harness`).
 Push to `main` auto-deploys Lambda `guest-messaging-agent-harness`.  
 CI `eval` job is live Grok + every golden (`npm run eval -- --fail-fast`).
 
+Live Grok responses are cached in DynamoDB `grok-eval-cache` when the composed
+prompt is unchanged (`GROK_EVAL_CACHE=1`, default for prepush/eval). Bypass with
+`GROK_EVAL_CACHE=bypass`. See harness `docs/grok-eval-cache.md`. Production Lambda
+must leave the flag unset.
+
 **Do not discover required-phrase or category failures on CI.** Local prepush must be green first.
 
 ## When this skill applies

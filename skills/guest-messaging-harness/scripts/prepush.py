@@ -58,6 +58,8 @@ def _load_grok_key() -> None:
         print(f"FAIL: SSM {SSM_NAME} was empty.", file=sys.stderr)
         sys.exit(1)
     os.environ["GROK_API_KEY"] = key
+    # Share live Grok eval responses in DDB when prompts unchanged.
+    os.environ.setdefault("GROK_EVAL_CACHE", "1")
 
 
 def _ensure_hooks_path(root: Path) -> None:
