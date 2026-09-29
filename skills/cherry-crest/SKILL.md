@@ -74,7 +74,7 @@ python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 | Child | **Julie Ansia** — DOB **3 Dec 2019** (girl; ~6–7 during 2026–27) |
 | BSD student ID | **3027502** (ParentVue/StudentVue; confirmed Ngoc forward of Lawlor newsletter 2025-10-05; i-Ready PDF filenames) |
 | School | **Cherry Crest Elementary** (Chargers), Bellevue School District **BSD405** |
-| Grade (2026–27) | Likely **1st** (confirm with Jerome / portal — do not invent teacher or classroom) |
+| Grade (2026–27) | **Kindergarten** (teacher **Emily Applegate** / applegatee@bsd405.org — classroom newsletter + AL email Sep 29 2026) |
 | Parent (calendar / ops) | Jerome — **jerome.ans@gmail.com** (also work `jansia@nvidia.com` for some invites) |
 | Wife (always invite on school events) | Ngoc Dinh / Ruby — **ngoc.h.dinh@gmail.com** (also `ngochdinh@gmail.com` on older events) |
 | Home | 3099 125th Ave NE, Bellevue, WA 98005 |
@@ -99,12 +99,13 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-09-26)
+### Upcoming / recent (updated 2026-09-29)
 
 | When | What | Calendar |
 |---|---|---|
 | Tue **22 Sep 2026** | **Picture Day** (Lifetouch code `EVTQMBF7Q`) | Past; already on calendar |
 | Thu **1 Oct 2026** 5:30–6:30 PM | **Curriculum Night / Open House** | Event id `of940159knkrl4mc7lgvrb6ra8`; Ngoc accepted |
+| Tue **6 Oct 2026** 3:30–4:00 PM | **Advanced Learning application deadline** (due 4pm) | Event id `dh14sous5qvtggcthhhm02ahgo`; optional AL test apply |
 | Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
 
 ### Family calendar-reminder scan (standing)
@@ -117,7 +118,7 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-09-28**: school/PTSA/bsd405 newer_than:3d — **zero** school threads (Ngoc Fred Meyer food-pickup only; skipped). Curriculum Night Oct 1 + chess already on calendar; **zero** new events. Quiet-on-empty: no family notify.
+7. Last scan **2026-09-29**: Gmail newer_than:3d — Emily Applegate AL deadline email (created invite); Ngoc→BGC reading-time email (skipped, not a dated school event); Ngoc “claude suggested changes” (skipped, non-school); noreply@x.ai automation notify (skipped). Calendar already had Curriculum Night Oct 1 + chess series. **1 new event** created (`dh14sous5qvtggcthhhm02ahgo`). Kickball still skipped.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
