@@ -99,7 +99,7 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-09-29)
+### Upcoming / recent (updated 2026-09-30)
 
 | When | What | Calendar |
 |---|---|---|
@@ -108,6 +108,9 @@ cache when they disagree, then update this skill and push.
 | Tue **6 Oct 2026** 3:30–4:00 PM | **Advanced Learning application deadline** (due 4pm) | Event id `dh14sous5qvtggcthhhm02ahgo`; optional AL test apply |
 | Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
 
+
+
+**2026-09-30 calendar scan:** Gmail newer_than:3d — BGC reading/writing (Ngoc↔Abbey, skipped), x.ai empty-scan notify (skipped), AL Application Received conf 26122 (already on calendar). No Charger Chatter/PTSA/kickball. Zero new events created.
 
 ### Advanced Learning (BSD)
 
