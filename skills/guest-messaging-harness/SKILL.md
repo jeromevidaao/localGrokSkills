@@ -211,6 +211,17 @@ After unit-ready, guest "On our way! Be there soon." (no thank-you):
 Do not re-message the live guest unless Jerome asks.
 
 
+## Trailing thanks on a request (HARD — Eve Apt 1B 2026-09-30)
+
+Guest asks to drop bags / check in earlier than 4pm and ends with "Thanks!" (no `?`). Production sent only "You're welcome, Eve!".
+
+- "We are in the area" is sightseeing, **not** already inside the unit. Do not let `_alreadyInUnit` match bare "we are in".
+- `_applyInStaySeeYouSoonPolicy` must not collapse an early-check-in draft that mentions 4pm into bare You're welcome.
+- Trailing thanks does **not** make a request thanks-only (`guestMessageHasActionableAsk` / `_guestHasActionableAsk`). Do not set `recentWelcomeSent` or force the post-welcome You're-welcome short path.
+- Answer with classic early check-in: 4pm, can't guarantee, getting the unit ready, message you. Scenario `eve-early-checkin-trailing-thanks`.
+
+Do not re-message Eve unless Jerome asks.
+
 ## Apt 1B layout / TV / listing photo (HARD — Sc 2025-11; Jerome approved 2026-09-28)
 
 Downtown Studio / 53 Pine Apt 1B:
