@@ -34,6 +34,8 @@ Undocumented web API used by homeexchange.com. Same client as `cleaningbutton-ap
 
 On **401**: invoke Lambda **`he-token-refresh`**, then retry once.
 
+**Harness (2026-09-30):** `HomeExchangeClient` does this in-process — on HE HTTP 401 it invokes `he-token-refresh` (or an injectable `tokenRefresh` hook), clears the bearer cache, reloads SSM `/homeexchange/bearer-token`, stamps `/homeexchange/last-token-received` (epoch seconds; never the JWT), and retries the same HE call **once**. HE-only paths (approve / send / decline) still fail closed if refresh+retry cannot recover. Mixed occupancy (`loadCurrentGuestsByListing` for early_checkin / lockout / smoke) treats HE `listConversations` as **best-effort**: after client refresh+retry still fails, log and continue with Hospitable/Airbnb guests so an HE outage does not abort Airbnb unit-ready (`occupancy_lookup_failed`). Do not merge `/homeexchange/credentials` into the bearer parameter.
+
 ## Pine mapping
 
 | Unit | HE home | Hospitable | Airbnb |
