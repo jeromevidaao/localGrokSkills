@@ -213,15 +213,9 @@ confirmation.
 
 ## Latest one-time pays
 
-2026-09-30 (scheduled Mon/Wed/Fri over-$150, current balance, Family Checkin 6022, date Sep 30, status Pending):
-- Freedom Unlimited (...6553) $745.14, confirmation 9750976427. Statement-balance autopay ($0 remaining) did not cover current.
-- Sapphire Reserve (...8053) $760.99, confirmation 9750980069. Statement-balance autopay ($0 remaining) did not cover current.
-Inactive cards not paid.
-
-2026-09-25 (scheduled Mon/Wed/Fri over-$150, current balance, Family Checkin 6022, date Sep 25, status Pending):
-- Freedom Unlimited (...6553) $258.86, confirmation 9738526921. Oct 6 statement-balance autopay did not cover current.
-- Sapphire Reserve (...8053) skipped — current $6.98 ≤ $150.
-Inactive cards not paid.
+2026-10-01 (manual after Cleo Zelle; Family Checkin 6022, Pending):
+- Freedom Unlimited (...6553) $325.00 conf 9756243967
+- Sapphire Reserve (...8053) $106.99 conf 9756242372
 
 ## Continuous improvement
 
