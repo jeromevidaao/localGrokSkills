@@ -99,18 +99,16 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-09-30)
+### Upcoming / recent (updated 2026-10-01)
 
 | When | What | Calendar |
 |---|---|---|
 | Tue **22 Sep 2026** | **Picture Day** (Lifetouch code `EVTQMBF7Q`) | Past; already on calendar |
-| Thu **1 Oct 2026** 5:30–6:30 PM | **Curriculum Night / Open House** | Event id `of940159knkrl4mc7lgvrb6ra8`; Ngoc accepted |
+| Thu **1 Oct 2026** 5:30–6:30 PM | **Curriculum Night / Open House** | Event id `of940159knkrl4mc7lgvrb6ra8`; Ngoc accepted; Jerome declined |
 | Tue **6 Oct 2026** 3:30–4:00 PM | **AL testing applied ✓** (conf **26122**; original deadline marker) | Event id `dh14sous5qvtggcthhhm02ahgo`; submitted 2026-09-29 |
 | Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
 
-
-
-**2026-09-30 calendar scans:** First ~9:14 AM PT and second ~9:18 AM PT — Gmail newer_than:3d: BGC reading/writing (Ngoc↔Abbey, skipped ops), x.ai empty-scan notifies (skipped), AL Application Received conf 26122 (already on calendar / keep event). No Charger Chatter / Classroom Newsletter / Applegate / PTSA dated school threads. Kickball query only hit x.ai prior-scan note (not a real invite) — still skipped. Zero new events both passes. Quiet-on-empty.
+**2026-10-01 ~9:20 AM PT calendar scan:** Gmail newer_than:3d — Ngoc personal (Tendon/Sézane/photoshoot/birthday/Lyft, skipped); Ngoc↔Abbey BGC reading/writing (ops only); AdvancedLearning@bsd405.org Application Received conf 26122 (already on calendar). No Charger Chatter / Classroom Newsletter / Applegate / PTSA dated school threads. Kickball still skipped. Calendar already: Curriculum Night Oct 1, AL applied Oct 6, chess series. **0 new events**. Quiet-on-empty.
 
 ### Advanced Learning (BSD)
 
@@ -137,8 +135,7 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-09-30 ~9:18 AM PT** (second pass same day after ~9:14 AM PT): Gmail newer_than:3d — noreply@x.ai “Cherry Crest scan quiet today” (skipped automation); Ngoc↔Abbey BGC reading/writing (skipped ops); noreply@x.ai Sep 28 empty-scan (skipped); AdvancedLearning@bsd405.org Application Received conf 26122 (already handled — keep `dh14sous5qvtggcthhhm02ahgo`). No Charger Chatter/PTSA/Applegate newsletters. Kickball: only false-positive from x.ai note — still skipped. Calendar already had Curriculum Night Oct 1 + AL applied Oct 6 + chess series. **0 new events**. Quiet-on-empty.
-   - Earlier same day (~9:14 AM PT): also zero new events (same thread set).
+7. Last scan **2026-10-01 ~9:20 AM PT**: Gmail newer_than:3d — Ngoc personal (restaurant/order/photoshoot/birthday/Lyft, skipped); Ngoc↔Abbey BGC reading/writing (ops); AL Application Received conf 26122 (already handled — keep `dh14sous5qvtggcthhhm02ahgo`). No Charger Chatter/PTSA/Applegate. Kickball still skipped. Calendar already had Curriculum Night Oct 1 + AL applied Oct 6 + chess. **0 new events**. Quiet-on-empty.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
