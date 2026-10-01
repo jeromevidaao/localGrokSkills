@@ -42,7 +42,7 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    computer's Chrome profile. Re-auth only after Chase actually expires
    the session. Refresh loops do **not** keep Chase signed in overnight.
 3. **Freedom Unlimited + Sapphire Reserve auto-pay** (FU since 2026-08-27;
-   Reserve added 2026-09-11): check **Mon / Wed / Fri at 9:12am PT**. For
+   Reserve added 2026-09-11): check **Mon + Thu at 9:12am PT** (twice weekly; changed 2026-10-01 from Mon/Wed/Fri). For
    **each** of Freedom Unlimited (...6553) and Sapphire Reserve (...8053),
    if that card's current balance is **over $150**, pay the **full current
    balance** from **Family Checkin 6022**. If $150 or under on a card, skip
@@ -132,7 +132,7 @@ After he confirms in chat (or the dashboard appears), finish the task
 
 - Name: **Freedom Unlimited + Reserve over-$150 pay**
 - Folder: `freedom-unlimited-over-150-pay`
-- Cron (America/Los_Angeles): `12 9 * * 1,3,5`
+- Cron (America/Los_Angeles): `12 9 * * 1,4`  # Mon+Thu
 - Per card (FU + Reserve): quiet skip if balance ≤ $150 or already covered.
 - Quiet overall only if neither card was paid.
 - After any successful payment(s): tell Jerome once — each amount,
