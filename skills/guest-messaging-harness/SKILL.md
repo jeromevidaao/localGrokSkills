@@ -1,12 +1,13 @@
 ---
 name: guest-messaging-harness
 description: >
-  Pre-push checklist for jeromevidaao/auto-reply-sqs-harness (guest auto-reply /
-  SQS harness / goldens / eval). Run before any commit or push that touches
-  prompts, eval scenarios, goldens, required phrases, agent.js, or tools.
-  Stops CI eval from being the first time new required phrases or category
-  rubrics are tested. Use when working on auto-reply, guest messaging, harness
-  evals, goldens, parking policy, or /guest-messaging-harness.
+  Pre-push checklist and post-fix live verify for jeromevidaao/auto-reply-sqs-harness
+  (guest auto-reply / SQS / goldens / eval). Run before any commit or push that
+  touches prompts, eval scenarios, goldens, required phrases, agent.js, or tools.
+  After a production-miss fix is deployed: always enqueue a new grok_message SQS
+  for that guest turn and monitor the live reply (not local-only replay). Use when
+  working on auto-reply, guest messaging, harness evals, goldens, parking policy,
+  or /guest-messaging-harness.
 ---
 
 # Guest-messaging harness — pre-push
@@ -230,6 +231,18 @@ Downtown Studio / 53 Pine Apt 1B:
 - Never hedge ("I'm not sure which photo" / "get back to you") when these facts exist. Do not invent bath-across-hall / unstated floor details.
 
 Property file `prompts/properties/1b.md`. Category `UNIT_LAYOUT_QUESTION` in misc-questions. Deterministic `_applyApt1bLayoutPolicy` + claimCheck `force_apt1b_layout_tv`. Scenario `sc-apt1b-layout-tv-photo`. Do not re-message Sc unless Jerome asks.
+
+## Post-fix live verify via SQS (HARD — Jerome 2026-09-30)
+
+After **any** production-miss fix that should change what a guest sees:
+
+1. Ship as usual: TDD golden → prepush → push → CI green → Lambda deploy → repo private.
+2. **Do not stop at local `node scripts/replay-*.js` dry-run.** Prefer the real path.
+3. **Enqueue a new message on `grok_message`** that replicates the guest’s last turn (same reservation / platform / body shape as production `message.created`). Use or extend a `scripts/replay-*.js` that `aws sqs send-message`s to `GROK_MESSAGE_QUEUE_URL` / `https://sqs.us-east-1.amazonaws.com/834917996497/grok_message` (see `scripts/replay-rebecca-review-promise.js`, `replay-real-sqs.js`, Eve/Michael replay scripts).
+4. **Monitor** until the harness posts the live host reply (CloudWatch / Hospitable thread / FCM as appropriate). Confirm text + time PT to Jerome.
+5. Only say “replied” after that live send is confirmed — not when CI is green.
+
+Local `--send` Hospitable shortcuts are a fallback if SQS cannot be used; default is **SQS → Lambda → real send**.
 
 ## Push gate (unchanged)
 
