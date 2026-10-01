@@ -29,7 +29,7 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    Uncheck **Use token** before Sign in. **Do not** use Secure Form /
    RequestUserForm / in-chat password cards for Chase, and never ask
    Jerome to paste the password. Never write SSM values to disk, git,
-   chat, or Titan. If SSM fetch fails, ping Jerome. **Never type 2FA.**
+   chat, or Titan. If SSM fetch fails, ping Jerome. Automate SSM login without asking him first; only ping when the Android app approval step actually appears. **Never type 2FA.**
    If Chase asks "Let's make sure it's you" / mobile-app confirm:
    **always** click **Confirm using our mobile app** (never Prefer
    token/OTP unless he asks) to send the push, then **ping Jerome once in
