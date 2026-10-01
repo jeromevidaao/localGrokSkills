@@ -22,18 +22,22 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
 
 ## Hard rules (never skip)
 
-1. **Login:** prefer the existing Chrome session. If Chase is signed out,
-   fetch SSM `/chase/username` and `/chase/password` (SecureString) and
-   type them at https://secure.chase.com/. Never write those values to
-   disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. **Never
-   type 2FA.** If Chase asks "Let's make sure it's you" / mobile-app
-   confirm: **always** click **Confirm using our mobile app** (never Prefer
+1. **Login (ALWAYS SSM — confirmed 2026-10-01):** prefer the existing
+   Chrome session. If Chase is signed out, **always** fetch AWS SSM
+   SecureStrings `/chase/username` and `/chase/password` (us-east-1,
+   grok-bot-titan) and autofill/type them at https://secure.chase.com/.
+   Uncheck **Use token** before Sign in. **Do not** use Secure Form /
+   RequestUserForm / in-chat password cards for Chase, and never ask
+   Jerome to paste the password. Never write SSM values to disk, git,
+   chat, or Titan. If SSM fetch fails, ping Jerome. **Never type 2FA.**
+   If Chase asks "Let's make sure it's you" / mobile-app confirm:
+   **always** click **Confirm using our mobile app** (never Prefer
    token/OTP unless he asks) to send the push, then **ping Jerome once in
    chat** to open his **Android Chase app** and approve. Prefer that chat
-   ping over a long desktop handoff. Same preference for Passwordless when
-   it sends an app push. Still use
-   `request_box_help` (reason `auth`, domain `chase.com`) if he needs the
-   box screen. Do not ask him to paste credentials or codes in chat.
+   ping over a long desktop handoff. Passwordless is optional only when it
+   reliably sends an app push; if it errors, fall back to SSM + Sign in +
+   mobile-app confirm. Still use `request_box_help` if he needs the box
+   screen for a stuck UI — not for typing the password.
 2. **Do not scrape the Chrome cookie DB.** Session lives in this
    computer's Chrome profile. Re-auth only after Chase actually expires
    the session. Refresh loops do **not** keep Chase signed in overnight.
