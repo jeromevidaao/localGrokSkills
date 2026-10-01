@@ -546,3 +546,10 @@ After each book, cancel, schedule change, or correction:
 - Oct 18 U8: **8762#**
 (Source: CourtReserve My Bookings Active list; also written into GCal event descriptions.)
 
+## Drop-in watch log (2026-10-01 ~8:18 AM PT)
+- **Oct 4/11/18 still HELD** (Julie): `EventApi_SignUpToEvent_Get` → “already registered.”
+- **Oct 25 SKIP** unchanged — Palm Springs return AS 759 PSP→SEA ~3:53–6:44pm PT still on GCal (plus outbound AS 792 Oct 23 SEA→PSP). SignUp Get open (AllowDropIns=true, AvailablePlaces=7/12, coaches Fatma Tapan & Gulcin Odemis) but **did not book**.
+- November Bellevue U8 Sundays **still not listed** (embed hasNovU8=false; novDates=[]; novOpenDates=[]; candidates=[]; ApiLoadEvents/getEvents 404/HTML; Events List listHasNovU8=false). Register N/A. My Bookings get-list rawCount=0.
+- Travel gate (GCal jerome.ans@gmail.com live): SKIP Oct 25 Palm Springs AS 759. Nov 1/8/15/22/29 clear of overnight family travel (Santa Clara midweek only: Nov 2–6, 16–20, from Nov 30).
+- 8am drop-in watch: **no book, silent**.
+
