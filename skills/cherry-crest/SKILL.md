@@ -110,6 +110,9 @@ cache when they disagree, then update this skill and push.
 
 **2026-10-01 ~9:20 AM PT calendar scan:** Gmail newer_than:3d — Ngoc personal (Tendon/Sézane/photoshoot/birthday/Lyft, skipped); Ngoc↔Abbey BGC reading/writing (ops only); AdvancedLearning@bsd405.org Application Received conf 26122 (already on calendar). No Charger Chatter / Classroom Newsletter / Applegate / PTSA dated school threads. Kickball still skipped. Calendar already: Curriculum Night Oct 1, AL applied Oct 6, chess series. **0 new events**. Quiet-on-empty.
 
+
+**2026-10-01 ~9:54 AM PT manual scan:** after:2026/09/28 — BGC ops, AL conf 26122 (already calendared), x.ai notify, Ngoc personal invites skipped. No Charger Chatter/PTSA/kickball. Zero new events.
+
 ### Advanced Learning (BSD)
 
 - **K and grade 2**: district screens automatically — **BSD parents do not apply** (https://www.bsd405.org/academics/advanced-learning/application-process).
