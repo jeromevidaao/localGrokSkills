@@ -45,13 +45,18 @@ cd ~/auto-reply-sqs-harness && npm run prepush
 That is the whole gate. Do not invent a shorter path. It:
 
 1. **Phrase/snippet sync** (`npm run eval:phrases`) — every `rubric.requiredPhrases` entry must appear in a seeded `suggestedResponseSnippet` when the scenario has one. Same-scenario required ∩ forbidden is a hard fail. No Grok needed.
-2. **`npm test`** — deterministic policies. Live Grok unit tests skip without the key; the script loads SSM `/grok/api-key` so they run.
+2. **`npm test`** — deterministic policies. Prepush sets `SKIP_LIVE_GROK_UNIT=1` (same as CI) so live-Grok *unit* describes are skipped; the script still loads SSM `/grok/api-key` for the live **eval** steps. Force live unit: `RUN_LIVE_GROK_UNIT=1`.
 3. **Targeted live eval** — changed `eval/scenarios/<id>.json` / `eval/goldens/<id>.md` first: `npm run eval -- --only=<id>`.
-4. **Full live eval** — `npm run eval` with **no** `--fail-fast` so every golden that the new phrases trip is visible in one run.
+4. **Full live eval** — `npm run eval` with **no** `--fail-fast` so every golden that the new phrases trip is visible in one run. Unchanged push gate.
 
 Skip steps 3–4 only when the diff is tooling/docs (`scripts/prepush.js`, `scripts/check-eval-phrases.js`, `AGENTS.md`, `docs/`, `.github/`). Any prompt, agent, tool, scenario, golden, or rubric change requires the live eval.
 
 **Do not push if any step is red.**
+
+### Live unit vs live eval (prepush)
+
+Same semantics as CI: `SKIP_LIVE_GROK_UNIT=1` for `npm test` by default; **full live eval is still required** for guest-facing diffs. See harness `tests/liveGrokUnitGate.js` / `AGENTS.md`. Help: `python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py --help`.
+
 
 ## Credential / WiFi / SSID golden sync (HARD — CI 35292706988)
 
