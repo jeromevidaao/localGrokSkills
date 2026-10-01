@@ -27,9 +27,11 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
    type them at https://secure.chase.com/. Never write those values to
    disk, git, chat, or Titan. If SSM fetch fails, ping Jerome. **Never
    type 2FA.** If Chase asks "Let's make sure it's you" / mobile-app
-   confirm: click **Confirm using our mobile app** to send the push, then
-   **ping Jerome once in chat** to open his **Android Chase app** and
-   approve. Prefer that chat ping over a long desktop handoff. Still use
+   confirm: **always** click **Confirm using our mobile app** (never Prefer
+   token/OTP unless he asks) to send the push, then **ping Jerome once in
+   chat** to open his **Android Chase app** and approve. Prefer that chat
+   ping over a long desktop handoff. Same preference for Passwordless when
+   it sends an app push. Still use
    `request_box_help` (reason `auth`, domain `chase.com`) if he needs the
    box screen. Do not ask him to paste credentials or codes in chat.
 2. **Do not scrape the Chrome cookie DB.** Session lives in this
@@ -97,13 +99,19 @@ Do this for every meaningful Chase-pay turn (check, pay, auth handoff,
 preference). Keep the git skill updated and pushed as well (rule 8).
 
 
-## Chase mobile 2FA (Android)
+## Chase mobile 2FA (Android) — ALWAYS
 
-Standing preference (2026-09-18): when Chase needs identity confirm,
-**SendToUser once** — ask Jerome to open his **Android Chase app** and
-approve the push. Trigger the push first (Confirm using our mobile app).
-Do not invent balances while waiting. After he confirms in chat (or the
-dashboard appears), finish the pay check.
+**Standing rule (confirmed 2026-10-01, keep forever):** for every Chase
+identity check / 2FA / "Let's make sure it's you", **always** use the
+**Android Chase app** approval path. Prefer **Confirm using our mobile app**
+(or Passwordless sign in when that sends an app push). Do **not** use Use
+token / OTP token entry, SMS codes, or long desktop handoffs unless Jerome
+explicitly asks for a different method.
+
+After triggering the push: **SendToUser once** — ask him to open his
+**Android Chase app** and approve. Do not invent balances while waiting.
+After he confirms in chat (or the dashboard appears), finish the task
+(Zelle / pay / combine).
 
 ## Accounts (last-4 only)
 
