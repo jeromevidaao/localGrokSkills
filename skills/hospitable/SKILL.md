@@ -51,6 +51,8 @@ Accept: application/json
 
 **Hardened (`eb98aea`):** that 401/403 is no longer retried or titled as a missing door code. One plain-text alerts page per 12 hours, subject `Hospitable token rejected — door codes not checked`, stamp `/code-not-there/hospitable-auth-alert-at`. The run still errors so `code_not_there_text_alert-errors` stays ALARM.
 
+**HeatPumpProject** uses the same parameter. Since 8:30pm PT 2026-10-01 it retries the 401 five times and errors every 15 minutes (`cron(0/15 * * * ? *)`, rule name `EveryHourBetween10AmTo8PmEST`). It logs into Kumo and reads zones, then stops before any on/off or setpoint change. Alarm `HeatPumpProject-errors` is a 60-second window with missing data treated as OK, so it pages alarm then clear on every cycle (email `jerome.ans@gmail.com` and the phone forwarder) until a new PAT is in SSM. The thrown Axios error includes the request headers, so CloudWatch has the bearer — do not paste those log lines into chat.
+
 ### Required scopes (by feature)
 
 | Scope | Use |
