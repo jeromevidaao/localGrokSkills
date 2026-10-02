@@ -49,6 +49,8 @@ Accept: application/json
 
 **2026-10-01 8:31pm PT:** that parameter returned **401** on `GET /v2/user` and on `GET /v2/reservations`. Lambda `code_not_there_text_alert` retried 5 times, errored, and CloudWatch alarm `code_not_there_text_alert-errors` emailed Jerome. The expiry alarms `hospitable-token-expiry-auto-reply-sqs` and `hospitable-token-expiry-pricing-tool` have been in ALARM since 2026-09-02 (about 29.5 days of life left). A new PAT has to be written to `/hospitable/bearer-token`. Do not paste it into chat.
 
+**Hardened (`eb98aea`):** that 401/403 is no longer retried or titled as a missing door code. One plain-text alerts page per 12 hours, subject `Hospitable token rejected — door codes not checked`, stamp `/code-not-there/hospitable-auth-alert-at`. The run still errors so `code_not_there_text_alert-errors` stays ALARM.
+
 ### Required scopes (by feature)
 
 | Scope | Use |
