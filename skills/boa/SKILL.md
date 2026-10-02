@@ -136,9 +136,9 @@ Verified **2026-09-23**:
 
 ## Latest payment
 
-2026-09-30 routine: Atmos Ascent …5741 **$0.00** due (due Oct 13); statement balance $0.00; no new pay. Recurring $1,735.07 still scheduled for Oct 3 (conf `j5r7r9t3q`). Common checking untouched.
+2026-10-02 routine: fresh login (no 2FA after homepage retry). Atmos Ascent …5741 **$0.00** due (due Oct 13); statement balance $0.00; no new pay. Recurring $1,735.07 still scheduled for Oct 3 (conf `j5r7r9t3q`). Prior $4,209.78 received 9/23 (conf `vb4sllga1`). Common checking untouched. First login attempt that morning hit empty-form “Missing user ID or password” on secure sign-on hash URL; succeeded after clean `https://www.bankofamerica.com/` fill.
 
-2026-09-28 routine: Atmos Ascent …5741 **$0.00** due (due Oct 13); statement balance $0.00; no new pay. Prior $4,209.78 received 9/23 (conf `vb4sllga1`). Recurring $1,735.07 still scheduled for Oct 3 (conf `j5r7r9t3q`). Common checking untouched.
+2026-09-30 routine: Atmos Ascent …5741 **$0.00** due (due Oct 13); statement balance $0.00; no new pay. Recurring $1,735.07 still scheduled for Oct 3 (conf `j5r7r9t3q`). Common checking untouched.
 
 ## Continuous improvement
 
