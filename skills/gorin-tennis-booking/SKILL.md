@@ -158,12 +158,16 @@ That deploy step runs under `set +e` and still prints a green check, which
 does not mean the rule exists. Re-apply with the script as `jeromeans` (or
 grok-bot-titan, which has `events:*`). Do not delete the rule.
 
-Live check 2026-09-27 afternoon PT: the ping’s CourtReserve fetch sees the
-Oct 4/11/18 U8 classes and no Pin Code. `GetAllTransactions` has no pin
-field, and `my-bookings-portal/get-list` returns an empty list, so the ping
-cannot repeat the pins that were on the My Bookings screen that morning. It
-says the code isn’t on the booking, then looks again during those five
-minutes.
+Live check 2026-10-01 8:30pm PT: the alarm has not fired (`sent` is empty).
+The cached lessons are still Oct 4/11/18 with no door code, so Sunday Oct 4
+at 2:25pm PT the ping will say the code isn’t on the booking. Cause:
+`GetAllTransactions` has the classes and no Pin Code field, and
+`my-bookings-portal/get-list` still returns an empty list. The pins are on
+the Google Calendar event descriptions (`Door pin for this class: …`),
+copied from My Bookings on Sep 27. Lambda `api` has no Google Calendar
+credential, so the ping cannot read them and will not invent a pin. During
+the five minutes it rechecks CourtReserve; a second ping with the code
+happens only if that feed gains a Pin Code.
 
 ## Club & location
 
