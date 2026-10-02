@@ -47,6 +47,8 @@ Accept: application/json
 **CleaningButton production token:** AWS SSM `/hospitable/bearer-token`  
 (Injected into R2Lambda / cleaningbutton-api — **never** put the raw token in chat, R2Memory notes, or skill files.)
 
+**2026-10-01 8:31pm PT:** that parameter returned **401** on `GET /v2/user` and on `GET /v2/reservations`. Lambda `code_not_there_text_alert` retried 5 times, errored, and CloudWatch alarm `code_not_there_text_alert-errors` emailed Jerome. The expiry alarms `hospitable-token-expiry-auto-reply-sqs` and `hospitable-token-expiry-pricing-tool` have been in ALARM since 2026-09-02 (about 29.5 days of life left). A new PAT has to be written to `/hospitable/bearer-token`. Do not paste it into chat.
+
 ### Required scopes (by feature)
 
 | Scope | Use |
