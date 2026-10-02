@@ -55,6 +55,8 @@ Accept: application/json
 
 **2026-10-01 9:50pm PT:** `/hospitable/bearer-token` is version 2. Issued 9:47pm PT, expires 2027-10-01 9:47pm PT. Checks against the stored value: `GET /v2/user` 200, reservations 200, calendar 200, `GET /reservations/{id}/messages` 200. An empty message POST returned 400 `The body field is required`, so `message:write` is accepted and no guest message was sent. The JWT `scopes` claim lists only `pat:read` and `pat:write`; Hospitable enforces feature access on the API.
 
+**Week-ahead notice:** Lambda `hospitable-token-expiry-checker` reads `exp` from `/hospitable/bearer-token` (the old hardcoded 2026-10-01 date is gone). The first daily run with **8 days or less** left publishes one plain-text message to `hospitable-token-expiry-alerts`. R2 Android shows `Hospitable token expires within a week`. One notice per token; a replacement token can notify again. The 30-day CloudWatch alarms no longer page (actions off, threshold 8, console only). Checked 2026-10-01 10:04pm PT: 365 days left, no notice sent.
+
 ### Required scopes (by feature)
 
 | Scope | Use |
