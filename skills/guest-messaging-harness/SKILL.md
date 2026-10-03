@@ -217,6 +217,18 @@ After unit-ready, guest "On our way! Be there soon." (no thank-you):
 Do not re-message the live guest unless Jerome asks.
 
 
+## Never invent guest sentiment / praise unmentioned topics (HARD — Eve Apt 1B 2026-10-01, generic)
+
+Guest acks checkout instructions with "Perfect! We got it. We will message when we leave" (no WiFi words) → must NOT reply "glad you like the WiFi." Same for parking / view / bed / location / any amenity the guest never raised.
+
+- **Judge stop-gate:** conversation-judge HARD rule — REVISE drafts that invent guest liking a topic absent from the current guest message.
+- claimCheck `invented_guest_sentiment` strips invented praise (WiFi, parking, view, bed, location, …) when guest never mentioned that topic.
+- `_guestSignalsKnowsWifi` must NOT treat bare `got it` as WiFi knowledge — require wifi/password/network in the same message.
+- `_applyWifiEarlyCheckinMultiIntentPolicy` WiFi-compliment-alone path only when current message is a real WiFi compliment/ack.
+- Scenario `eve-checkout-ack-no-wifi-praise` + `tests/eveCheckoutAckNoWifiPraise.test.js` + `tests/inventedGuestSentimentClaimCheck.test.js`.
+
+Do not re-message Eve unless Jerome asks.
+
 ## Trailing thanks on a request (HARD — Eve Apt 1B 2026-09-30)
 
 Guest asks to drop bags / check in earlier than 4pm and ends with "Thanks!" (no `?`). Production sent only "You're welcome, Eve!".
