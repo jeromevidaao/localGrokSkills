@@ -139,7 +139,22 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-10-02 ~9:14 AM PT**: Gmail after:2026/09/29 — Applegate Clever/Badges (info only, no dated event); BGC ops; AL conf 26122 already handled (`dh14sous5qvtggcthhhm02ahgo`); Ngoc personal skipped. No Charger Chatter/PTSA/kickball. Calendar already: AL Oct 6 + chess series (Curriculum Night Oct 1 past). **0 new events**. Quiet-on-empty.
+7. Last scan **2026-10-03 ~9:15 AM PT**: Gmail after:2026/09/30 — Applegate "Clever App and Badges" (already reviewed, info only); Ngoc personal photoshoot and birthday invites skipped. No Charger Chatter/PTSA/Classroom Newsletter/kickball. Calendar already: AL Oct 6 (`dh14sous5qvtggcthhhm02ahgo`) + Excel With Chess through Dec 2. **0 new events**.
+8. **Quiet on empty** still applies when there is also no new Classroom Newsletter packet (see below). A packet that was emailed is a real result: tell Jerome. Do not stay silent after sending one.
+
+## Classroom Newsletter practice packets (standing, from 2026-10-03)
+
+Jerome asked (via Grok Bot, 2026-10-03) that each **Classroom Newsletter** from **Emily Applegate** (`applegatee@bsd405.org`) become about **10 pages** of short, fun practice for Julie and be **emailed as a PDF** to **jerome.ans@gmail.com** and **ngoc.h.dinh@gmail.com**.
+
+This bot owns that from the next newsletter onward. The weekday **Cherry Crest school-mail → calendar** routine is the hook (no second weekday check). **Grok Bot owns only the Sept 11, 2026 newsletter** (first send, in progress on 2026-10-03). Do not rebuild that one.
+
+When a newsletter is new (not the Sept 11 issue, and not already packeted):
+
+1. Read the full Classroom Newsletter (body and any attached PDF).
+2. Build about 10 pages of practice tied to what the class is doing that week. Julie is 6, with attention issues: **exactly one activity per page**, short, fun, large type, little reading per page. Mix drawing, circling, counting, letter/sound, and a tiny cut-or-trace only when it fits the newsletter. No multi-step worksheets on one page.
+3. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
+4. Do not send a second packet for the same newsletter. Record the newsletter date in this skill after each send.
+5. Quiet-on-empty does **not** cover a sent packet. Tell Jerome the packet went out (date, page count, both recipients).
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
@@ -213,6 +228,7 @@ Do **not** double-enroll if this calendar series already exists. Prefer verifyin
 - BSD405 / Cherry Crest **school calendar**, closures, early releases, conferences
 - Teacher / classroom / portal / Talking Points / absence notifications (when Jerome asks)
 - PTSA, curriculum night, school events → calendar invites for Jerome + Ngoc
+- Classroom Newsletter from Applegate → ~10-page one-activity-per-page practice PDF emailed to Jerome and Ngoc (Sept 11 2026 packet stays with Grok Bot)
 - BGCB / after-school childcare sign-up and schedule questions
 - Conflict checks vs family travel when Julie would miss school
 - Keeping this skill + Titan current on **every** ask
