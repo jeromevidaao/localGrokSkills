@@ -150,19 +150,29 @@ This bot owns that from the next newsletter onward. The weekday **Cherry Crest s
 
 **Each new packet must be better than the last** (Jerome, 2026-10-03): reuse and reinforce exercises from earlier packets, and fold in learning gaps Jerome names as he notices them. Do not start from scratch each week.
 
-**Content style Jerome approved** (2026-10-03): the dense black-and-white worksheet template. He rejected a lighter packet the same day as too light. A page is full, not 2 or 3 exercises in white space.
+**Question format Jerome wants** (corrected 2026-10-03, after he rejected the heart-word / addition worksheet instructions as bad): practice must be friendly to a 6-year-old and use the **same question format as Bellevue CogAT**, not a reading worksheet.
 
-**Mix: 8 language pages and 2 math pages.** Do not put a big addition block on every page.
+BSD CogAT for grade 1 is **Form 7 or 8, Level 8**, computer-based, picture items, audio-led. Source: https://www.bsd405.org/academics/advanced-learning/tests and the district sample PDF (CogAT Forms 7 and 8, Levels 5/6–8). For grades K–2 BSD does **not** use Sentence Completion. Do not use word analogies or sentence completion.
 
-- Language pages (8): heart-word grid, several short-vowel sound-it-out rows, and sentence lines to read or finish. Many items, outline only. No dozen-problem addition block.
-- Math pages (2): about a dozen addition problems within 10, plus a short language warm-up only if it still leaves the page dense. Not a sparse math sheet.
+Each page is one of these formats, with several big picture items (not a blank page, not tiny print):
 
-Tie the words and numbers to that week's newsletter. Vary which language block is slightly harder across the 8 pages.
+- Picture Analogies: two pictures that go together, then choose the pair that goes together the same way.
+- Picture Classification: three pictures that are alike, then choose the one that belongs.
+- Number Analogies: a 2×2 picture grid of amounts, bottom-right missing.
+- Number Puzzles: two trains; choose what makes the second train carry the same number as the first.
+- Number Series: bead strings in a pattern; choose the string that comes next.
+- Figure Matrices: a 2×2 grid of shapes, bottom-right missing.
+- Paper Folding: paper folded and punched; choose what it looks like opened. Keep it to one fold.
+- Figure Classification: three shapes that are alike, then choose the one that belongs.
+
+One short line at the top is enough (“Which pair matches?”). Pictures can use objects from that week’s newsletter, but the question shape stays CogAT. Original drawings only. Do not copy Riverside’s sample art.
+
+**No name line. No date line.**
 
 When a newsletter is new (not the Sept 11 issue, and not already packeted):
 
 1. Read the full Classroom Newsletter (body and any attached PDF). Also read this skill's packet log and any learning gaps Jerome has named.
-2. Build about 10 pages: **8 language and 2 math**, tied to what the class is doing that week, and better than the previous packet. Keep a few earlier exercises in a slightly harder form (same skill, one small stretch), drop what she has clearly got, and use any named gap. Julie is 6. Each item stays short, but every page is as dense as the worksheet template he approved. Language pages are word grid, several sound-it-out rows, and sentence lines. Only the 2 math pages carry about a dozen addition problems within 10. **Do not put a big addition block on the language pages.** Do not ship 2 or 3 exercises on a mostly blank page.
+2. Build about 10 pages in the CogAT formats above, friendly to a 6-year-old: large outline pictures, almost no reading, one format per page, several items so the page is not empty. Better than the last packet, and use any named gap. Do not go back to heart-word grids, sound-it-out rows, sentence copy lines, or a big addition block. No name. No date.
 3. **Print rule (Jerome, 2026-10-03):** every practice PDF is **black and white only** and light on ink, even with the denser pages. No large solid black areas (no filled bars, big silhouettes, or heavy borders). **No colored fills and no gray table fills.** Use outline grids, dotted lines, and small text. Do not ship a color or ink-heavy page.
 4. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
 5. Do not send a second packet for the same newsletter. After each send, record in this skill: newsletter date, what each page practiced, and what to reinforce next time.
@@ -251,7 +261,7 @@ Do **not** double-enroll if this calendar series already exists. Prefer verifyin
 - BSD405 / Cherry Crest **school calendar**, closures, early releases, conferences
 - Teacher / classroom / portal / Talking Points / absence notifications (when Jerome asks)
 - PTSA, curriculum night, school events → calendar invites for Jerome + Ngoc
-- Classroom Newsletter from Applegate → ~10-page practice PDF, 8 dense language pages and 2 math pages, black and white, no gray fills, no big addition block on every page, emailed to Jerome and Ngoc (Sept 11 2026 packet stays with Grok Bot)
+- Classroom Newsletter from Applegate → ~10-page CogAT-format practice PDF for a 6-year-old (picture analogies, classification, number analogies, number puzzles, number series, figure matrices, paper folding, figure classification), black and white, no name or date, emailed to Jerome and Ngoc (Sept 11 2026 heart-word packet was rejected as the wrong format)
 - BGCB / after-school childcare sign-up and schedule questions
 - Conflict checks vs family travel when Julie would miss school
 - Keeping this skill + Titan current on **every** ask
