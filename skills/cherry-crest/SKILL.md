@@ -99,7 +99,7 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-10-02)
+### Upcoming / recent (updated 2026-10-03)
 
 | When | What | Calendar |
 |---|---|---|
@@ -110,6 +110,9 @@ cache when they disagree, then update this skill and push.
 
 **2026-10-02 ~9:14 AM PT calendar scan:** Gmail after:2026/09/29 + newer_than:3d — Emily Applegate "Clever App and Badges" Fri Oct 2 ~7:29 AM PT (Open House thank-you + Clever/i-Ready home access; Clever Badge home same afternoon; no dated upcoming event). Ngoc↔Abbey BGC reading/writing (ops only). AL Application Received conf 26122 (already on calendar). Ngoc personal (Sézane/photoshoot/birthday/Lyft/docs, skipped). No Charger Chatter / PTSA / Classroom Newsletter / kickball. Calendar already: AL applied Oct 6 (`dh14sous5qvtggcthhhm02ahgo`), Excel With Chess series `5iel04rkhcolc3pm7e2no94gj1` (Curriculum Night Oct 1 past). **0 new events**. Quiet-on-empty.
 
+
+
+**2026-10-03 scan:** Applegate Clever (info only, already reviewed), Ngoc personal invites skipped. Zero new events. Kickball still skipped.
 
 ### Advanced Learning (BSD)
 
