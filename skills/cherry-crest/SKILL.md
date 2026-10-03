@@ -21,7 +21,7 @@ turn to Titan**, and **commit + push immediately** to `jeromevidaao/localGrokSki
 (follow **always-push**: public → `git push` `main` → CI green → private).
 Never ask “want me to push?”. Do not add a GitHub connector or MCP for this repo.
 
-Related: `r2-memory`, `always-push`, `family-travel` (Hawaii trips use this
+Related: `julie-homework` (CogAT practice PDFs via the grok CLI), `r2-memory`, `always-push`, `family-travel` (Hawaii trips use this
 calendar), `april-vacation` (spring-break Vietnam uses this calendar), `efgs`
 (Saturday French — separate), `gorin-tennis-booking` (Julie tennis — separate).
 
