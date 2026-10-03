@@ -146,15 +146,28 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 
 Jerome asked (via Grok Bot, 2026-10-03) that each **Classroom Newsletter** from **Emily Applegate** (`applegatee@bsd405.org`) become about **10 pages** of short, fun practice for Julie and be **emailed as a PDF** to **jerome.ans@gmail.com** and **ngoc.h.dinh@gmail.com**.
 
-This bot owns that from the next newsletter onward. The weekday **Cherry Crest school-mail → calendar** routine is the hook (no second weekday check). **Grok Bot owns only the Sept 11, 2026 newsletter** (first send, in progress on 2026-10-03). Do not rebuild that one.
+This bot owns that from the next newsletter onward. The weekday **Cherry Crest school-mail → calendar** routine (9:10 AM PT) is the only hook. Grok Bot dropped their separate weekday check on 2026-10-03. **Grok Bot owns only the Sept 11, 2026 newsletter** (first send). Do not rebuild that one. Once it is sent, it is the baseline the next packet must improve on.
+
+**Each new packet must be better than the last** (Jerome, 2026-10-03): reuse and reinforce exercises from earlier packets, and fold in learning gaps Jerome names as he notices them. Do not start from scratch each week.
 
 When a newsletter is new (not the Sept 11 issue, and not already packeted):
 
-1. Read the full Classroom Newsletter (body and any attached PDF).
-2. Build about 10 pages of practice tied to what the class is doing that week. Julie is 6, with attention issues: **exactly one activity per page**, short, fun, large type, little reading per page. Mix drawing, circling, counting, letter/sound, and a tiny cut-or-trace only when it fits the newsletter. No multi-step worksheets on one page.
+1. Read the full Classroom Newsletter (body and any attached PDF). Also read this skill's packet log and any learning gaps Jerome has named.
+2. Build about 10 pages of practice tied to what the class is doing that week, and better than the previous packet: keep a few earlier exercises in a slightly harder form (same skill, one small stretch), drop what she has clearly got, and add pages for any named gap. Julie is 6, with attention issues: **exactly one activity per page**, short, fun, large type, little reading per page. Mix drawing, circling, counting, letter/sound, and a tiny cut-or-trace only when it fits the newsletter. No multi-step worksheets on one page.
 3. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
-4. Do not send a second packet for the same newsletter. Record the newsletter date in this skill after each send.
-5. Quiet-on-empty does **not** cover a sent packet. Tell Jerome the packet went out (date, page count, both recipients).
+4. Do not send a second packet for the same newsletter. After each send, record in this skill: newsletter date, what each page practiced, and what to reinforce next time.
+5. When Jerome names a learning gap, add it to the **Learning gaps** list below the same day, and use it on the next packet. Remove or mark a gap only when he says she has it, or after it has been practiced and he does not bring it up again.
+6. Quiet-on-empty does **not** cover a sent packet. Tell Jerome the packet went out (date, page count, both recipients) and name which earlier skills you reused and which gaps you folded in.
+
+### Learning gaps (Jerome names these)
+
+None recorded yet (2026-10-03).
+
+### Packets sent
+
+| Newsletter | Owner | Notes |
+|---|---|---|
+| Sept 11, 2026 | Grok Bot (first send) | Baseline. Do not rebuild. After it goes out, the next packet improves on it. |
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 
