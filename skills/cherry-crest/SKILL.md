@@ -146,7 +146,7 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 
 Jerome asked (via Grok Bot, 2026-10-03) that each **Classroom Newsletter** from **Emily Applegate** (`applegatee@bsd405.org`) become about **10 pages** of short, fun practice for Julie and be **emailed as a PDF** to **jerome.ans@gmail.com** and **ngoc.h.dinh@gmail.com**.
 
-This bot owns that from the next newsletter onward. The weekday **Cherry Crest school-mail → calendar** routine (9:10 AM PT) is the only hook. Grok Bot dropped their separate weekday check on 2026-10-03. **Grok Bot owns only the Sept 11, 2026 newsletter** (first send). Do not rebuild that one. Once it is sent, it is the baseline the next packet must improve on.
+This bot owns that from the next newsletter onward. The weekday **Cherry Crest school-mail → calendar** routine (9:10 AM PT) is the only hook. Grok Bot dropped their separate weekday check on 2026-10-03. The **2026-10-03 CogAT packet** (below) is the baseline the next packet must improve on. Do not rebuild it and do not resend it. The Sept 11 heart-word / addition PDF is rejected. Do **not** resend `/workspace/julie-applegate-2026-09-11-dense.pdf`.
 
 **Each new packet must be better than the last** (Jerome, 2026-10-03): reuse and reinforce exercises from earlier packets, and fold in learning gaps Jerome names as he notices them. Do not start from scratch each week.
 
@@ -185,9 +185,28 @@ None recorded yet (2026-10-03).
 
 ### Packets sent
 
-| Newsletter | Owner | Notes |
+| Packet | When | Notes |
 |---|---|---|
-| Sept 11, 2026 | Grok Bot (first send) | Baseline. Do not rebuild. After it goes out, the next packet improves on it. |
+| Sept 11, 2026 Classroom Newsletter (heart-word / addition) | Rejected | File `/workspace/julie-applegate-2026-09-11-dense.pdf`. Jerome rejected this format. **Do not resend.** |
+| **CogAT practice Oct 3, 2026** | Emailed **2026-10-03 4:32 PM PT** | `/workspace/julie-cogat-practice-2026-10-03.pdf` (10 letter pages, ~77 KB). From **jerome.ans@gmail.com** to **jerome.ans@gmail.com** and **ngoc.h.dinh@gmail.com**. Subject: `Julie practice — CogAT Oct 3`. Gmail message id `1a1041cdb7191a00`, thread `1a1041cc0832941c`. **Do not resend.** This is the baseline. |
+
+### 2026-10-03 CogAT packet — what each page practiced
+
+Black-and-white outlines only. No name line. No date line. No sentence completion, no word analogies, no heart words, no addition.
+
+| Page | Format | What Julie practiced |
+|---|---|---|
+| 1 | Picture analogies | Stem is one pair; choices are pairs. Big sun → small sun (answer: big ball → small ball). Cloud → umbrella (answer: sun → hat). |
+| 2 | Picture analogies | Same pair shape. Tree → leaf (answer: flower → leaf). Small fish → big fish (answer: small moon → big moon). |
+| 3 | Picture classification | Three alike, then four choices. Animals (cat, bird, fish → dog). Sky (sun, cloud, moon → star). Clothes (hat, sock, boot → shirt). |
+| 4 | Number analogies | 2×2 amounts, bottom-right missing. Add one (2→3 circles/triangles; 1→2 hearts/diamonds). Take away half (4→2 dots/squares). |
+| 5 | Number puzzles | Two trains. Make the totals match (2+1 vs 1+?; 3+1 vs 2+?; 2+2 vs 3+?). |
+| 6 | Number series | Outline bead strings only. Count up by one; same count, new shape; add one square each time. |
+| 7 | Figure matrices | 2×2 shapes, bottom-right missing. Big → small; flip upside down; right-hand shape stays a heart. |
+| 8–9 | Paper folding | One fold, one hole. Pick the opened paper (holes mirror across the fold). |
+| 10 | Figure classification | Three triangles → a triangle. Three round shapes → an oval. Three pointy shapes → a triangle. |
+
+Next packet: reuse big/small and “which group” in a slightly harder form. Still no name, no date, no heart-word page, no addition page.
 
 ## 2026–27 BSD405 calendar (source of truth for breaks)
 

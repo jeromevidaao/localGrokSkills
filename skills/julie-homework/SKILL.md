@@ -81,3 +81,8 @@ question shape stays CogAT.
 Record the date and what each page practiced in `cherry-crest` (packet log).
 Tell Jerome the PDF went out, with the page count and both recipients.
 Quiet-on-empty for the school-mail scan does not cover a packet that was sent.
+
+## Sent (do not resend)
+
+- **2026-10-03 4:32 PM PT:** `/workspace/julie-cogat-practice-2026-10-03.pdf` (10 letter pages, ~77 KB). From jerome.ans@gmail.com to jerome.ans@gmail.com and ngoc.h.dinh@gmail.com. Subject `Julie practice — CogAT Oct 3`. Gmail message `1a1041cdb7191a00`, thread `1a1041cc0832941c`. Page-by-page log is in `cherry-crest`. This packet is the baseline. Do not send it again.
+- Do **not** resend `/workspace/julie-applegate-2026-09-11-dense.pdf` (rejected heart-word / addition worksheet).
