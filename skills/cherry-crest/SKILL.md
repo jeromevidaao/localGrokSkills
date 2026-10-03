@@ -150,19 +150,19 @@ This bot owns that from the next newsletter onward. The weekday **Cherry Crest s
 
 **Each new packet must be better than the last** (Jerome, 2026-10-03): reuse and reinforce exercises from earlier packets, and fold in learning gaps Jerome names as he notices them. Do not start from scratch each week.
 
-**Content style Jerome likes** (2026-10-03, denser worksheet): several short items on a page, in this mix when the newsletter supports it:
+**Content style Jerome likes** (2026-10-03): a full worksheet page, not a sparse sheet. He rejected a lighter packet the same day as too light. Match the density of the worksheet photo he sent. One page holds all of this, in outline only:
 
 - a heart-word grid (high-frequency words)
-- short-vowel sound-it-out
-- a sentence line to read or finish
-- addition within 10
+- several short-vowel sound-it-out rows
+- sentence lines to read or finish
+- about a dozen addition problems within 10
 
-Tie the words and numbers to that week's newsletter. Keep varying the mix across the ~10 pages rather than repeating one type ten times.
+That is many items on every page, not 2 or 3 exercises floating in white space. Tie the words and numbers to that week's newsletter. Vary which block is slightly harder across the ~10 pages, but do not drop down to a sparse page.
 
 When a newsletter is new (not the Sept 11 issue, and not already packeted):
 
 1. Read the full Classroom Newsletter (body and any attached PDF). Also read this skill's packet log and any learning gaps Jerome has named.
-2. Build about 10 pages of practice tied to what the class is doing that week, and better than the previous packet: keep a few earlier exercises in a slightly harder form (same skill, one small stretch), drop what she has clearly got, and add pages for any named gap. Julie is 6, with attention issues, so each exercise stays short, fun, and light on reading, but **each page has 2 or 3 short exercises** (Jerome, 2026-10-03; denser than one-per-page). Large type. Mix drawing, circling, counting, letter/sound, and a tiny cut-or-trace only when it fits the newsletter. Do not stack a long multi-step worksheet into one of those slots.
+2. Build about 10 pages of practice tied to what the class is doing that week, and better than the previous packet: keep a few earlier exercises in a slightly harder form (same skill, one small stretch), drop what she has clearly got, and add pages for any named gap. Julie is 6. Each item stays short (one word, one sentence, one sum), but **every page is as dense as his worksheet photo**: a word grid, several sound-it-out rows, sentence lines, and about a dozen addition problems. Do not ship 2 or 3 exercises on a mostly blank page. He rejected that as too light on 2026-10-03.
 3. **Print rule (Jerome, 2026-10-03):** every practice PDF is **black and white only** and light on ink, even with the denser pages. No large solid black areas (no filled bars, big silhouettes, or heavy borders). **No colored fills and no gray table fills.** Use outline grids, dotted lines, and small text. Do not ship a color or ink-heavy page.
 4. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
 5. Do not send a second packet for the same newsletter. After each send, record in this skill: newsletter date, what each page practiced, and what to reinforce next time.
@@ -251,7 +251,7 @@ Do **not** double-enroll if this calendar series already exists. Prefer verifyin
 - BSD405 / Cherry Crest **school calendar**, closures, early releases, conferences
 - Teacher / classroom / portal / Talking Points / absence notifications (when Jerome asks)
 - PTSA, curriculum night, school events → calendar invites for Jerome + Ngoc
-- Classroom Newsletter from Applegate → ~10-page practice PDF, 2 or 3 short exercises per page, black and white and light on ink, emailed to Jerome and Ngoc (Sept 11 2026 packet stays with Grok Bot)
+- Classroom Newsletter from Applegate → ~10-page practice PDF, each page as dense as his worksheet photo (word grid, several sound-it-out rows, sentence lines, about a dozen addition problems), black and white, no gray fills, emailed to Jerome and Ngoc (Sept 11 2026 packet stays with Grok Bot)
 - BGCB / after-school childcare sign-up and schedule questions
 - Conflict checks vs family travel when Julie would miss school
 - Keeping this skill + Titan current on **every** ask
