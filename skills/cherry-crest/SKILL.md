@@ -154,10 +154,11 @@ When a newsletter is new (not the Sept 11 issue, and not already packeted):
 
 1. Read the full Classroom Newsletter (body and any attached PDF). Also read this skill's packet log and any learning gaps Jerome has named.
 2. Build about 10 pages of practice tied to what the class is doing that week, and better than the previous packet: keep a few earlier exercises in a slightly harder form (same skill, one small stretch), drop what she has clearly got, and add pages for any named gap. Julie is 6, with attention issues: **exactly one activity per page**, short, fun, large type, little reading per page. Mix drawing, circling, counting, letter/sound, and a tiny cut-or-trace only when it fits the newsletter. No multi-step worksheets on one page.
-3. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
-4. Do not send a second packet for the same newsletter. After each send, record in this skill: newsletter date, what each page practiced, and what to reinforce next time.
-5. When Jerome names a learning gap, add it to the **Learning gaps** list below the same day, and use it on the next packet. Remove or mark a gap only when he says she has it, or after it has been practiced and he does not bring it up again.
-6. Quiet-on-empty does **not** cover a sent packet. Tell Jerome the packet went out (date, page count, both recipients) and name which earlier skills you reused and which gaps you folded in.
+3. **Print rule (Jerome, 2026-10-03):** every practice PDF is **black and white only**. No large solid black areas (no filled bars, big silhouettes, or heavy borders). Use outlines, dotted lines, and small text so a home print uses little ink. Do not ship a color or ink-heavy page.
+4. Make a PDF and email it to both parents. This send is standing approval from Jerome (2026-10-03): send the packet, do not leave it as a draft-only card. Subject should name the newsletter date, e.g. `Julie practice — Classroom Newsletter <date>`.
+5. Do not send a second packet for the same newsletter. After each send, record in this skill: newsletter date, what each page practiced, and what to reinforce next time.
+6. When Jerome names a learning gap, add it to the **Learning gaps** list below the same day, and use it on the next packet. Remove or mark a gap only when he says she has it, or after it has been practiced and he does not bring it up again.
+7. Quiet-on-empty does **not** cover a sent packet. Tell Jerome the packet went out (date, page count, both recipients) and name which earlier skills you reused and which gaps you folded in.
 
 ### Learning gaps (Jerome names these)
 
