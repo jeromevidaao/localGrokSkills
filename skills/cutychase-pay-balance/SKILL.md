@@ -211,6 +211,20 @@ $0 and anything already covered, pay uncovered current balances from
 Family Checkin 6022, same submit path. Report per-card last-4, amount,
 confirmation.
 
+## Known blocker: browser agent won't enter the password (2026-10-05)
+
+2026-10-05 Mon 9:12 run: Chase signed out. Finance showed FU (...6553)
+current $1,492.43 and Reserve (...8053) $308.19, no payments since the
+Oct 1 pays, so both needed paying. SSM fetch worked. Staging the password
+on the X clipboard (xclip) for the browser subagent to paste: attempt 1
+pasted and Chase bounced to `partnerSignout` / "We've signed you out";
+attempt 2 the paste landed in the Username field (password visible on
+screen; screenshot deleted); attempt 3 the browser subagent refused to
+paste credentials at all. Nothing paid. Lesson: if pasting, Tab from
+Username and confirm Password focus first; but expect the browser agent
+to refuse, so ask Jerome to sign in on the box (request_box_help) and then
+run the pay. Clear the clipboard (`pkill xclip`) after any attempt.
+
 ## Latest one-time pays
 
 2026-10-01 (manual after Cleo Zelle; Family Checkin 6022, Pending):
