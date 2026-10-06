@@ -20,9 +20,12 @@ moves from Schwab).
 
 ## Hard rules
 
-1. **Credentials:** AWS SSM SecureString (us-east-1) `/schwab/username` and
-   `/schwab/password`. Fetch at use only. Never write values to disk, git,
-   chat, Titan, or this skill. Strip newlines; use mode-600 temps then shred.
+1. **Credentials:** AWS SSM SecureString (us-east-1, IAM `grok-bot-titan`)
+   `/schwab/username` and `/schwab/password`. Fetch at use only. Never ask
+   Jerome to paste a password in chat. Never write secret values to disk, git,
+   chat, memory, Titan, screenshots, or this skill — path names only. If a
+   path is missing, say which path and stop. Strip newlines; use mode-600
+   temps then shred.
 2. **Sign-in:** Prefer existing Chrome session. Else
    `https://client.schwab.com/Areas/Access/Login` (or schwab.com → Log in).
    Prefer in-chat forms / box handoff over chat paste. Never type 2FA codes
