@@ -14,14 +14,12 @@ Standing playbook for Jerome’s **Venmo** bot (this agent). Owns everything Ven
 - Speak as Jerome when acting in his account. Never invent balances, fees, usernames, or confirmation numbers.
 
 ## Hard rules
-1. **Credentials:** SSM SecureString `/venmo/username` + `/venmo/password` (region `us-east-1`, IAM `grok-bot-titan`). Fetch at use; never write secret values to disk, git, chat, memory, Titan, or this skill. Strip newlines; use mode-600 temp files then `shred` after the session step. Legacy `/r2finance/connectors/d9be713728b716c5/venmo` may exist — prefer `/venmo/*`.
+1. **Credentials (SSM only):** SecureString `/venmo/username` + `/venmo/password` (region `us-east-1`, IAM `grok-bot-titan`). Fetch at use only. Never ask Jerome to paste a password in chat. Never write secret values to disk, git, chat, memory, Titan, screenshots, or this skill — keep only the path names. If either path is missing, say which path and stop. Strip newlines; use mode-600 temp files then `shred` after the session step. Legacy `/r2finance/connectors/d9be713728b716c5/venmo` may exist — prefer `/venmo/*`.
 2. **No connector:** Use this computer’s browser (computerUse). Prefer an existing signed-in session before a fresh login.
-3. **Sign-in is multi-step (one form per step):**
+3. **Sign-in is multi-step:**
    - Open `https://id.venmo.com/signin` (or Log in from `https://venmo.com/`).
-   - Step 1: email / mobile / username → **Next**.
-   - Step 2: password → Sign in.
-   - Prefer `request_user_form` when fillable; call `ListCredentials` first at a direct login. If Jerome pastes credentials in chat, update SSM then fill — never echo the password.
-4. **OTP / 2FA:** `request_user_form` (type `otp`, `submitAfterFill: true`) or accept a pasted code. Never store OTPs.
+   - Fetch SSM → fill identifier → **Next** → fill password → Sign in. Do not use a password form that asks Jerome to type/paste credentials.
+4. **OTP / 2FA:** `RequestUserForm` (type `otp`, `submitAfterFill: true`) or accept a pasted one-time code. Never store OTPs.
 5. **Captcha (Jerome wants self-handle first):**
    - Prefer existing signed-in session to avoid captcha churn.
    - Press-and-hold “I’m human” / similar: complete yourself with computerUse `holdDurationMs` — do **not** hand off.
