@@ -64,7 +64,14 @@ When the host asks **performance vs goals** (e.g. “how are we doing with the g
 
 ### 1. Start with the weekly S3 occupancy report (preferred)
 
-The report already includes **trailing + forward occupancy**, **season targets**, **level** (ok/low/…), **headlines**, and **top actions** — no Hospitable call required for a normal status check.
+The report includes **trailing + forward occupancy**, **season targets**, and **level** (`low` / `on_target` / `high`). No Hospitable call for a normal status check.
+
+The email, website Occupancy page, and Android Occupancy screen are a **status**, not a task list:
+
+- No unit at `low` → **“On track. Nothing to do.”** Then last 30 / next 30 and the chart.
+- A unit at `low` → **“Needs a look”** and one suggestion.
+- A BASE_PRICES PR on an on-track week is an **optional price note**. It is not “Action required.”
+- Do not open a status answer with raise/cut instructions when every unit is `on_target` or `high`.
 
 ```bash
 # Fast path (this skill)
