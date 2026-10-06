@@ -30,7 +30,10 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    `/gorin/courtreserve/username` and `/gorin/courtreserve/password` (SecureString).
    `GrokBotTitanAccess` **v6** can `ssm:PutParameter` (granted 2026-09-13).
    `/bellevue-club/*` is Bellevue Club — never use it for Gorin.
-   Never put the CourtReserve password in this skill or in chat.
+   Standing secret rule (2026-10-06): fetch username/password from SSM at use
+   only (IAM `grok-bot-titan`, us-east-1). Never ask Jerome to paste a password
+   in chat. Never write secret values to disk, git, chat, memory, Titan, or
+   screenshots — path names only. If either SSM path is missing, name it and stop.
    Owner monitor: **More → Tennis Ops** on Android (OTA 1.3.78) and website
    `#!/tennis-ops` (`act=tennis_ops_status`) lists Julie U6 upcoming/past from
    CourtReserve. Do not invent lessons if that section is unavailable.
