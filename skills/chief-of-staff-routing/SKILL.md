@@ -13,7 +13,7 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 
 - Coordinate specialists, keep skills/Titan/shared setup aligned, surface only real decisions or blockers.
 - Fan out daily unused Chrome tab cleanup (~8:27am PT).
-- Do **not** own flights, school, tennis, banking pays, Amazon, stays, or medical portal work when a specialist exists.
+- Do **not** own flights, school, tennis, banking pays, Amazon, stays, medical portal, or ProHealth supplement work when a specialist exists.
 
 ## Route by ask
 
@@ -30,6 +30,7 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | Charles Schwab brokerage/banking | **Charles Schwab** |
 | Vanguard investing / brokerage / inbound ACATS (incl. Schwab→Vanguard share moves) | **Vanguard** |
 | Amazon shop / reorder / track / account | **Amazon** (prefer live preferred id; ignore stale duplicate Amazon if present) |
+| ProHealth (prohealth.com) sign-in and supplement orders | **ProHealth** |
 | Airbnb **guest** stays | **Airbnb - Booking Bot** |
 | Home Exchange verify / GuestPoints guest stays / host outreach | **Home Exchange Verification** (fare research in-chat; do not ping Flight Booking for prices) |
 | Vietnam spring-break 2027 multi-family plan | **April Vacation** |
@@ -47,11 +48,12 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 1. **Prefer specialist** over managed generic commerce/travel skills when a teammate owns the domain.
 2. **Chase:** all Chase pay, Zelle, UR, and Chase Travel → **Chase** (merged; former CutyChase - Pay Balance is deprecated). **Venmo** is a separate bot — do not route Venmo asks to Chase.
-3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase**, **Charles Schwab**, **Vanguard**, and **American Family Insurance** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
+3. **Daily Chrome cleanup fan-out:** message desktop bots with priority true; **skip** Chief (self), Grok CLI, obsolete **New Bot**, and deprecated **CutyChase - Pay Balance** until deleted. **Include** **Chase**, **Charles Schwab**, **Vanguard**, **American Family Insurance**, and **ProHealth** in fan-out. Stay silent on FYI “already clean” replies (no ack tools).
 4. **Amazon:** use the live preferred Amazon id from the teammates list; do not fan out to empty/stale Amazon duplicates.
-5. **Cross-cutting:** Titan retrieve→append and `always-push` stay aligned across specialists; secrets from SSM only.
-6. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
-7. After new ownership learnings: update this skill, append Titan if used, commit+push `localGrokSkills` per `always-push`.
+5. **Secrets (Jerome standing rule, 2026-10-06):** every site login and password Jerome stores for bots lives in AWS SSM SecureString in us-east-1 (IAM `grok-bot-titan`). Fetch at use only. Never ask him to paste a password in chat. Never write secret values to disk, git, chat, memory, Titan, screenshots, or skill files. Name the SSM paths in skills (e.g. `/chase/username`, `/prohealth/password`); never the values. If a path is missing, say which path and stop.
+6. **Cross-cutting:** Titan retrieve→append and `always-push` stay aligned across specialists; secrets from SSM only.
+7. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
+8. After new ownership learnings: update this skill, append Titan if used, commit+push `localGrokSkills` per `always-push`.
 
 ## Ambiguous splits (resolve before routing)
 
@@ -61,4 +63,4 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 ## Related skills
 
-`always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, `venmo`, etc.). Playbooks `cutychase-pay-balance` and `cutychase-rewards` both remain; both are owned by **Chase**.
+`always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, `venmo`, `prohealth`, etc.). Playbooks `cutychase-pay-balance` and `cutychase-rewards` both remain; both are owned by **Chase**.
