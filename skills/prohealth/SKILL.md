@@ -1,5 +1,5 @@
 ---
-name: ProHealth
+name: prohealth
 description: >-
   Use this for Jerome’s ProHealth (prohealth.com) account: sign-in via AWS SSM,
   searching supplements, and always trying public coupon codes and keeping the
