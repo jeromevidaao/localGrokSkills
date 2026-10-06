@@ -82,6 +82,13 @@ conflicts — ping on out-of-WA trips).
    invite **ngoc.h.dinh@gmail.com** and **jansia@nvidia.com** (on top of Jerome).
    Do this for every future booking. Santa Clara all-day week blocks stay
    Ngoc (+ Jerome) unless he says otherwise.
+15. **Passwords / site logins (SSM only):** every airline or site login Jerome
+   stores for bots lives in **AWS SSM SecureString** in **us-east-1** (IAM
+   `grok-bot-titan`). **Fetch at use only.** Never ask him to paste a password
+   in chat. Never write secret values to disk, git, chat, memory, Titan, or
+   screenshots — keep only path names in this skill. If a needed path is
+   missing, **say which path and stop**. Known airline prefixes:
+   `/southwest/`, `/delta/`, `/american-airlines/`.
 
 
 ## Family passengers (Hawaii / multi-pax)
@@ -274,8 +281,21 @@ Do all of these before saying done:
 
 ### Delta
 
-- Captcha / login often fails — hand box for login; use SkyMiles + KTN.
+- Captcha / login often fails — hand box for login after SSM fill; use SkyMiles + KTN.
+- Credentials (SecureString SSM, fetch at use — never paste into chat):
+  - `/delta/username`
+  - `/delta/password`
+  - `/delta/skymiles` (9214639644)
+  - `/delta/email` (jerome.ans@gmail.com)
 - Prefer nonstop when comparing against Alaska/Southwest.
+
+### American Airlines (aa.com)
+
+- Credentials (SecureString SSM, fetch at use — never paste into chat):
+  - `/american-airlines/username`
+  - `/american-airlines/password`
+  - `/american-airlines/email`
+  - `/american-airlines/aadvantage` (Jerome: **00T5FH4**; Ngoc: **630DYM2** when booking her)
 
 ### Google Flights
 
