@@ -99,20 +99,33 @@ childcare provider for all BSD elementary schools. Registration for 2026–27
 opened **16 Mar 2026**. Prefer live BGCB / Cherry Crest PTSA pages over this
 cache when they disagree, then update this skill and push.
 
-### Upcoming / recent (updated 2026-10-03)
+### Upcoming / recent (updated 2026-10-06)
 
 | When | What | Calendar |
 |---|---|---|
 | Tue **22 Sep 2026** | **Picture Day** (Lifetouch code `EVTQMBF7Q`) | Past; already on calendar |
 | Thu **1 Oct 2026** 5:30–6:30 PM | **Curriculum Night / Open House** | Event id `of940159knkrl4mc7lgvrb6ra8`; Ngoc accepted; Jerome declined |
+| Mon **5–Fri 9 Oct 2026** | **Walk & Roll to School** week (Bellevue SchoolPool) | Event id `4k5k3okvte2m21nfml9q39s8ig` (from Oct Charger Beat) |
 | Tue **6 Oct 2026** 3:30–4:00 PM | **AL testing applied ✓** (conf **26122**; original deadline marker) | Event id `dh14sous5qvtggcthhhm02ahgo`; submitted 2026-09-29 |
+| Tue **6 Oct 2026** 6:00–7:30 PM | **PTSA General Meeting** (cafeteria, with Mrs. Stedman) | Event id `hj6703m2hne75qg14g5r398os0` |
+| Fri **9 Oct 2026** | **No school** (non-student / emergency makeup day) | Event id `hbu3it2epmnb1k574oc3mah1j0` |
 | Wed **21 Oct → 16 Dec 2026** 12:15–1:15 PM | Excel With Chess (skip Nov 11, Nov 18) | Series `5iel04rkhcolc3pm7e2no94gj1` |
+| Wed **21 Oct 2026** 6:30–8:30 PM | **Bridle Trail Community Meeting** (cafeteria) | Event id `kverit2m55mmpe6obf2ck3a3f0` |
+| Fri **30 Oct 2026** 5:30–7:30 PM | **PTSA School Dance** (time assumed evening family) | Event id `srh713v05ek8vct1ful4hus9cs` |
+| Wed **5 Nov 2026** | **PTSA Giving Month raffle cutoff** | Event id `pqtfc5qsn2t3i5ed6q0bjv48uo` |
+| Fri **6 Nov 2026** 9:00–10:00 AM | **Principal Coffee** (Teams) | Event id `do2klc16eg7jko79rmq1bssnfg` |
+| Wed **11 Nov 2026** | **Veterans Day — no school** | Event id `2dvdv5uj3803eh3h435grher2g` |
+| Fri **13 Nov 2026** 5:30–7:30 PM | **PTSA Family Engineering Night** (time assumed) | Event id `s5u5o8e3982misbh8echfrc85g` |
+| Mon **16–Fri 20 Nov 2026** | **Conferences week — 12:15 dismissal** | Event id `c2t0q7743iccu66j9jd2lrqrl4` |
+| Thu–Fri **26–27 Nov 2026** | **Thanksgiving break — no school** | Event id `s4tsuqqgkgsu3scbtt9oa2guro` |
 
-**2026-10-02 ~9:14 AM PT calendar scan:** Gmail after:2026/09/29 + newer_than:3d — Emily Applegate "Clever App and Badges" Fri Oct 2 ~7:29 AM PT (Open House thank-you + Clever/i-Ready home access; Clever Badge home same afternoon; no dated upcoming event). Ngoc↔Abbey BGC reading/writing (ops only). AL Application Received conf 26122 (already on calendar). Ngoc personal (Sézane/photoshoot/birthday/Lyft/docs, skipped). No Charger Chatter / PTSA / Classroom Newsletter / kickball. Calendar already: AL applied Oct 6 (`dh14sous5qvtggcthhhm02ahgo`), Excel With Chess series `5iel04rkhcolc3pm7e2no94gj1` (Curriculum Night Oct 1 past). **0 new events**. Quiet-on-empty.
+**2026-10-05 ~9:43 AM PT:** October Charger Beat (Erin Stedman / ParentVue, Smore https://app.smore.com/n/n62vj) fully calendared — Walk & Roll, PTSA General Meeting, no-school Oct 9, Bridle Trail, School Dance, Giving Month cutoff, Principal Coffee Nov 6, Veterans Day, Family Engineering Night, conferences week, Thanksgiving. Kickball skipped.
 
+**2026-10-06 ~9:16 AM PT calendar scan:** Gmail after:2026/10/03 — (1) Erin Stedman "Cherry Crest October Newsletter" Mon Oct 5 9:41 AM PT (already calendared 2026-10-05; no new dated items). (2) Grok automation "No new Cherry Crest events" Mon Oct 5 — skipped (bot mail). (3) Jerome practice-packet sends Oct 3 — skipped (not school events; packets already handled). No Applegate Classroom Newsletter, no Ngoc school forwards, no kickball mail. Calendar next 60d already has AL Oct 6, PTSA General Meeting tonight, Walk & Roll, Oct 9 no-school, chess series, and all Oct Charger Beat events above. **0 new events**. Quiet-on-empty for empty routine; this was an explicit manual pass so summary returned to parent.
 
+**2026-10-02 ~9:14 AM PT calendar scan:** Gmail after:2026/09/29 — Applegate Clever (info only), Ngoc BGC ops, AL receipt already on calendar. **0 new**.
 
-**2026-10-03 scan:** Applegate Clever (info only, already reviewed), Ngoc personal invites skipped. Zero new events. Kickball still skipped.
+**2026-10-03 scan:** Applegate Clever (info only), Ngoc personal invites skipped. Zero new events. Kickball still skipped.
 
 ### Advanced Learning (BSD)
 
@@ -139,7 +152,7 @@ Routine: **Cherry Crest school-mail → calendar** (weekdays 9:10 AM PT). Same r
 4. New events: summary prefix `Cherry Crest: `, TZ `America/Los_Angeles`, invite **jerome.ans@gmail.com** + **ngoc.h.dinh@gmail.com**, `notificationLevel` ALL / send_updates so both get invites.
 5. Time defaults if missing: afternoon social 15:30–17:00; evening family 17:30–19:30; all-day only if date-only.
 6. **Quiet on empty** (Jerome via Chief of staff, 2026-09-26): if **zero** new events and no real blocker needing a decision, stay **completely silent** — no chat summary, no email, no SMS, no Grok mail, no “nothing new” / “no new Cherry Crest events” message to Jerome or Ngoc. Contact only when something was actually added, or a blocker needs a decision.
-7. Last scan **2026-10-03 ~9:15 AM PT**: Gmail after:2026/09/30 — Applegate "Clever App and Badges" (already reviewed, info only); Ngoc personal photoshoot and birthday invites skipped. No Charger Chatter/PTSA/Classroom Newsletter/kickball. Calendar already: AL Oct 6 (`dh14sous5qvtggcthhhm02ahgo`) + Excel With Chess through Dec 2. **0 new events**.
+7. Last scan **2026-10-06 ~9:16 AM PT**: Gmail after:2026/10/03 — October Charger Beat (already calendared 2026-10-05), Grok empty-notify skipped, no Applegate Classroom Newsletter, no Ngoc school forwards, no kickball. Calendar already has full Oct newsletter set + AL Oct 6 + chess. **0 new events**.
 8. **Quiet on empty** still applies when there is also no new Classroom Newsletter packet (see below). A packet that was emailed is a real result: tell Jerome. Do not stay silent after sending one.
 
 ## Classroom Newsletter practice packets (standing, from 2026-10-03)
