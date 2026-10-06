@@ -57,6 +57,12 @@ After adding or editing this skill, refresh the Titan catalog:
 python3 /workspace/localGrokSkills/skills/r2-memory/scripts/r2_index_catalog.py
 ```
 
+## Secrets (SSM)
+
+Standing rule (2026-10-06): site logins/passwords for bots live in **AWS SSM SecureString** in **us-east-1** (IAM **grok-bot-titan**). Fetch at use only. Never ask Jerome to paste a password in chat. Never write secret values to disk, git, chat, memory, Titan, or screenshots — only SSM **path names** in this skill. If a needed path is missing, say which path and stop.
+
+EFGS day-to-day uses Google Calendar / Gmail connectors (no EFGS-site password today). If an EFGS portal login is ever required, store paths here (e.g. `/efgs/username`, `/efgs/password`) and fetch via SSM; do not invent paths.
+
 ## Family
 
 | | |
