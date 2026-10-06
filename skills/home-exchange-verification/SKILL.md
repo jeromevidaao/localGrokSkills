@@ -34,7 +34,7 @@ Flight Booking bot for price research; search Google Flights / Hopper **here**.
 2. **Read this skill** after Titan retrieve; **update + push** when state changes.
 3. **GuestPoints only** unless he explicitly asks reciprocal. Named greetings
    (`Hi {HostFirstName} -`) on every outbound host message.
-4. **Never type passwords.** Hand the box for HE / Google / Drive sign-in.
+4. **Credentials (SSM only, 2026-10-06):** Site logins live in AWS SSM SecureString **us-east-1** (IAM **`grok-bot-titan`**). Fetch at use only. Never ask Jerome to paste a password in chat. Never write secret values to disk, git, chat, memory, Titan, or screenshots — skills name **paths only**. HE paths: `/homeexchange/bearer-token`, `/homeexchange/credentials`, `/homeexchange/poll-secret` (see skill `home-exchange`). If a path is missing, say which path and stop. For Google/Drive connector sign-in (not HE password), use the signed-in connector / hand the box — never type passwords.
 5. **Dan thread** `95774893`: do not reply unless Jerome asks. On 2026-09-08
    he asked to send FaceTime readiness; sent: “We’re ready for the FaceTime
    whenever you are…” (Ruby & Jerome). FaceTime was planned Tue Sep 8 ~5pm PT.
