@@ -26,3 +26,4 @@ Standing playbook for the Fidelity bot.
 
 ## History
 - 2026-10-08: pre-tax deferrals $27,050 ($24,500 Amazon through May 5; $2,550 NVIDIA Sept). Excess $2,550. NVIDIA deferrals stopped Oct 1, 2026. Fix: excess-deferral refund (plus earnings) from the NVIDIA plan before April 15, 2027; excess is 2026 income, earnings 2027 income; related match likely forfeited.
+- 2026-10-08: NVIDIA plan 29145 has no excess-deferral form or online option in NetBenefits; SPD says to tell the Plan Administrator about outside-plan deferrals and they will return the excess. Request by phone: Fidelity 1-800-835-5097 (SPD) or Benefit Center 800-890-4015, Mon-Fri 8:30am-8pm ET, or NetBenefits chat. SPD saved at /home/box/Downloads/NVIDIA_29145_SPD.pdf.
