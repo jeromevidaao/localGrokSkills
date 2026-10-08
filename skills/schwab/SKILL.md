@@ -16,7 +16,9 @@ Standing playbook for the **Charles Schwab** bot. On every Jerome message:
 (`always-push`).
 
 Related: `r2-memory`, `always-push`, Vanguard bot (inbound ACATS / in-kind
-moves from Schwab).
+moves from Schwab). See `schwab-espp-to-vanguard` for moving Equity Awards
+(ESPP) shares to Vanguard — shares sit in EAC, not brokerage 75590650, until
+moved.
 
 ## Hard rules
 
