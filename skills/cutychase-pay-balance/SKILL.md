@@ -225,6 +225,16 @@ Username and confirm Password focus first; but expect the browser agent
 to refuse, so ask Jerome to sign in on the box (request_box_help) and then
 run the pay. Clear the clipboard (`pkill xclip`) after any attempt.
 
+## Known blocker: SSM password rejected (2026-10-06)
+
+2026-10-06: two careful SSM attempts (paste verified in Password field, Use token
+unchecked) both returned "We can't find that username and password." Username
+`jerome5080` correct; `/chase/password` (13 chars, no whitespace) likely stale.
+Stop after 2 rejections to avoid lockout; hand the box to Jerome and ask him to
+update `/chase/password` in SSM. Jerome signed in on the box 2026-10-07 evening.
+Also: a bad Chrome autofill entry (username with extra characters appended) exists
+under Username; never select it, and ask Jerome to delete it.
+
 ## Latest one-time pays
 
 2026-10-01 (manual after Cleo Zelle; Family Checkin 6022, Pending):
