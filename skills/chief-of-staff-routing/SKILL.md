@@ -31,7 +31,7 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | Vanguard investing / brokerage / inbound ACATS (incl. Schwab→Vanguard share moves) | **Vanguard** |
 | Amazon shop / reorder / track / account | **Amazon** (prefer live preferred id; ignore stale duplicate Amazon if present) |
 | ProHealth (prohealth.com) sign-in and supplement orders | **ProHealth** |
-| Airbnb **guest** stays | **Airbnb - Booking Bot** |
+| Airbnb **guest** stays | **Airbnb** |
 | Home Exchange verify / GuestPoints guest stays / host outreach | **Home Exchange Verification** (fare research in-chat; do not ping Flight Booking for prices) |
 | Vietnam spring-break 2027 multi-family plan | **April Vacation** |
 | MyChart / Overlake medical portal | **MyChart - Medical** |
