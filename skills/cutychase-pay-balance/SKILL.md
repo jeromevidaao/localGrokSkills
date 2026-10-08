@@ -237,6 +237,8 @@ under Username; never select it, and ask Jerome to delete it.
 
 ## Latest one-time pays
 
+2026-10-07 evening (manual "do it again" after Jerome signed in on box): FU (...6553) $245.00 conf 9774677223 Pending, date Oct 08 (form defaults to next day after midnight ET), from Family Checkin 6022; an Oct 7 $2,286.85 payment had already posted. Reserve (...8053) $72.38 skipped (<= $150).
+
 2026-10-01 (manual after Cleo Zelle; Family Checkin 6022, Pending):
 - Freedom Unlimited (...6553) $325.00 conf 9756243967
 - Sapphire Reserve (...8053) $106.99 conf 9756242372
