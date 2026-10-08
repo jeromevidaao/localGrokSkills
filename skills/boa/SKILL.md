@@ -3,7 +3,7 @@ name: boa
 description: >
   Use this for Jerome Ansia's Bank of America online banking: sign-in, 2FA,
   Preferred Rewards / card rewards lookup, paying credit card balances from the
-  common account, or the Mon/Wed/Fri BoA pay routine. Read first every time
+  common account, or the weekly Monday BoA pay routine. Read first every time
   Jerome talks to the BoA bot; update and push after new learnings.
 ---
 
@@ -50,8 +50,8 @@ credentials or funding accounts).
    (travel, statement credit, gift cards, BankAmeriDeals). Stop before
    any irreversible redeem/transfer.
 7. **Scheduled routine:** **BoA pay card balance** — folder
-   `boa-pay-card-balance`, cron `07 8 * * 1,3,5` America/Los_Angeles
-   (Mon/Wed/Fri **8:07 AM PT**). Each run: SSM sign-in if needed, pay
+   `boa-pay-card-balance`, cron `07 8 * * 1` America/Los_Angeles
+   (Mondays **8:07 AM PT** (weekly max, per Jerome 2026-10-08)). Each run: SSM sign-in if needed, pay
    card balances in full from the common account, tell Jerome what went
    out (or that nothing was due). Pause the routine on repeated auth
    walls and tell him.
@@ -156,5 +156,5 @@ After each login, payment, rewards lookup, or correction:
 - Fund card pays from a non-common account when common is available
 - Redeem rewards without an explicit ask
 - Double-pay a covered balance
-- Leave the Mon/Wed/Fri routine firing on a repeated auth wall — pause it
+- Leave the weekly Monday routine firing on a repeated auth wall — pause it
 - Leave skill learnings only in chat
