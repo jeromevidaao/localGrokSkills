@@ -12,6 +12,8 @@ This is a personal, living directory map. It records directory paths and safe
 browsing/search procedures—not document contents. Treat the live Dropbox as the
 source of truth and do not infer folders that are not listed here.
 
+For file-level lookups (exact filenames, dates, sizes), grep the `dropbox-file-index` skill's `index.tsv` first, then verify live.
+
 ## Known map
 
 Last verified: **2026-09-19** from the personal Dropbox web UI.
