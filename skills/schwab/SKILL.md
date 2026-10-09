@@ -35,7 +35,9 @@ moved.
    `client.schwab.com`, reason auth) first.** Open the login page in the box
    browser before sending the form so the host finds a live tab. Only if the
    host refuses or reports a failed fill, fall back to box handoff
-   (request_box_help) and quote the host's reason. Never type 2FA codes
+   (request_box_help) and quote the host's reason. Known: on 2026-10-08 the
+   in-chat form was accepted but filled 0 of 2 fields on the Login page, then
+   box handoff worked. Tell Jerome plainly whether the 2FA text was sent. Never type 2FA codes
    yourself (Secure Form for OTP).
 3. **Trust device:** When shown “Trust this device”, choose **Yes, trust this
    device** → Continue (Jerome preference for this box).
