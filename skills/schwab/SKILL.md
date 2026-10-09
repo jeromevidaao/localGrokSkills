@@ -30,8 +30,13 @@ moved.
    temps then shred.
 2. **Sign-in:** Prefer existing Chrome session. Else
    `https://client.schwab.com/Areas/Access/Login` (or schwab.com → Log in).
-   Prefer in-chat forms / box handoff over chat paste. Never type 2FA codes
-   yourself (`request_user_form` for OTP).
+   **Jerome's standing preference (2026-10-08): ALWAYS show the Login ID +
+   Password input in chat (Secure Form / RequestUserForm, domain
+   `client.schwab.com`, reason auth) first.** Open the login page in the box
+   browser before sending the form so the host finds a live tab. Only if the
+   host refuses or reports a failed fill, fall back to box handoff
+   (request_box_help) and quote the host's reason. Never type 2FA codes
+   yourself (Secure Form for OTP).
 3. **Trust device:** When shown “Trust this device”, choose **Yes, trust this
    device** → Continue (Jerome preference for this box).
 4. **No outbound ACATS in Schwab UI:** Transfer & Pay has cash/wire/inbound
