@@ -138,6 +138,9 @@ that match), and do **not** list outside activities.
    - **Google Calendar** event for that booked slot (standing Sun 6:00–7:15 PT; or Sat 10:30 if that path booked)
      at Bellevue Club, invite **jerome.ans@gmail.com** and **Ngoc Dinh
      (ngoc.h.dinh@gmail.com)**. No Google Meet. She must actually get the invite.
+     If Jerome already created the event from the Lambda email button, do not
+     duplicate it: add Ngoc to that event with `addedAttendees` if she is
+     missing (Jerome 2026-10-09: every Bellevue tennis invite includes her).
 9. **Always commit + push this skill** after any change. Follow **always-push**:
    public → `git push` `main` → CI green → private. Never ask “want me to push?”.
 10. Do **not** add a GitHub connector or MCP for this repo.

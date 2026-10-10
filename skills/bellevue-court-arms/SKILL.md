@@ -80,6 +80,8 @@ Example (Sat Oct 3 2026 10:30–11:45 ITC 4): event id `4n8hecuad8voq8b0i4pqsapi
 
 Do not leave the Tennis / Swim reservation chip on `/r/day/...` when an event id exists.
 
+**Ngoc on every tennis invite (Jerome, 2026-10-09 — hard):** every Bellevue tennis Calendar event (Club courts, Gorin/Julie classes) must list `ngoc.h.dinh@gmail.com` as a guest, notifications on. The Lambda email's *Add to Google Calendar* button now prefills her (`add=` param, bellevue-club-tennis `9933f46`), but Oct 10/11 2026 events made from the old button had no guests. After every book, and on any tennis turn, check upcoming `Bellevue Club indoor tennis` events on jerome.ans@gmail.com and add her (update_event `addedAttendees`, never replace the list) if missing.
+
 ## After a change
 
 Update this skill if the schedule contract or the screen changes, then commit and push `localGrokSkills`. Append the turn to Titan. Leave standing Sunday/Saturday schedules alone.
