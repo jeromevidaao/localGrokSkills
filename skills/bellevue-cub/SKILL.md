@@ -11,6 +11,8 @@ description: >
 
 **STATUS (2026-09-27):** Standing Sunday book = **6:00–7:15 PM indoor (ITC)** — **instead of** 10:30 AM. Window = **exact +7 same weekday at 7:45 PT**. Lambda `bellevueClubTennis-sunday-1800`: fire **Sun 7:40 PT**, wait to 7:45, payload `targetWeekday=sun` + `targetStart=06:00 PM`. **Sunday earlier-slot waterfall (any Sunday book, standing or arm):** if primary start is `no_open_slot` / ITC `not_open`, race earlier Sunday indoor 75-min starts closest-first (e.g. 6:00 PM → **4:45 PM** → 3:30 PM → … → 6:45 AM); never later. Sat/weekday unchanged. SES shows actual booked start. First target **Sun Oct 4**; first fire **Sun Sep 27 7:40** (that morning 6PM was USTA-blocked; waterfall would have taken 4:45 if deployed). `sunday-745` (Sun 10:30) is **DISABLED**. Keep `saturday-745` (Sat 10:30). Always indoor unless Jerome says outdoor. Browser auto-book PAUSED. Tennis Ops Sunday card is 6:00–7:15 PM via sunday-1800.
 
+**Oct 18 2026 CANCELLED (Jerome, 2026-10-11 — dad's visit):** sunday-1800 waterfall auto-booked Sun Oct 18 6:45–8:00 AM ITC 2 on Oct 11; Jerome cancelled it — skip Oct 18, do not rebook. No skip-date mechanism exists in the Lambda (no env/SSM/DynamoDB skip list); standing sunday-1800 always targets same weekday +7, so its Oct 18 fire targets Oct 25 (kept). No Oct 18 arm seen in Lambda logs.
+
 **Advance arms** (any weekday, one-off): skill `bellevue-court-arms`. Live list is Tennis / Swim → Advance books on the website and Android. Armed 2026-09-25: **Wed Oct 14 2026 6:00–7:15 PM indoor**, fires **Wed Oct 7 2026 7:40 a.m. PT** (`bellevueClubTennis-arm-20261014-1800`). Confirm with `get-schedule`; the row disappears after it fires.
 
 
