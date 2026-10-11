@@ -20,4 +20,6 @@ Standing (2026-08-15). Third-party API secrets are **not** stored on disk, in sk
 
 Grok Bot Titan user `grok-bot-titan` / policy `GrokBotTitanAccess` (**v7**): **Lambda / DynamoDB / SQS / S3 / CloudWatch+Logs / CloudFront / EventBridge / SSM** full (`*` including writes) + Bedrock Titan embed + `kms:Encrypt`/`Decrypt`/`GenerateDataKey` via `ssm.us-east-1` (`alias/aws/ssm`). `iam:PassRole`/`GetRole` only onto `lambda.amazonaws.com`. **No** IAM user/key admin or Cost Explorer. Keys stay in SSM — never paste the secret.
 
+Inline policy `grok-bot-sns-alarm-routing` (authorized 2026-10-11): SNS list topics and subscriptions, get subscription attributes, and unsubscribe on `*`; subscribe, confirm subscription, get topic attributes, list subscriptions by topic, and create topic on `arn:aws:sns:*:834917996497:*`. Used to route CloudWatch alarm email to `ansia@mail.grokbot.com`. No `sns:Publish` or `sns:DeleteTopic`.
+
 HomeExchange live calls: skill **`home-exchange`** / `he_api.py`.

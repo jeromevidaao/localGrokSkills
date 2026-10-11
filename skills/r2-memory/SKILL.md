@@ -44,6 +44,7 @@ IAM user **`grok-bot-titan`**. Fetch keys from SSM at use — never commit, neve
 | EventBridge | `events:*` (PutRule / PutTargets / DescribeRule — e.g. `maine-property-tax-ach-watch`) |
 | Bedrock | `InvokeModel` on Titan embed (`amazon.titan-embed-text-v2:0` and v1) |
 | SSM | `ssm:*` (all parameters, including Put/Delete/Get) + `kms:Encrypt`/`Decrypt`/`GenerateDataKey` via `ssm.us-east-1` (`alias/aws/ssm`) |
+| SNS | Inline `grok-bot-sns-alarm-routing` (not v7): list/subscribe/confirm/create-topic on this account. No publish or delete. See rule `02-ssm-api-credentials.md`. |
 | Denied | IAM user/key admin, Cost Explorer, Hospitable API |
 
 ```bash
