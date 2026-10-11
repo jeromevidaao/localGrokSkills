@@ -53,10 +53,14 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`, `family-travel`
    create a timed Google Calendar event on `jerome.ans@gmail.com` and
    **always invite Jerome and Ngoc** (`jerome.ans@gmail.com`,
    `ngoc.h.dinh@gmail.com`). Never skip the invite. No Google Meet.
-   **Always put that booking’s CourtReserve Pin Code in the event
-   description** (e.g. `Door pin for this class: 7675#`). Pins are
-   per-class; never copy an old pin onto a new date. If a pin is found
-   later, update that event.
+   **Door code must be impossible to miss (Jerome, 2026-10-11):** put that
+   booking’s CourtReserve Pin Code in the **event TITLE** (e.g.
+   `Julie — Future Stars / U8 tennis · Door 8762#`) **and** as the **first
+   line of the description** (`DOOR CODE: 8762#`). Never bury it at the
+   bottom. Pins are per-class; never copy an old pin onto a new date. If the
+   pin isn’t shown yet at booking, add it to title + first line as soon as
+   My Bookings shows it (each watch run checks upcoming events for a missing
+   pin). Update with `notificationLevel: NONE` to avoid re-invite spam.
 8. **Always commit + push this skill** after any edit (public → `git push`
    `main` → CI green → private). Never ask “want me to push?”. Do not add a
    GitHub connector or MCP for this repo.
@@ -267,9 +271,10 @@ the class is open, say so and do not book a half-court as a substitute.
    example was **$45.66**).
 7. Pay with the card on file if that is what he asked. Stop for a new card.
 8. Capture receipt #, who, date/time, amount.
-9. Add Google Calendar (rule 7). Title like `Julie — Tiny Tigers tennis`.
-   Location: Bellevue Tennis Academy address. Description must include
-   coaches, receipt, 24h cancel, and **this booking’s Pin Code**.
+9. Add Google Calendar (rule 7). Title like
+   `Julie — Tiny Tigers tennis · Door 2894#` (door code in title).
+   Location: Bellevue Tennis Academy address. Description starts with
+   `DOOR CODE: ####`, then coaches, receipt, 24h cancel.
 
 ## Cancel / refund
 
@@ -639,3 +644,11 @@ After each book, cancel, schedule change, or correction:
 - Travel gate (GCal jerome.ans@gmail.com live): SKIP Oct 25 Palm Springs AS 759. Nov 1/8/15/22/29 clear of overnight family travel (Santa Clara midweek only: Nov 2–6, 16–20, from Nov 30).
 - 8am drop-in watch: **no book, silent**.
 
+
+## 2026-10-11 — door code in title
+- Jerome missed the pin at the bottom of the description. Existing events
+  updated: Oct 11 `p046fgch9injh8fd4299n01cs4` → `· Door 2375#`; Oct 18
+  `ff101so6utpuria2rsq649cv8k` → `· Door 8762#`; both descriptions now start
+  `DOOR CODE: …`. Rule 7 rewritten so all future bookings do the same.
+- CourtReserve box login expired Oct 10–11; Jerome re-signed in as Ruby Dinh
+  via box handoff on Oct 11 ~2 PM PT; watch routine resumed.
