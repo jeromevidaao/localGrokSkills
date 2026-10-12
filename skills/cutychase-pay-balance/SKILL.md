@@ -20,6 +20,15 @@ Related: `r2-memory` (Titan retrieve/append), `always-push`,
 `flight-booking` (Chase Ultimate Rewards travel), `cutychase-rewards`
 (UR / points — same owning bot **Chase**).
 
+## Login: Chrome autofill first (Jerome, 2026-10-12)
+
+The working Chase login is saved in the box Chrome autofill / password manager.
+When signed out: click Username, pick the plain `jerome5080` autofill entry (NEVER the
+longer entry with extra characters appended), let Chrome fill the saved password,
+uncheck Use token, click Sign in. Mobile-app confirm if asked. Fall back to SSM
+`/chase/username` + `/chase/password` only if autofill is missing; SSM password was
+stale as of 2026-10-06 (v1), so stop after one SSM rejection and hand Jerome the box.
+
 ## Hard rules (never skip)
 
 1. **Login (ALWAYS SSM — confirmed 2026-10-01):** prefer the existing
