@@ -136,6 +136,8 @@ Verified **2026-09-23**:
 
 ## Latest payment
 
+2026-10-12 routine: fresh login (no 2FA; first try timed out before form loaded, homepage reload then signed in). Atmos Ascent …5741 current balance **-$1,735.07 (credit)**; remaining statement $0.00; min $0.00 due Oct 13; $32,000 available of $32,000. Recurring-payment banner still shows; latest posted 10/03/2026 ONLINE/MOBILE RECURRING -$1,735.07 (left alone; conf was `j5r7r9t3q`). Prior $4,209.78 on 9/23 (conf `vb4sllga1`) listed. No other cards. No new pay; common checking untouched. Contact-info confirm pop-up appeared and was left alone.
+
 2026-10-05 routine: fresh login (no 2FA; first homepage try stalled on secure sign-on with no error, clean homepage retry worked). Atmos Ascent …5741 current balance **-$1,735.07 (credit)**; remaining statement $0.00; min $0.00 due Oct 13; $32,000 available. Oct 3 recurring $1,735.07 (conf `j5r7r9t3q`) **posted** while balance was already $0 → created the credit. Recurring-payment banner still shows; next date not checked. No new pay; common checking untouched.
 
 2026-10-02 routine: fresh login (no 2FA after homepage retry). Atmos Ascent …5741 **$0.00** due (due Oct 13); statement balance $0.00; no new pay. Recurring $1,735.07 still scheduled for Oct 3 (conf `j5r7r9t3q`). Prior $4,209.78 received 9/23 (conf `vb4sllga1`). Common checking untouched. First login attempt that morning hit empty-form “Missing user ID or password” on secure sign-on hash URL; succeeded after clean `https://www.bankofamerica.com/` fill.
