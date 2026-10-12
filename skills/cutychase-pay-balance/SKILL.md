@@ -246,6 +246,8 @@ under Username; never select it, and ask Jerome to delete it.
 
 ## Latest one-time pays
 
+2026-10-12 (Jerome signed in on box; Family Checkin 6022, Pending, Oct 12): FU (...6553) $1,261.28 conf 9786650212; Reserve (...8053) $1,050.72 conf 9786652925. UR combine 11,908 FU->Reserve hit a mobile-app identity check at combine-points/review.
+
 2026-10-07 evening (manual "do it again" after Jerome signed in on box): FU (...6553) $245.00 conf 9774677223 Pending, date Oct 08 (form defaults to next day after midnight ET), from Family Checkin 6022; an Oct 7 $2,286.85 payment had already posted. Reserve (...8053) $72.38 skipped (<= $150).
 
 2026-10-01 (manual after Cleo Zelle; Family Checkin 6022, Pending):
