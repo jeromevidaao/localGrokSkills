@@ -151,6 +151,18 @@ that match), and do **not** list outside activities.
    Bucket: `cleaningbutton-ai-context-us-east-1`. Full playbook: skill `r2-memory`.
    On this shared computer, `~/.aws/credentials` is already **`grok-bot-titan`**
    (region `us-east-1`). No SSM fetch for Titan keys — just run the scripts.
+12. **Calendar reminders (Jerome 2026-10-11):** every Bellevue Club tennis
+   Google Calendar event (created by this bot, by Jerome from the Lambda SES
+   Add-to-Calendar link, or imported from the ICS) must have
+   `useDefaultReminders=false` with **popup 60 min + popup 30 min** before
+   start (no default 10-min). Ngoc (ngoc.h.dinh@gmail.com) stays invited.
+   When creating: `overrideReminders=[{popup,60},{popup,30}]`. When fixing an
+   existing event: `update_event` with the same overrides (+ `addedAttendees`
+   Ngoc if missing). Lambda link/ICS reminder support is Grok CLI's repo.
+13. **Cancel cutoff:** the member portal **blocks cancel/modify within 6 hours
+   of start**. Cancel more than 6h ahead online; inside 6h only by phone —
+   Club **425.455.1616** or Athletic Services **425.688.3177**. (Sun Oct 11
+   2026 6:00 PM ITC 1 was phone-cancelled by Jerome; portal had refused it.)
 
 
 ## Schedule math (work backward)
