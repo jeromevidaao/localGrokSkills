@@ -182,7 +182,7 @@ Saved recipient: **Cleo - Cleaners Bellevue** (CLEONES FONSECA DE MELO), phone
 ending **5137**. Prefer this recipient when he says Miss Cleo / Cleo cleaning
 Zelle. Confirm on review before Send money. Fund from Family Checkin (...6022).
 
-Latest: 2026-10-01 **$150** from Family Checkin (...6022), memo **Cleaning**,
+Latest: 2026-10-11 **$150** memo **Cleaning**, Funded, conf **JPM99czktbk9** (Zelle form defaulted to Jerome Checkin 6803 — always switch to 6022). Prior: 2026-10-01 **$150** from Family Checkin (...6022), memo **Cleaning**,
 Funded, conf **JPM99cyergv5**. Prior 2026-09-24 **$150** memo **Cleaning today**,
 Funded, conf **JPM99cxlf0ox**. Earlier same day activity also showed Delivered
 **JPM99CXKBVGC** $150 from Jerome Checkin (...6803) memo “cleaning last week”
