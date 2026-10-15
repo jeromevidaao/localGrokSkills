@@ -246,6 +246,8 @@ under Username; never select it, and ask Jerome to delete it.
 
 ## Latest one-time pays
 
+2026-10-15 Thu 9:12 routine (Chrome autofill jerome5080 login, no identity check; first Sign in bounced to chase.com logout, retry worked): Reserve (...8053) $303.64 current balance conf 9795919701 Pending Oct 15 from Family Checkin 6022. FU (...6553) $748.59 skipped, already covered by an Oct 15 pending $748.59 payment not made by this routine. Finance feed lagged (showed FU $623.59, Reserve $191.24), so always use live Chase balances.
+
 2026-10-12 (Jerome signed in on box; Family Checkin 6022, Pending, Oct 12): FU (...6553) $1,261.28 conf 9786650212; Reserve (...8053) $1,050.72 conf 9786652925. UR combine 11,908 FU->Reserve hit a mobile-app identity check at combine-points/review.
 
 2026-10-07 evening (manual "do it again" after Jerome signed in on box): FU (...6553) $245.00 conf 9774677223 Pending, date Oct 08 (form defaults to next day after midnight ET), from Family Checkin 6022; an Oct 7 $2,286.85 payment had already posted. Reserve (...8053) $72.38 skipped (<= $150).
