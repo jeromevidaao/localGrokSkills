@@ -429,6 +429,40 @@ Parse `start_on` / `end_on` as the `YYYY-MM-DD` calendar date. Do **not** `astim
 - Daily `sync_availability` (`homeexchange-daily-sync` → `homeexchange-sync-trigger` → SQS): Apt **#3** from Airbnb iCal **plus** Hospitable calendar; Apt **#2** and Apt **#1B** from Hospitable `GET /v2/properties/{uuid}/calendar` (SSM `/hospitable/bearer-token`). Hospitable `BLOCKED` nights (manual USER blocks, vendor API blocks) are written to HE as `UNAVAILABLE` for every listing; HE `BOOKED` exchanges are skipped. Then **May 15–Oct 31** (every year; `getSeasonalOverridePeriods`) + holidays `UNAVAILABLE`. Airbnb/Hospitable stay open. **End of every sync:** `restoreListingPrefs` force-PATCHes `contact_allowed:0` + `prefers_reciprocal:false` on all three homes (HE resets these randomly — do not conditional-skip).
 - Reservation webhooks on `home-exchange-reservations` SQS: `blockCalendar` for **#1B, #2, or #3** (`HE_HOMES`), then **again** `restoreListingPrefs` (`reason=reservation_block`) so calendar mutations cannot leave `contact_allowed=1` until the next daily sync. Other properties are dropped.
 
+## Booking guard (2026-10-15)
+
+`home-exchange-cal-sync/booking-guard` Lambdas on role **`homeexchange-lambda-role`**:
+
+| Lambda | Schedule | What |
+|---|---|---|
+| `pine-booking-sync` | every 15 min | Airbnb nights → HE `RESERVED`; active HE stays → Hospitable block. Writes calendars. |
+| `pine-booking-audit` | hourly `:07` | Read-only overlap audit. Never cancels, messages, or changes door codes. |
+
+Metrics are **CloudWatch Embedded Metric Format** in namespace `PineBookingGuard` (log line only). The role has **no** `cloudwatch:PutMetricData` and **no** `sns:Publish`. A direct `put_metric_data` call fails the invoke (`pine-booking-audit-errors`, 2026-10-15 20:30Z). Direct SNS to `homeexchange-alerts` logs `sns_direct_publish_failed` and is swallowed; the metric alarms on that topic still page once EMF lands. Titan **cannot** `iam:PutRolePolicy` on this role — an admin must attach the inline policy if direct PutMetricData / SNS publish is wanted:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PineBookingGuardPutMetricData",
+      "Effect": "Allow",
+      "Action": "cloudwatch:PutMetricData",
+      "Resource": "*",
+      "Condition": {"StringEquals": {"cloudwatch:namespace": "PineBookingGuard"}}
+    },
+    {
+      "Sid": "PineBookingGuardSnsPublish",
+      "Effect": "Allow",
+      "Action": "sns:Publish",
+      "Resource": "arn:aws:sns:us-east-1:834917996497:homeexchange-alerts"
+    }
+  ]
+}
+```
+
+Attach as inline policy `PineBookingGuardMetrics` on `homeexchange-lambda-role`. Rollback of the EMF deploy: Lambda version **2** (PutMetricData code, sha `2Jpcq/KEixDwexlHx0pxmcKW3lo0Hveg/3TnplbA/S8=`). EMF package is version **3** on both functions (sha `e/EgkVOoAGb0C0CVf6SPBACnIL/jGMgW2bnHFjz+QlE=`).
+
 ## Pre-approve
 
 **HARD (2026-09-26):** **Never** approve / pre-approve until `cleaningFeeAccepted: true`. Fee-ask first (Katie / Caroline / Jessica). Cancel-after-wrong-approve is **not** recovery.
