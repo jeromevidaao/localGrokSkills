@@ -48,6 +48,8 @@ On **401**: invoke Lambda **`he-token-refresh`**, then retry once.
 | Apt **#2** | **`3285044`** (created 2026-08-15) | `114663c5-0709-4eff-a868-fa9ebd6ed42d` | `20150380` |
 | Apt **#1B** | **`3285159`** (created 2026-08-15) | `c899481f-2e5b-402d-80c4-3167fd824d96` | `20904545` |
 
+**Names:** Jerome calls Apt #1B **"the studio"** (HE title *Downtown Studio*, sleeps 3 max). `/v1/homes/me` returns exactly these 3 homes. **Public guest booking links** (verified 200, 2026-10-15): [#3](https://www.homeexchange.com/en/holiday-home/3202475), [#2](https://www.homeexchange.com/en/holiday-home/3285044), [studio/#1B](https://www.homeexchange.com/en/holiday-home/3285159). `/homes/edit/{id}` is owner-only; `/home/{id}` and `/en/home/{id}` 404. Never tell Jerome a unit isn't on HE without mapping his nickname first.
+
 Airbnb occupancy/revenue is skill **`hospitable`**.
 
 **Auto-reply wiring (Katie 2026-08-17):** `heBuildAutoReplySqsPayload` and harness `resolveHeUnit` must map the HE home id to **that** unit’s Hospitable UUID + Airbnb listing. Never hardcode Apt #3 when `listing.platform_id` is `3285044` or `3285159`.
