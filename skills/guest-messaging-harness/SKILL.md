@@ -291,3 +291,26 @@ See `home-exchange` skill → "Booking guard / first-stay ops" for system, IDs, 
 - **Own hold = open for same guest:** a `Hold for <guest>` block must not make the harness decline that guest's re-request (Katie auto-declined 2:36 PM PT).
 - **Inbox paging:** old inbox call ignores paging; use newer list or paginate `first`/`after`, fail closed if incomplete.
 - Guest messages need Jerome's direct OK in the owning bot's chat. Never auto-approve an overlapping HE request. Every change = test + live read-back.
+
+
+## HE guest phone for door codes (2026-10-15, Jerome approved 3:03 PM PT)
+
+**Problem:** Newer BFF-only conversations (ids ≥ ~1e9, e.g. Katie `1000923027`) 404 on `GET api…/v3/conversations/me/{id}`. BFF `exchange/v2` and `v4/conversations` return guest with only `id` + `first_name` — **no phone**. Old v3 detail still has `guest.phone`.
+
+**Primary source (works for BFF-only + finalized stays):**
+`GET https://api.homeexchange.com/v1/exchanges/{conversationId}/get-exchanges`
+→ use `additional_informations.phone` when `additional_informations.is == "guest"`.
+(The nested `guest` object on that payload still omits phone.) Phone appears at/after finalization, not N days before arrival.
+
+**Fallback:** same guest id’s phone from another of their v3 conversation details (Katie: `95201321`).
+
+**Fail closed:** no resolvable phone → no PIN load, no check-in send.
+
+**Never** ask the guest for their phone. **Never** log/print phone numbers (report `last4 present: yes/no` + `phoneSource` only).
+
+**7-day private alert:** `addDeleteCodeWiFiPyschlage` on each sync runs `he_check_missing_phones_upcoming` — confirmed Pine HE stay with check-in ≤7 days and no phone → SNS `homeexchange-alerts` only, deduped in DynamoDB `homeexchangeMessageState` pk `he_missing_phone#{conv}#{check_in}#{day}`. No guest message / no draft.
+
+**Shipped:**
+- PIN Lambda `addDeleteCodeWiFiPyschlage` commit `0186c1e`, published version **7** (rollback: version **6** / prior sha `b83980b`).
+- Harness `guest-messaging-agent-harness` commit `2fdbf64`, published version **8** (rollback: version **7** / prior sha `d4d8440`).
+- Dry-run proof (2026-10-15): `he_pin_guard_dry_run` today=`2026-10-29` listUpcoming → Katie conv `1000923027` `phoneSource=get-exchanges` `last4Present=yes` `pinResolves=true`. Live harness `resolveGuestPhoneLast4` same source/result. No PIN load, no guest message.
