@@ -511,3 +511,32 @@ Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secre
 - **Root cause:** HE→Airbnb block silently skipped nights Airbnb had already sold (no alert), and there was no Airbnb→HE sync. Fixed: two-way fail-closed `pine-booking-sync` + hourly `pine-booking-audit` (code `/tmp/hecs/booking-guard`, `infra.sh`), **540-day horizon** (fail-closed fallback must match), daily 8:17am PT Grok Bot cross-check, alarms → SNS `homeexchange-alerts`. Double booking is Jerome's worst case.
 - **Resolution:** HE stays host-cancelled 2:05pm PT: Clara & Mathis (conv 95472973, Apt #3, Oct 19) and Katie (conv 95201321, Apt #2, Oct 29–Nov 3). Airbnb guests kept (Raz HMZZ9QXJC8, Hayley HM99TP4XKH). Host-cancel cost: GuestPoints refunded, guest may review, repeat cancels risk the account, HE may reimburse guest up to $120/night.
 - **Katie follow-up:** offered the studio (3285159) Oct 29–Nov 3; studio HE calendar opened NON_RECIPROCAL Oct 29–Nov 5 so she can request; Airbnb side stays held, and sync must not re-block those nights. HE auto-reply sent her an unapproved, confusing message at 2:21pm PT (msg 1003802226) — stop auto-replies on threads Jerome is handling manually.
+
+## Booking guard / first-stay ops (2026-10-15, end of day)
+
+**Units** (mapping in `home-exchange-cal-sync/booking-guard/guard_core.py`): Apt #3 = HE `3202475`; Apt #2 = HE `3285044`; Studio/Apt 1B = HE `3285159`, Hospitable `c899481f-2e5b-402d-80c4-3167fd824d96`, Airbnb `20904545`.
+
+**System** (repo `home-exchange-cal-sync`, `booking-guard/`, deploy `bash booking-guard/infra.sh`):
+- `pine-booking-sync` every 15 min, two-way: Airbnb nights → HE `RESERVED`; requested/pre-approved/finalized HE stays → Hospitable block noted `HomeExchange <guest> conv <id>`. Read-back verify, capped backoff retries, DLQ `pine-booking-guard-dlq`, fail closed over the 540-day horizon.
+- `pine-booking-audit` separate hourly Lambda at `:07`.
+- Alarms → SNS `homeexchange-alerts` (ansia@mail.grokbot.com): sync-failure/heartbeat/errors, audit-conflict/unblocked/heartbeat/errors, dlq-depth. Audit alarm settings live in `infra.sh` (Period 900, 1/1, TreatMissingData ignore) — never hand-edit; a redeploy reverts.
+- Manual holds with a note starting `Hold for` or `MANUAL` are never released by sync.
+- Dated open-exceptions: SSM `/homeexchange/open-exceptions`, shared by the guard and `homeexchange-processor` (nightly 11 PM PT sync; skips HE-booked nights).
+
+**Guards:**
+- Harness HE reply gate: holds + alarms on muted convs (`DEFAULT_HE_MUTED_CONVS` / `HE_MUTED_CONVS`), cancelled exchange (status 6), overlap, unreadable conv, or audit error.
+- Check-in overlap guard: `heCheckinOverlapGuard.js`.
+- PIN guard in `addDeleteCodeWiFiPyschlage`: fail closed; held codes never deleted; dry run `he_pin_guard_dry_run` with `listUpcoming`.
+- Harness + PIN roles have `lambda:InvokeFunction` on `pine-booking-audit` (harness role ARN includes `service-role/`).
+- Cancelled stays never get instructions or PINs. DDB `homeexchangeMessageState` marker: `checkinInstructionsQueuedAt`.
+
+**Root-cause lessons:**
+- Hospitable block calls return 202 — always read back. Clara/Katie blocks were later reopened by an unknown API writer and nothing re-checked.
+- Old inbox call ignores paging: use the newer list or paginate with `first`/`after`; fail closed if incomplete.
+- PIN loader missed newer convs (e.g. `1000923027`) on the older conversation list.
+- Harness availability counted our own `Hold for <guest>` as unavailable and auto-declined that guest's re-request — a hold must count as open for the same guest.
+- Auto-replies must not fire on cancelled exchanges.
+
+**Rules:** two-way sync, fail closed, alarm on any skipped/partial block. Never send door codes/instructions to an overlapping stay. Every change = test + live read-back on both platforms. Guest messages need Jerome's direct OK in the owning bot's chat. Never auto-approve an overlapping HE request.
+
+**First-stay ops:** first HE stay = Katie McGovern, Studio, conv `1000923027`, exchange `129847475`, Oct 29–Nov 3 2026. Daily 9 AM PT routine `katie-studio-stay-daily-watch` checks booking, overlap, alarms, instructions, PIN load/removal. Use it as the template for future first stays.

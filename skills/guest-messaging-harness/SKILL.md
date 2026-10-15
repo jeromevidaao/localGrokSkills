@@ -282,3 +282,12 @@ Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secre
 ## 2026-10-15 — guest-message gate
 - Every guest-facing message needs Jerome's OK; check the thread for an existing copy before sending; read back after send (one copy only).
 - The HE auto-reply sent Katie (conv 95201321) an unapproved message offering other units/dates at 2:21pm PT (msg 1003802226). Auto-replies must not fire on threads under manual handling / active holds.
+
+## HE booking guard in the harness (2026-10-15, end of day)
+See `home-exchange` skill → "Booking guard / first-stay ops" for system, IDs, alarms.
+- **Reply gate:** hold + alarm on muted convs (`DEFAULT_HE_MUTED_CONVS` / `HE_MUTED_CONVS`), cancelled exchange (status 6), overlap, unreadable conv, or `pine-booking-audit` error. Auto-replies never fire on cancelled exchanges.
+- **Check-in:** `heCheckinOverlapGuard.js`; cancelled/overlapping stays never get instructions or PINs. DDB `homeexchangeMessageState` marker `checkinInstructionsQueuedAt`.
+- **IAM:** harness role (ARN includes `service-role/`) has `lambda:InvokeFunction` on `pine-booking-audit`.
+- **Own hold = open for same guest:** a `Hold for <guest>` block must not make the harness decline that guest's re-request (Katie auto-declined 2:36 PM PT).
+- **Inbox paging:** old inbox call ignores paging; use newer list or paginate `first`/`after`, fail closed if incomplete.
+- Guest messages need Jerome's direct OK in the owning bot's chat. Never auto-approve an overlapping HE request. Every change = test + live read-back.
