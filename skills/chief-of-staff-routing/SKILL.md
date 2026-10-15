@@ -64,3 +64,9 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 ## Related skills
 
 `always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, `venmo`, `prohealth`, etc.). Playbooks `cutychase-pay-balance` and `cutychase-rewards` both remain; both are owned by **Chase**.
+
+## 2026-10-15 — additions
+- Automations touching guests, money, or bookings: end-to-end proof in **every** direction plus an alarm before "done". Never claim a state (e.g. "0 open nights") without a live readback.
+- **Alarms:** audit alarms with Period 3600 + Maximum keep re-firing on a stale reading up to an hour after a fix; manual `set-alarm-state OK` just re-trips and re-emails. Set Period 900 in `infra.sh` (a hand edit was reverted at 2:28pm PT). Don't report stale re-fires to Jerome as new incidents.
+- Update skills as you learn, push to git, and save to Titan — every bot, continuously.
+- HE host-side → Home Exchange Verification; code/AWS → Grok CLI.

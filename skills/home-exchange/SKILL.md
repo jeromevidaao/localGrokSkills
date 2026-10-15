@@ -506,3 +506,8 @@ Attach as inline policy `PineBookingGuardMetrics` on `homeexchange-lambda-role`.
 3. **Every change ships with a test plus a live readback on both platforms** (HE calendar and Airbnb/Hospitable calendar, or the live Lambda result), and keeps a published Lambda version for rollback.
 
 Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secret values.
+
+## 2026-10-15 — double-booking incident (lessons)
+- **Root cause:** HE→Airbnb block silently skipped nights Airbnb had already sold (no alert), and there was no Airbnb→HE sync. Fixed: two-way fail-closed `pine-booking-sync` + hourly `pine-booking-audit` (code `/tmp/hecs/booking-guard`, `infra.sh`), **540-day horizon** (fail-closed fallback must match), daily 8:17am PT Grok Bot cross-check, alarms → SNS `homeexchange-alerts`. Double booking is Jerome's worst case.
+- **Resolution:** HE stays host-cancelled 2:05pm PT: Clara & Mathis (conv 95472973, Apt #3, Oct 19) and Katie (conv 95201321, Apt #2, Oct 29–Nov 3). Airbnb guests kept (Raz HMZZ9QXJC8, Hayley HM99TP4XKH). Host-cancel cost: GuestPoints refunded, guest may review, repeat cancels risk the account, HE may reimburse guest up to $120/night.
+- **Katie follow-up:** offered the studio (3285159) Oct 29–Nov 3; studio HE calendar opened NON_RECIPROCAL Oct 29–Nov 5 so she can request; Airbnb side stays held, and sync must not re-block those nights. HE auto-reply sent her an unapproved, confusing message at 2:21pm PT (msg 1003802226) — stop auto-replies on threads Jerome is handling manually.

@@ -278,3 +278,7 @@ Leave `git config core.hooksPath scripts/git-hooks` on. Do not touch harness pus
 3. **Every change ships with a test plus a live readback on both platforms** (HE calendar and Airbnb/Hospitable calendar, or the live Lambda result), and keeps a published Lambda version for rollback.
 
 Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secret values.
+
+## 2026-10-15 — guest-message gate
+- Every guest-facing message needs Jerome's OK; check the thread for an existing copy before sending; read back after send (one copy only).
+- The HE auto-reply sent Katie (conv 95201321) an unapproved message offering other units/dates at 2:21pm PT (msg 1003802226). Auto-replies must not fire on threads under manual handling / active holds.

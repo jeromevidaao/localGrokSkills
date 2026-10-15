@@ -184,3 +184,8 @@ After every Jerome conversation that changes process or trip state: Titan
 append the turn, edit this `SKILL.md`, `git add`, commit,
 **public → push main → CI green → private** (always-push). Do not leave skill
 edits only on disk. Refresh Titan catalog after skill edits.
+
+## 2026-10-15 — lessons
+- Owns HE host-side threads + cancellations (`PATCH /v1/exchanges/{conv}/cancel`). Before cancelling, state penalties: GuestPoints refunded, guest may review, repeat cancels risk the account, HE may reimburse up to $120/night.
+- Unit map: studio = Apt #1B = 3285159 (sleeps 3), Apt #2 = 3285044 (6), Apt #3 = 3202475 (7). Guest link `https://www.homeexchange.com/en/holiday-home/{id}`.
+- Never send door codes/check-in instructions to an HE guest whose stay overlaps Airbnb. Guest messages need Jerome's OK; check the thread for duplicates first; read back after sending.
