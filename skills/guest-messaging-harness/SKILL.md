@@ -270,3 +270,11 @@ python3 ~/.grok/skills/guest-messaging-harness/scripts/prepush.py
 ```
 
 Leave `git config core.hooksPath scripts/git-hooks` on. Do not touch harness push when another agent owns an in-flight Isabella prepush.
+
+## Permanent booking-safety rules (Jerome, 2026-10-15)
+
+1. **HE↔Airbnb sync is two-way and fails closed.** `pine-booking-sync` (every 15 min) blocks Airbnb nights on HE and active HE stays on Airbnb/Hospitable, reads every write back, and on any read/write failure blocks the dates on both sides rather than leaving them open. Any skipped, unconfirmed or partial block alarms (SNS `homeexchange-alerts` → ansia@mail.grokbot.com; DLQ `pine-booking-guard-dlq`). `pine-booking-audit` (hourly) is the independent overlap check.
+2. **Never send a door code or check-in instructions to a stay that overlaps another booking.** The harness HE check-in sender (`src/useCases/heCheckinOverlapGuard.js`) calls `pine-booking-audit` before building the message and holds + alarms on: an unresolved overlap for that conversation, a manual hold (`DEFAULT_HE_CHECKIN_HOLD_CONVS` / env `HE_CHECKIN_HOLD_CONVS`), or missing/erroring audit data (fail closed). The cleaningbutton-api scheduler hold is `checkinInstructionsQueuedAt = "HOLD:..."` on the conversation in DynamoDB `homeexchangeMessageState` pk=`cursor` (do not run the poll with `force=1` while a hold is set). Remove a hold only after Jerome confirms the overlap is resolved.
+3. **Every change ships with a test plus a live readback on both platforms** (HE calendar and Airbnb/Hospitable calendar, or the live Lambda result), and keeps a published Lambda version for rollback.
+
+Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secret values.
