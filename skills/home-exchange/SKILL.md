@@ -575,3 +575,18 @@ Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secre
 - Heartbeat: `aws cloudwatch set-alarm-state --alarm-name pine-booking-{sync,audit}-heartbeat --state-value ALARM --state-reason "DRILL: ..."`. It returns to OK on the next evaluation.
 - NEVER put DRILL in AlarmDescription (persistent config). DRILL tags belong only in drill payloads and set-alarm-state reasons. If config drifts, re-run infra.sh.
 - Cleanup: the conflict/unblocked/failure alarms are Maximum over 900s, so wait for the next 15-min bucket, run a normal audit and sync, then confirm all 8 alarms are OK and the DLQ is 0.
+
+## HE auto-reply global kill switch (pause / resume) — added 2026-10-16
+Jerome 2026-10-16 09:40 PT: "Pause all HE auto reply for now." **Currently PAUSED. Do not resume until Jerome says so in chat.**
+- Switch: SSM `/homeexchange/autoreply-paused` (String, us-east-1) **and** Lambda env `HE_AUTOREPLY_PAUSED` on `guest-messaging-agent-harness`. Paused if env is `true` OR SSM is anything but `false`. SSM missing/unreadable = paused (fail closed).
+- Enforced in `HomeExchangeClient.sendMessage / approveConversation / declineConversation` (harness 82cb8ec), so it covers every automated HE write: auto-replies, reply-gate sends, HE check-in instructions (homeExchangeCheckin.js, same path, so held), pre-approve/approve/decline auto-actions, early-checkin / ring-smoke / keypad-lockout HE notices. Hospitable/Airbnb sends are NOT affected.
+- Held sends log `[he_autoreply_paused]` once per conv+op per container, no SNS.
+- Not touched: pine-booking-sync, pine-booking-audit, alarms, PIN loading (addDeleteCodeWiFiPyschlage), homeexchange-processor (calendar POSTs only, never messages).
+- Stopgap also applied 09:41 PT: env `HE_MUTED_CONVS` = all ~143 known Pine HE conv ids. Pre-pause env saved at /workspace/harness-env-before-pause-20261016.json (had no HE_MUTED_CONVS). Rollback code version: published version 9 (= 2fdbf64).
+- Probe (read-only, never sends): `aws lambda invoke --function-name guest-messaging-agent-harness --region us-east-1 --cli-binary-format raw-in-base64-out --payload '{"he_autoreply_pause_probe":true,"conversationId":"1000923027"}' /tmp/p.json && cat /tmp/p.json`
+- **Pause:** `aws ssm put-parameter --region us-east-1 --name /homeexchange/autoreply-paused --type String --value true --overwrite` (instant, next send).
+- **Resume (only on Jerome's explicit OK):**
+  1. `aws ssm put-parameter --region us-east-1 --name /homeexchange/autoreply-paused --type String --value false --overwrite`
+  2. Restore env from the backup (removes HE_AUTOREPLY_PAUSED and the stopgap HE_MUTED_CONVS): `python3 -c "import json;print(json.dumps({'Variables':json.load(open('/workspace/harness-env-before-pause-20261016.json'))['Environment']['Variables']}))" > /tmp/env.json && aws lambda update-function-configuration --function-name guest-messaging-agent-harness --region us-east-1 --environment file:///tmp/env.json` (re-read current env first in case other vars changed since).
+  3. Run the probe; expect `wouldSend:true`.
+  - Note: messages held while paused are not auto-resent; check-in instructions whose window passed need a manual look (Katie 1000923027 due ~Oct 26).
