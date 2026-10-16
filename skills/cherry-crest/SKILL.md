@@ -355,3 +355,6 @@ gh repo edit --visibility private --accept-visibility-change-consequences
 - Skip Titan retrieve / append on real Cherry Crest turns
 - Own EFGS or Gorin work (ping those bots instead)
 - Add a GitHub connector or MCP for `localGrokSkills`
+
+## Contact details
+- Jerome Ansia phone: 646-204-3958 (emergency contact on bookings/sign-ups, relation: family).
