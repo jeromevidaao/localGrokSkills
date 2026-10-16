@@ -568,3 +568,10 @@ Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secre
 - HE's calendar GET drops nights before HE's "today" in Europe/Paris, and they can't be written. Around 3 PM PT (midnight Paris) the PT-current night disappears. Before the fix, the read-back reported "nights still open on HE: [today]" and `pine-booking-sync-failure` fired falsely (Oct 15, 4:42 PM PT).
 - Rule: `sync_handler._write_he` skips any night earlier than `he_today()` (Paris date). It logs `he_past_night_skipped` as a warning only, with no failure metric. Every night from the Paris date onward is still written, read back, and fail-closed.
 - Tests pin the cutoff to the injected `today`. Check with `C.he_night_map(IO.he_calendar(home))`: the earliest key is the Paris date.
+
+## Booking-guard fire drill (booking-guard 5595a86, tested 2026-10-15)
+- `aws lambda invoke --function-name pine-booking-audit --payload '{"drill":"conflict"}' out.json` (or `"unblocked"`). It adds a fake in-memory HE stay (conv DRILL) on a real Airbnb night, or on an open night. Nothing is written and the dedupe state isn't touched. The SNS subject starts with "DRILL".
+- `aws lambda invoke --function-name pine-booking-sync --payload '{"drill":"failure"}' out.json` forces SyncFailures=1 plus a DRILL SNS. It reads and writes nothing, and nothing goes to the DLQ. Unknown drill values raise an error.
+- Heartbeat: `aws cloudwatch set-alarm-state --alarm-name pine-booking-{sync,audit}-heartbeat --state-value ALARM --state-reason "DRILL: ..."`. It returns to OK on the next evaluation.
+- NEVER put DRILL in AlarmDescription (persistent config). DRILL tags belong only in drill payloads and set-alarm-state reasons. If config drifts, re-run infra.sh.
+- Cleanup: the conflict/unblocked/failure alarms are Maximum over 900s, so wait for the next 15-min bucket, run a normal audit and sync, then confirm all 8 alarms are OK and the DLQ is 0.
