@@ -563,3 +563,8 @@ Skills hold SSM path names only (e.g. `/homeexchange/bearer-token`), never secre
 - PIN Lambda `addDeleteCodeWiFiPyschlage` commit `0186c1e`, published version **7** (rollback: version **6** / prior sha `b83980b`).
 - Harness `guest-messaging-agent-harness` commit `2fdbf64`, published version **8** (rollback: version **7** / prior sha `d4d8440`).
 - Dry-run proof (2026-10-15): `he_pin_guard_dry_run` today=`2026-10-29` listUpcoming → Katie conv `1000923027` `phoneSource=get-exchanges` `last4Present=yes` `pinResolves=true`. Live harness `resolveGuestPhoneLast4` same source/result. No PIN load, no guest message.
+
+## HE day boundary is Europe/Paris (lesson 2026-10-15, booking-guard 6535fd8)
+- HE's calendar GET drops nights before HE's "today" in Europe/Paris, and they can't be written. Around 3 PM PT (midnight Paris) the PT-current night disappears. Before the fix, the read-back reported "nights still open on HE: [today]" and `pine-booking-sync-failure` fired falsely (Oct 15, 4:42 PM PT).
+- Rule: `sync_handler._write_he` skips any night earlier than `he_today()` (Paris date). It logs `he_past_night_skipped` as a warning only, with no failure metric. Every night from the Paris date onward is still written, read back, and fail-closed.
+- Tests pin the cutoff to the injected `today`. Check with `C.he_night_map(IO.he_calendar(home))`: the earliest key is the Paris date.
