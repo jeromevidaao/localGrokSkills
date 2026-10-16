@@ -356,3 +356,11 @@ Bug: Katie (HE guest id 4052575) was auto-declined on her re-request 1000923027 
 - Still unavailable: real Airbnb reservations (Hospitable reservations list) and any other guest's hold.
 - Hard guard: no decline for a conversation with a pre-approved (1) or finalized (3) exchange: shouldDeclineHeRequest returns false, HomeExchangeClient.declineConversation throws `he_decline_refused_active_exchange` (fails closed if unreadable), and the approval-mode wrapper refuses before storing/emailing a decline.
 - Proof 10-16 11:04 PT: Katie 10-15 message replayed (proof=true) → calendar open (all 5 nights ownGuestHold), no decline, pending proof draft `he4696d8fdbc6a` (never sendable). Residual: for a finalized stay the draft still re-asks the cleaning fee ($80) — first-message flow isn't skipped for an already-finalized exchange; don't approve such drafts.
+
+## Accepted alteration context + confirmation (Rachel Apt #3, 2026-10-16) — branch only, awaiting Jerome
+Incident: Jerome accepted Rachel's alteration (Dec 20–Jan 4 → Dec 24–26, `reservation.changed` 12:23 PT). The guest sent "❤️" at 12:26, and at 12:29 PT the harness replied with the cancellation-policy link (help/article/475) "for altering or refunds".
+- Root cause: Hospitable `GET /reservations/{id}/messages` has NO system "Request accepted" event, and `reservation.changed` carries only the NEW dates (`alterations: null`, no previous dates). The drafter and judge saw only the guest's earlier change/financial message. The judge's critique pass is what ADDED the 475 link. Prod has no cache.
+- No alteration-accepted confirmation path ever existed, so this is not a regression. The lifecycle branch only does the pending→accept welcome (since 25f929b, 2026-08-01).
+- Fix (branch `fix/rachel-alteration-accepted-context`, commit 157b125, `src/utils/reservationAlteration.js`): snapshots `resv_dates#<resId>` and `resv_alter#<resId>` in airbnb-harness-dedup. One confirmation post per change, deduped by `resv_alter_confirmed#`. A `System` history event, a judge CRITICAL block, and a deterministic guard before and after the judge.
+- Limitation: a change is only detected when an earlier snapshot of that reservation exists.
+- Lesson: give the judge reservation events, not just messages. Policy-link rules must check whether a request is still OPEN.
