@@ -358,3 +358,6 @@ gh repo edit --visibility private --accept-visibility-change-consequences
 
 ## Contact details
 - Jerome Ansia phone: 646-204-3958 (emergency contact on bookings/sign-ups, relation: family).
+
+## AWS routing rule (2026-10-17)
+- Anything involving AWS (Lambdas, CloudWatch alarms, SSM, AWS-backed automations such as Bellevue Club court booking) goes to Grok CLI (eed2c114-9ba2-42a9-83ec-8c48da246425). Other bots must not do AWS work themselves.
