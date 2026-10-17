@@ -32,13 +32,13 @@ Standing playbook for the **Chief of staff** bot. Prefer routing domain work to 
 | Amazon shop / reorder / track / account | **Amazon** (prefer live preferred id; ignore stale duplicate Amazon if present) |
 | ProHealth (prohealth.com) sign-in and supplement orders | **ProHealth** |
 | Airbnb **guest** stays | **Airbnb** |
-| Home Exchange verify / GuestPoints guest stays / host outreach | **Home Exchange Verification** (fare research in-chat; do not ping Flight Booking for prices) |
+| Home Exchange verify / GuestPoints guest stays / host outreach / HE host-side guest threads, cancellations, double-booking follow-ups | **Home Exchange Verification** (fare research in-chat; do not ping Flight Booking for prices) |
 | Vietnam spring-break 2027 multi-family plan | **April Vacation** |
 | MyChart / Overlake medical portal | **MyChart - Medical** |
 | Dropbox find / organize / share | **Dropbox** |
 | Global Entry / KTN / Trusted Traveler | **Global Entry** (confirm if profile still thin) |
 | American Family Insurance / AmFam policies, bills, claims | **American Family Insurance** |
-| CLI / AWS / logs / code / Pine–Hospitable–pricing–kumo skills | **Grok CLI** (box CLI only; never desktop/Chrome cleanup) |
+| CLI / AWS / logs / code / Pine–Hospitable–pricing–kumo skills, HE↔Airbnb sync code | **Grok CLI** (box CLI only; never desktop/Chrome cleanup) |
 
 ## No dedicated bot
 
@@ -55,6 +55,18 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 7. **Fan-out:** only when Jerome asked or a standing routine requires it; otherwise propose first.
 8. After new ownership learnings: update this skill, append Titan if used, commit+push `localGrokSkills` per `always-push`.
 
+## Verify-before-done (lesson from the 2026-10-15 HE↔Airbnb double bookings)
+
+Any automation that touches guests, bookings, calendars, door access, or money is NOT done just because it exists or a teammate says it shipped. Before calling it done, and when auditing existing setups:
+
+1. **Prove it end to end.** Check the real outcome on every platform involved (for example, the dates are actually blocked on both Airbnb and HomeExchange), not just that the code ran.
+2. **Every direction.** For any sync between two systems, confirm both directions exist. A one-way sync is a known gap; flag it.
+3. **No silent failures.** Every skipped, partial, or failed action must alarm. If the status is uncertain, fail closed (block on both platforms, hold the send).
+4. **Independent cross-check.** Keep a separate scheduled audit that compares the source systems directly (Grok Bot runs one daily at 8:17am PT; Grok CLI runs one hourly) and alarms on overlaps, partial blocks, and missed sync runs.
+5. **Guest-facing gate.** Never send door codes or check-in instructions to a guest whose stay overlaps another booking. Hold the send and alert Jerome.
+6. **Ask for proof from teammates:** commits, test output, and live readback, not just "deployed".
+7. **Permissions:** confirm each alarm and notification path actually has permission to deliver (for example, SNS Publish on the Lambda role) by sending a test alert.
+
 ## Ambiguous splits (resolve before routing)
 
 - Family Hawaii / travel: HE guest stay vs flight ticket vs Cherry Crest school calendar — split across HE Verification, Flight Booking, Cherry Crest as needed.
@@ -65,8 +77,5 @@ CleaningButton / Pine host ops → **Grok CLI** + skills `hospitable`, `home-exc
 
 `always-push`, `r2-memory`, `routines`, `scheduling`, `send-on-behalf`, `skill-authoring`, plus each specialist’s domain skill (`flight-booking`, `cutychase-pay-balance`, `cutychase-rewards`, `amazon`, `venmo`, `prohealth`, etc.). Playbooks `cutychase-pay-balance` and `cutychase-rewards` both remain; both are owned by **Chase**.
 
-## 2026-10-15 — additions
-- Automations touching guests, money, or bookings: end-to-end proof in **every** direction plus an alarm before "done". Never claim a state (e.g. "0 open nights") without a live readback.
-- **Alarms:** audit alarms with Period 3600 + Maximum keep re-firing on a stale reading up to an hour after a fix; manual `set-alarm-state OK` just re-trips and re-emails. Set Period 900 in `infra.sh` (a hand edit was reverted at 2:28pm PT). Don't report stale re-fires to Jerome as new incidents.
-- Update skills as you learn, push to git, and save to Titan — every bot, continuously.
-- HE host-side → Home Exchange Verification; code/AWS → Grok CLI.
+## AWS routing rule (2026-10-17)
+- Anything involving AWS (Lambdas, CloudWatch alarms, SSM, AWS-backed automations such as Bellevue Club court booking) goes to Grok CLI (eed2c114-9ba2-42a9-83ec-8c48da246425). Other bots must not do AWS work themselves.
